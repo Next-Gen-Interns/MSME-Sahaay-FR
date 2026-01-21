@@ -169,7 +169,7 @@ function HeroSection() {
       title: "Connect Local Businesses",
       subtitle: "Grow Together",
       description: "Discover verified suppliers, connect with qualified buyers, and grow your business through India's premier MSME networking platform.",
-      backgroundImage: "/imm.jpeg",
+      backgroundImage: "/imm5.jpeg",
       fullTitle: "Connect Local Businesses & Grow Together",
       fullDescription: "MSME Sahaay's networking platform connects you with thousands of verified businesses across India. Access real-time market insights, participate in exclusive business events, and leverage our intelligent matchmaking algorithm.",
       keyPoints: [
@@ -186,7 +186,7 @@ function HeroSection() {
       title: "Find Quality Suppliers",
       subtitle: "Build Your Network",
       description: "Access 5,000+ verified manufacturers, wholesalers, and service providers across India. Quality assured, delivery guaranteed.",
-      backgroundImage: "/imm.jpeg",
+      backgroundImage: "/imm6.jpeg",
       fullTitle: "Find Quality Suppliers & Build Your Network",
       fullDescription: "Our curated supplier database includes manufacturers, wholesalers, and service providers verified for quality and reliability. Each supplier undergoes a rigorous verification process to ensure business credibility.",
       keyPoints: [
@@ -199,11 +199,11 @@ function HeroSection() {
       ctaLink: "/suppliers"
     },
     {
-      id: 3,
+      id: 3,  
       title: "Expand Your Market",
       subtitle: "Reach New Customers",
       description: "Showcase your products to 15,000+ active business buyers. Increase your sales and grow your customer base exponentially.",
-      backgroundImage: "/imm.jpeg",
+      backgroundImage: "/imm7.jpeg",
       fullTitle: "Expand Your Market & Reach New Customers",
       fullDescription: "Expand your market reach with our powerful marketing tools and extensive buyer network. Showcase your products to thousands of verified business buyers across multiple industries.",
       keyPoints: [
@@ -407,15 +407,15 @@ function HeroSection() {
                   src={heroSlides[currentSlide].backgroundImage}
                   alt={heroSlides[currentSlide].title}
                   fill
-                  className="object-contain"
+                  className="object-cover"
                   priority
                 />
                 
                 {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+                <div className="absolute inset-0   " />
                 
                 {/* Content Overlay */}
-                <div className="absolute inset-0 flex items-center">
+                {/* <div className="absolute inset-0 flex items-center">
                   <div className="px-8 md:px-12 lg:px-16 max-w-2xl">
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
@@ -452,7 +452,7 @@ function HeroSection() {
                       </div>
                     </motion.div>
                   </div>
-                </div>
+                </div> */}
                 
                 {/* Click Indicator */}
                 <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex items-center gap-2 text-white/80 text-sm animate-pulse">
