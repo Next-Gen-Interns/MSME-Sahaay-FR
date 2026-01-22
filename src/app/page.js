@@ -169,7 +169,7 @@ function HeroSection() {
       title: "Connect Local Businesses",
       subtitle: "Grow Together",
       description: "Discover verified suppliers, connect with qualified buyers, and grow your business through India's premier MSME networking platform.",
-      backgroundImage: "/imm5.jpeg",
+      backgroundImage: "/imm8.png",
       fullTitle: "Connect Local Businesses & Grow Together",
       fullDescription: "MSME Sahaay's networking platform connects you with thousands of verified businesses across India. Access real-time market insights, participate in exclusive business events, and leverage our intelligent matchmaking algorithm.",
       keyPoints: [
@@ -186,7 +186,7 @@ function HeroSection() {
       title: "Find Quality Suppliers",
       subtitle: "Build Your Network",
       description: "Access 5,000+ verified manufacturers, wholesalers, and service providers across India. Quality assured, delivery guaranteed.",
-      backgroundImage: "/imm6.jpeg",
+      backgroundImage: "/imm9.png",
       fullTitle: "Find Quality Suppliers & Build Your Network",
       fullDescription: "Our curated supplier database includes manufacturers, wholesalers, and service providers verified for quality and reliability. Each supplier undergoes a rigorous verification process to ensure business credibility.",
       keyPoints: [
@@ -203,7 +203,7 @@ function HeroSection() {
       title: "Expand Your Market",
       subtitle: "Reach New Customers",
       description: "Showcase your products to 15,000+ active business buyers. Increase your sales and grow your customer base exponentially.",
-      backgroundImage: "/imm7.jpeg",
+      backgroundImage: "/imm10.png",
       fullTitle: "Expand Your Market & Reach New Customers",
       fullDescription: "Expand your market reach with our powerful marketing tools and extensive buyer network. Showcase your products to thousands of verified business buyers across multiple industries.",
       keyPoints: [
