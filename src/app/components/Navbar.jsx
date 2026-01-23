@@ -78,6 +78,17 @@ export default function Navbar() {
     { name: "Team", icon: Users2, route: "/team" },
     { name: "Calendar", icon: Calendar, route: "/calendar" },
     { name: "Chat", icon: MessageSquare, route: "/chat" },
+    { name: "Downloads", icon: Download, route: "/downloads" },
+    { name: "Uploads", icon: Upload, route: "/uploads" },
+    { name: "Filters", icon: Filter, route: "/filters" },
+    { name: "Categories", icon: Layers, route: "/categories" },
+    { name: "Goals", icon: Target, route: "/goals" },
+    { name: "Reports", icon: PieChart, route: "/reports" },
+    { name: "Wallet", icon: Wallet, route: "/wallet" },
+    { name: "Support", icon: Headphones, route: "/support" },
+    { name: "Knowledge Base", icon: BookOpen, route: "/knowledge" },
+    { name: "Achievements", icon: Award, route: "/achievements" },
+    { name: "Quick Actions", icon: Zap, route: "/quick-actions" },
   ];
 
   const navTabs = [
@@ -166,6 +177,16 @@ export default function Navbar() {
     window.location.href = "/";
   };
 
+  // Function to handle menu item click - closes mega menu
+  const handleMenuItemClick = () => {
+    setIsMegaMenuOpen(false);
+  };
+
+  // Function to toggle mega menu
+  const toggleMegaMenu = () => {
+    setIsMegaMenuOpen(!isMegaMenuOpen);
+  };
+
   if (isInitializing || loading) {
     return (
       <nav className="bg-white/80 backdrop-blur-xl border-b border-gray-200/60 sticky top-0 z-50 shadow-sm">
@@ -230,18 +251,9 @@ export default function Navbar() {
               <div 
                 className="relative" 
                 ref={megaMenuButtonRef}
-                onMouseEnter={() => setIsMegaMenuOpen(true)}
-                onMouseLeave={(e) => {
-                  const relatedTarget = e.relatedTarget;
-                  if (
-                    megaMenuRef.current && 
-                    !megaMenuRef.current.contains(relatedTarget)
-                  ) {
-                    setIsMegaMenuOpen(false);
-                  }
-                }}
               >
                 <button
+                  onClick={toggleMegaMenu}
                   className="flex items-center px-6 py-2.5 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] transition-all duration-200 rounded-xl font-medium border border-gray-200 hover:border-[var(--color-accent-300)]"
                 >
                   <Grid size={20} className="mr-2" />
@@ -254,36 +266,32 @@ export default function Navbar() {
                   />
                 </button>
 
-                {/* Mega Menu Dropdown - FIXED: No horizontal scrollbar */}
+                {/* Mega Menu Dropdown - Opens on click, closes on item click */}
                 {isMegaMenuOpen && (
                   <div
                     ref={megaMenuRef}
-                    onMouseEnter={() => setIsMegaMenuOpen(true)}
-                    onMouseLeave={() => setIsMegaMenuOpen(false)}
-                    className="fixed left-0 top-16 bg-white border-x border-b border-gray-200 shadow-2xl z-50"
+                    className="absolute left-0 top-full mt-2 bg-white border border-gray-200 rounded-2xl shadow-2xl z-50 min-w-[280px]"
                     style={{
-                      width: "100vw",
                       maxHeight: "50vh",
                       overflowY: "auto",
-                      overflowX: "hidden", // FIX: Prevent horizontal scrolling
                     }}
                   >
-                    <div className="p-4 sm:p-6">
-                      {/* FIXED: Responsive grid with proper constraints */}
-                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3">
+                    <div className="p-3">
+                      {/* SINGLE VERTICAL COLUMN - Shows all items */}
+                      <div className="flex flex-col space-y-1">
                         {megaMenuItems.map((item, index) => {
                           const Icon = item.icon;
                           return (
                             <Link
                               key={index}
                               href={item.route}
-                              onClick={() => setIsMegaMenuOpen(false)}
-                              className="flex items-center p-2 sm:p-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg transition-all duration-200 group"
+                              onClick={handleMenuItemClick}
+                              className="flex items-center p-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg transition-all duration-200 group w-full"
                             >
-                              <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                <Icon size={16} className="text-gray-500 group-hover:text-[var(--color-accent-700)]" />
+                              <div className="flex-shrink-0 mr-3">
+                                <Icon size={18} className="text-gray-500 group-hover:text-[var(--color-accent-700)]" />
                               </div>
-                              <span className="text-xs sm:text-sm font-medium truncate">{item.name}</span>
+                              <span className="text-sm font-medium">{item.name}</span>
                             </Link>
                           );
                         })}
@@ -461,23 +469,23 @@ export default function Navbar() {
                 </Link>
               ))}
 
-              {/* Mega Menu Items in Mobile - Responsive grid */}
+              {/* Mega Menu Items in Mobile - Single vertical column */}
               <div className="border-t border-gray-200 pt-4 mt-4">
                 <h3 className="px-4 py-2 text-sm font-semibold text-gray-500 uppercase tracking-wider">
                   Quick Access
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {megaMenuItems.slice(0, 12).map((item, index) => {
+                <div className="space-y-2">
+                  {megaMenuItems.map((item, index) => {
                     const Icon = item.icon;
                     return (
                       <Link
                         key={index}
                         href={item.route}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="flex items-center p-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg overflow-hidden"
+                        className="flex items-center p-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg"
                       >
-                        <Icon size={18} className="mr-2 flex-shrink-0 min-w-[24px]" />
-                        <span className="text-sm truncate">{item.name}</span>
+                        <Icon size={18} className="mr-3 flex-shrink-0" />
+                        <span className="text-sm">{item.name}</span>
                       </Link>
                     );
                   })}
