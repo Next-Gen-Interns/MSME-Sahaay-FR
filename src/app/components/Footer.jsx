@@ -77,14 +77,14 @@ export default function Footer() {
             <div className="flex items-center mb-6">
               <div className="relative w-18 h-18 rounded-xl overflow-hidden group-hover:shadow-sm transition-all duration-300">
                 <Image
-                  src="/MsmeguruLogo-removebg-preview.png"
+                  src="/msmesahhay.png"
                   alt="MSME Guru Logo"
                   fill
                   className="object-cover"
                 />
               </div>
               <span className="ml-3 text-2xl font-bold bg-gradient-to-r from-[var(--color-accent-500)] to-[var(--color-accent-300)] bg-clip-text text-transparent">
-                MSME Guru
+                MSME Sahaay
               </span>
             </div>
 

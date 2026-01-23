@@ -455,10 +455,10 @@ function HeroSection() {
                 </div> */}
                 
                 {/* Click Indicator */}
-                <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex items-center gap-2 text-white/80 text-sm animate-pulse">
+                {/* <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex items-center gap-2 text-white/80 text-sm animate-pulse">
                   <span>Click anywhere for details</span>
-                  <ArrowRight className="w-4 h-4" />
-                </div>
+                 <ArrowRight className="w-4 h-4" />
+                </div> */}
               </div>
             </motion.div>
           </AnimatePresence>
