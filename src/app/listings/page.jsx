@@ -29,11 +29,10 @@ export default function ProductsPage() {
     featured: "",
     sortBy: "relevance",
   });
+
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-
   const locationFetched = useRef(false);
-
-  const convertFiltersToApiParams = (filterObj) => {
+  const convertFiltersToApiParams = (filterObj) => {  
     const apiParams = {};
     if (filterObj.search) apiParams.search = filterObj.search;
     if (filterObj.minPrice) apiParams.min_price = filterObj.minPrice;

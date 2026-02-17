@@ -150,463 +150,376 @@ function LoadingScreen() {
 // HERO SECTION COMPONENT
 // ============================================================================
 
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, X, Check, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight, X, Check, ArrowRight } from "lucide-react";
+
 
 function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [slideDirection, setSlideDirection] = useState('right');
+  const [slideDirection, setSlideDirection] = useState("right");
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
   const autoPlayRef = useRef(null);
   const panelRef = useRef(null);
   const heroRef = useRef(null);
 
-  // Hero slides data
+  /* ===============================
+     SLIDES DATA
+  =============================== */
   const heroSlides = [
     {
       id: 1,
       title: "Connect Local Businesses",
       subtitle: "Grow Together",
-      description: "Discover verified suppliers, connect with qualified buyers, and grow your business through India's premier MSME networking platform.",
+      description:
+        "Discover verified suppliers and connect with qualified buyers.",
       backgroundImage: "/imm8.png",
       fullTitle: "Connect Local Businesses & Grow Together",
-      fullDescription: "MSME Sahaay's networking platform connects you with thousands of verified businesses across India. Access real-time market insights, participate in exclusive business events, and leverage our intelligent matchmaking algorithm.",
+      fullDescription:
+        "MSME Sahaay connects you with verified businesses across India.",
       keyPoints: [
-        "Verified Business Profiles with Trust Scores",
-        "Real-time Market Insights & Analytics",
-        "Intelligent Matchmaking Algorithm",
-        "Exclusive Business Networking Events"
+        "Verified Business Profiles",
+        "Real-time Market Insights",
+        "Smart Matchmaking",
+        "Exclusive Networking",
       ],
       ctaText: "Start Networking",
-      ctaLink: "/network"
+      ctaLink: "/network",
     },
     {
       id: 2,
       title: "Find Quality Suppliers",
       subtitle: "Build Your Network",
-      description: "Access 5,000+ verified manufacturers, wholesalers, and service providers across India. Quality assured, delivery guaranteed.",
+      description: "Access verified manufacturers and wholesalers.",
       backgroundImage: "/imm9.png",
       fullTitle: "Find Quality Suppliers & Build Your Network",
-      fullDescription: "Our curated supplier database includes manufacturers, wholesalers, and service providers verified for quality and reliability. Each supplier undergoes a rigorous verification process to ensure business credibility.",
+      fullDescription:
+        "Our supplier database ensures quality and reliability.",
       keyPoints: [
-        "Quality Verified Suppliers Only",
-        "Competitive Pricing & Bulk Discounts",
-        "End-to-End Delivery Tracking",
-        "Verified Rating & Review System"
+        "Quality Verified",
+        "Bulk Discounts",
+        "Delivery Tracking",
+        "Rating System",
       ],
       ctaText: "Explore Suppliers",
-      ctaLink: "/suppliers"
+      ctaLink: "/suppliers",
     },
     {
-      id: 3,  
+      id: 3,
       title: "Expand Your Market",
-      subtitle: "Reach New Customers",
-      description: "Showcase your products to 15,000+ active business buyers. Increase your sales and grow your customer base exponentially.",
+      subtitle: "Reach Customers",
+      description: "Showcase products to active buyers.",
       backgroundImage: "/imm10.png",
       fullTitle: "Expand Your Market & Reach New Customers",
-      fullDescription: "Expand your market reach with our powerful marketing tools and extensive buyer network. Showcase your products to thousands of verified business buyers across multiple industries.",
+      fullDescription:
+        "Grow your market reach with advanced tools.",
       keyPoints: [
-        "Premium Product Showcase Pages",
-        "Targeted Marketing Campaigns",
-        "Advanced Sales Analytics Dashboard",
-        "Automated Lead Generation System"
+        "Product Showcase",
+        "Marketing Campaigns",
+        "Sales Analytics",
+        "Lead Generation",
       ],
-      ctaText: "Grow Your Business",
-      ctaLink: "/grow"
-    }
+      ctaText: "Grow Business",
+      ctaLink: "/grow",
+    },
   ];
 
-  // Auto-rotate carousel
+  /* ===============================
+     AUTOPLAY
+  =============================== */
   useEffect(() => {
-    if (isAutoPlaying && heroSlides.length > 1 && !isPanelOpen) {
-      autoPlayRef.current = setInterval(() => {
-        setSlideDirection('right');
-        setCurrentSlide(prev => 
-          prev === heroSlides.length - 1 ? 0 : prev + 1
-        );
-      }, 5000);
-    }
-    
-    return () => {
-      if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current);
-      }
-    };
-  }, [isAutoPlaying, heroSlides.length, isPanelOpen]);
+    if (!isAutoPlaying || isPanelOpen) return;
 
-  // Navigation functions
-  const goToSlide = useCallback((index, direction = 'right') => {
-    setSlideDirection(direction);
+    autoPlayRef.current = setInterval(() => {
+      setSlideDirection("right");
+      setCurrentSlide((prev) =>
+        prev === heroSlides.length - 1 ? 0 : prev + 1
+      );
+    }, 5000);
+
+    return () => clearInterval(autoPlayRef.current);
+  }, [isAutoPlaying, isPanelOpen]);
+
+  /* ===============================
+     NAVIGATION
+  =============================== */
+  const goToSlide = useCallback((index, dir) => {
+    setSlideDirection(dir);
     setCurrentSlide(index);
-    
-    // Reset auto-play timer
-    if (autoPlayRef.current) {
-      clearInterval(autoPlayRef.current);
-    }
-    if (isAutoPlaying && !isPanelOpen) {
-      autoPlayRef.current = setInterval(() => {
-        setSlideDirection('right');
-        setCurrentSlide(prev => 
-          prev === heroSlides.length - 1 ? 0 : prev + 1
-        );
-      }, 5000);
-    }
-  }, [heroSlides.length, isAutoPlaying, isPanelOpen]);
+  }, []);
 
-  const nextSlide = useCallback(() => {
+  const nextSlide = () =>
     goToSlide(
       currentSlide === heroSlides.length - 1 ? 0 : currentSlide + 1,
-      'right'
+      "right"
     );
-  }, [currentSlide, goToSlide, heroSlides.length]);
 
-  const prevSlide = useCallback(() => {
+  const prevSlide = () =>
     goToSlide(
       currentSlide === 0 ? heroSlides.length - 1 : currentSlide - 1,
-      'left'
+      "left"
     );
-  }, [currentSlide, goToSlide, heroSlides.length]);
 
-  // Open panel function (click anywhere on hero)
-  const openPanel = useCallback((slideIndex) => {
-    setCurrentSlide(slideIndex);
+  /* ===============================
+     PANEL CONTROL
+  =============================== */
+  const openPanel = () => {
     setIsPanelOpen(true);
     setIsAutoPlaying(false);
-    
-    if (autoPlayRef.current) {
-      clearInterval(autoPlayRef.current);
-    }
-  }, []);
+    clearInterval(autoPlayRef.current);
+  };
 
-  // Close panel function
-  const closePanel = useCallback(() => {
+  const closePanel = () => {
     setIsPanelOpen(false);
     setIsAutoPlaying(true);
+  };
+
+  /* ===============================
+     HERO CLICK
+  =============================== */
+  useEffect(() => {
+    const handler = (e) => {
+      if (!heroRef.current?.contains(e.target)) return;
+
+      if (
+        !e.target.closest("button") &&
+        !e.target.closest(".carousel-nav")
+      ) {
+        openPanel();
+      }
+    };
+
+    heroRef.current?.addEventListener("click", handler);
+
+    return () =>
+      heroRef.current?.removeEventListener("click", handler);
   }, []);
 
-  // Handle click anywhere on hero section to open panel
+  /* ===============================
+     OUTSIDE CLICK
+  =============================== */
   useEffect(() => {
-    const handleHeroClick = (event) => {
-      // If panel is not open and click is on the hero container (not on buttons or dots)
-      if (!isPanelOpen && heroRef.current && heroRef.current.contains(event.target)) {
-        // Check if click is not on navigation elements
-        const isNavigationElement = 
-          event.target.closest('button') || 
-          event.target.closest('a') ||
-          event.target.closest('.carousel-nav') ||
-          event.target.closest('.hero-cta');
-        
-        if (!isNavigationElement) {
-          openPanel(currentSlide);
-        }
-      }
-    };
-
-    const heroElement = heroRef.current;
-    if (heroElement) {
-      heroElement.addEventListener('click', handleHeroClick);
-    }
-
-    return () => {
-      if (heroElement) {
-        heroElement.removeEventListener('click', handleHeroClick);
-      }
-    };
-  }, [isPanelOpen, currentSlide, openPanel]);
-
-  // Handle click outside panel on mobile (close panel when clicking outside)
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (panelRef.current && !panelRef.current.contains(event.target)) {
-        // Check if we're on mobile (panel should cover full width)
-        const isMobile = window.innerWidth < 768;
-        if (isMobile) {
-          closePanel();
-        } else {
-          // On desktop, only close if click is on the left 50% (carousel side)
-          if (heroRef.current && heroRef.current.contains(event.target)) {
-            closePanel();
-          }
-        }
-      }
-    };
-
-    const handleEscapeKey = (e) => {
-      if (e.key === 'Escape' && isPanelOpen) {
+    const handler = (e) => {
+      if (!panelRef.current?.contains(e.target)) {
         closePanel();
       }
     };
 
-    if (isPanelOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      document.addEventListener('keydown', handleEscapeKey);
-    }
+    if (isPanelOpen)
+      document.addEventListener("mousedown", handler);
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscapeKey);
-    };
-  }, [isPanelOpen, closePanel]);
+    return () =>
+      document.removeEventListener("mousedown", handler);
+  }, [isPanelOpen]);
 
-  // Pause auto-play on hover
-  const handleMouseEnter = () => {
-    setIsAutoPlaying(false);
-    if (autoPlayRef.current) {
-      clearInterval(autoPlayRef.current);
-    }
+  /* ===============================
+     PANEL ANIMATION
+  =============================== */
+  const panelVariants = {
+    hidden: {
+      x: window.innerWidth >= 768 ? "100%" : 0,
+      y: window.innerWidth < 768 ? "100%" : 0,
+    },
+    visible: { x: 0, y: 0 },
+    exit: {
+      x: window.innerWidth >= 768 ? "100%" : 0,
+      y: window.innerWidth < 768 ? "100%" : 0,
+    },
   };
 
-  const handleMouseLeave = () => {
-    if (!isPanelOpen) {
-      setIsAutoPlaying(true);
-    }
-  };
-
-  // Handle button click to open panel
-  const handleCtaClick = (e) => {
-    e.stopPropagation();
-    openPanel(currentSlide);
-  };
-
+  /* ===============================
+     UI
+  =============================== */
   return (
-    <section className="relative w-full bg-white py-8 md:py-12 px-2 md:px-5">
+    <section className="relative w-full bg-white overflow-x-hidden py-6 md:py-12 px-2 sm:px-4">
+
       <div className="max-w-8xl mx-auto">
-        {/* Hero Container with fixed height */}
-        <div 
+
+        {/* HERO */}
+        <div
           ref={heroRef}
-          className="relative w-full h-[500px] md:h-[600px] rounded-2xl md:rounded-3xl overflow-hidden shadow-xl cursor-pointer"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={() => setIsAutoPlaying(false)}
+          onMouseLeave={() => !isPanelOpen && setIsAutoPlaying(true)}
+          className="
+            relative
+            w-full
+            h-[65vh]
+            sm:h-[420px]
+            md:h-[600px]
+            rounded-xl
+            md:rounded-3xl
+            overflow-hidden
+            shadow-xl
+            cursor-pointer
+            select-none
+            touch-pan-y
+          "
         >
-          {/* Main Carousel */}
-          <AnimatePresence mode="wait" initial={false}>
+
+          {/* SLIDES */}
+          <AnimatePresence mode="wait">
             <motion.div
               key={heroSlides[currentSlide].id}
-              initial={{ 
+              initial={{
                 opacity: 0,
-                x: slideDirection === 'right' ? 100 : -100 
+                x: slideDirection === "right" ? 100 : -100,
               }}
-              animate={{ 
-                opacity: 1,
-                x: 0 
-              }}
-              exit={{ 
+              animate={{ opacity: 1, x: 0 }}
+              exit={{
                 opacity: 0,
-                x: slideDirection === 'right' ? -100 : 100 
+                x: slideDirection === "right" ? -100 : 100,
               }}
-              transition={{
-                duration: 0.5,
-                ease: "easeInOut"
-              }}
+              transition={{ duration: 0.5 }}
               className="absolute inset-0"
             >
-              {/* Background Image */}
-              <div className="relative w-full h-full">
-                <Image
-                  src={heroSlides[currentSlide].backgroundImage}
-                  alt={heroSlides[currentSlide].title}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-                
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0   " />
-                
-                {/* Content Overlay */}
-                {/* <div className="absolute inset-0 flex items-center">
-                  <div className="px-8 md:px-12 lg:px-16 max-w-2xl">
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.2 }}
-                    >
-                      <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-white/90 text-sm font-medium mb-4">
-                        {heroSlides[currentSlide].subtitle}
-                      </span>
-                      
-                      <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
-                        {heroSlides[currentSlide].title}
-                      </h1>
-                      
-                      <p className="text-base md:text-lg text-white/90 mb-6 max-w-xl">
-                        {heroSlides[currentSlide].description}
-                      </p>
-                      
-                      <div className="flex flex-col sm:flex-row gap-3">
-                        <button
-                          onClick={handleCtaClick}
-                          className="px-6 py-3 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-center gap-2 group w-fit hero-cta"
-                        >
-                          <span>Learn More</span>
-                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </button>
-                        
-                        <button 
-                          onClick={(e) => e.stopPropagation()}
-                          className="px-6 py-3 bg-transparent border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 transition-all duration-300 w-fit hero-cta"
-                        >
-                          Watch Demo
-                        </button>
-                      </div>
-                    </motion.div>
-                  </div>
-                </div> */}
-                
-                {/* Click Indicator */}
-                {/* <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex items-center gap-2 text-white/80 text-sm animate-pulse">
-                  <span>Click anywhere for details</span>
-                 <ArrowRight className="w-4 h-4" />
-                </div> */}
-              </div>
+              <Image
+                src={heroSlides[currentSlide].backgroundImage}
+                alt=""
+                fill
+                priority
+                className="object-cover"
+              />
+
+              <div className="absolute inset-0 bg-black/30" />
             </motion.div>
           </AnimatePresence>
 
-          {/* Carousel Navigation Dots */}
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 z-10 carousel-nav">
-            {heroSlides.map((_, index) => (
+          {/* DOTS */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10 carousel-nav">
+            {heroSlides.map((_, i) => (
               <button
-                key={index}
+                key={i}
                 onClick={(e) => {
                   e.stopPropagation();
-                  goToSlide(index, index > currentSlide ? 'right' : 'left');
+                  goToSlide(i, i > currentSlide ? "right" : "left");
                 }}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  currentSlide === index 
-                    ? 'w-6 bg-white' 
-                    : 'bg-white/50 hover:bg-white/80'
+                className={`h-2 rounded-full transition-all ${
+                  currentSlide === i
+                    ? "w-6 bg-white"
+                    : "w-2 bg-white/60"
                 }`}
-                aria-label={`Go to slide ${index + 1}`}
               />
             ))}
           </div>
 
-          {/* Navigation Arrows */}
-          {heroSlides.length > 1 && (
-            <>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  prevSlide();
-                }}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 z-10 carousel-nav"
-                aria-label="Previous slide"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  nextSlide();
-                }}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 z-10 carousel-nav"
-                aria-label="Next slide"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </>
-          )}
+          {/* ARROWS */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              prevSlide();
+            }}
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/20 rounded-full backdrop-blur flex items-center justify-center text-white active:scale-90"
+          >
+            <ChevronLeft />
+          </button>
 
-          {/* Content Panel */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              nextSlide();
+            }}
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/20 rounded-full backdrop-blur flex items-center justify-center text-white active:scale-90"
+          >
+            <ChevronRight />
+          </button>
+
+          {/* PANEL */}
           <AnimatePresence>
             {isPanelOpen && (
               <motion.div
                 ref={panelRef}
-                initial={{ x: '100%' }}
-                animate={{ x: 0 }}
-                exit={{ x: '100%' }}
-                transition={{ 
-                  type: "spring",
-                  damping: 25,
-                  stiffness: 300
-                }}
-                className="absolute right-0 top-0 h-full w-full md:w-1/2 bg-white shadow-2xl z-20 overflow-hidden border-l border-gray-200"
+                variants={panelVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                transition={{ type: "spring", damping: 25 }}
+                className="
+                  absolute
+                  right-0
+                  bottom-0
+                  md:top-0
+                  w-full
+                  md:w-1/2
+                  h-[90%]
+                  md:h-full
+                  bg-white
+                  shadow-2xl
+                  z-30
+                  flex
+                  flex-col
+                  rounded-t-2xl
+                  md:rounded-none
+                "
               >
-                <div className="h-full flex flex-col">
-                  {/* Panel Header */}
-                  <div className="sticky top-0 z-10 bg-white border-b border-gray-100 px-6 py-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h2 className="text-xl md:text-2xl font-bold text-gray-900">
-                          {heroSlides[currentSlide].fullTitle}
-                        </h2>
-                        <p className="text-gray-600 text-sm md:text-base mt-1">
-                          Detailed Information
-                        </p>
-                      </div>
-                      
-                      <button
-                        onClick={closePanel}
-                        className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors duration-200"
-                        aria-label="Close panel"
+
+                {/* HEADER */}
+                <div className="flex justify-between items-center p-4 border-b">
+                  <h2 className="font-bold text-lg md:text-xl">
+                    {heroSlides[currentSlide].fullTitle}
+                  </h2>
+
+                  <button
+                    onClick={closePanel}
+                    className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
+
+                {/* CONTENT */}
+                <div className="flex-1 overflow-y-auto overscroll-contain p-4 md:p-6">
+
+                  <p className="text-gray-700 mb-5 text-sm md:text-base">
+                    {heroSlides[currentSlide].fullDescription}
+                  </p>
+
+                  <div className="space-y-3 mb-6">
+                    {heroSlides[currentSlide].keyPoints.map(
+                      (p, i) => (
+                        <div
+                          key={i}
+                          className="flex gap-3 p-3 bg-gray-50 rounded-lg"
+                        >
+                          <Check
+                            size={16}
+                            className="text-blue-600 mt-1"
+                          />
+                          <span className="text-sm md:text-base">
+                            {p}
+                          </span>
+                        </div>
+                      )
+                    )}
+                  </div>
+
+                  {/* STATS */}
+                  <div className="grid grid-cols-3 gap-3 mb-6 text-center">
+                    {[
+                      ["10K+", "Businesses"],
+                      ["95%", "Success"],
+                      ["150+", "Cities"],
+                    ].map(([v, t], i) => (
+                      <div
+                        key={i}
+                        className="p-3 bg-blue-50 rounded-lg"
                       >
-                        <X className="w-4 h-4 md:w-5 md:h-5 text-gray-700" />
-                      </button>
-                    </div>
+                        <div className="font-bold text-blue-700">
+                          {v}
+                        </div>
+                        <div className="text-xs text-gray-600">
+                          {t}
+                        </div>
+                      </div>
+                    ))}
                   </div>
 
-                  {/* Panel Content */}
-                  <div className="flex-1 overflow-y-auto p-4 md:p-6">
-                    {/* Description */}
-                    <div className="mb-4 md:mb-6">
-                      <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2 md:mb-3">
-                        Overview
-                      </h3>
-                      <p className="text-gray-700 text-sm md:text-base leading-relaxed">
-                        {heroSlides[currentSlide].fullDescription}
-                      </p>
-                    </div>
+                  {/* CTA */}
+                  <button className="w-full py-3 bg-blue-600 text-white rounded-lg flex justify-center items-center gap-2 font-semibold hover:bg-blue-700">
+                    {heroSlides[currentSlide].ctaText}
+                    <ArrowRight size={16} />
+                  </button>
 
-                    {/* Key Points */}
-                    <div className="mb-4 md:mb-6">
-                      <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2 md:mb-3">
-                        Key Features
-                      </h3>
-                      <div className="space-y-2 md:space-y-3">
-                        {heroSlides[currentSlide].keyPoints.map((point, index) => (
-                          <div 
-                            key={index}
-                            className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg"
-                          >
-                            <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                              <Check className="w-3 h-3 text-blue-600" />
-                            </div>
-                            <span className="text-gray-700 text-sm md:text-base">{point}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Stats */}
-                    <div className="grid grid-cols-3 gap-2 md:gap-3 mb-4 md:mb-6">
-                      <div className="text-center p-2 md:p-3 bg-blue-50 rounded-lg">
-                        <div className="text-base md:text-lg font-bold text-blue-700">10K+</div>
-                        <div className="text-xs md:text-sm text-gray-600 mt-1">Businesses</div>
-                      </div>
-                      <div className="text-center p-2 md:p-3 bg-green-50 rounded-lg">
-                        <div className="text-base md:text-lg font-bold text-green-700">95%</div>
-                        <div className="text-xs md:text-sm text-gray-600 mt-1">Success Rate</div>
-                      </div>
-                      <div className="text-center p-2 md:p-3 bg-purple-50 rounded-lg">
-                        <div className="text-base md:text-lg font-bold text-purple-700">150+</div>
-                        <div className="text-xs md:text-sm text-gray-600 mt-1">Cities</div>
-                      </div>
-                    </div>
-
-                    {/* CTA Button */}
-                    <div className="pt-4 border-t border-gray-100">
-                      <button className="w-full py-3 md:py-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all duration-300 flex items-center justify-center gap-2 group shadow-md">
-                        <span className="text-sm md:text-base">{heroSlides[currentSlide].ctaText}</span>
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </button>
-                      
-                      <p className="text-center text-gray-500 text-xs md:text-sm mt-2 md:mt-3">
-                        No credit card required • Free 14-day trial
-                      </p>
-                    </div>
-                  </div>
                 </div>
               </motion.div>
             )}
@@ -616,6 +529,7 @@ function HeroSection() {
     </section>
   );
 }
+
 
 
 
@@ -776,7 +690,7 @@ function SearchFilterBar({
             <button
               key={category.id}
               onClick={() => handlePopularCategoryClick(category)}
-              className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-sans font-medium transition-all duration-300 transform hover:scale-105 border
+              className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-sans font-medium transition-all duration-300 hover:scale-105 border
                 ${
                   selectedCategory === category.id
                     ? "bg-gradient-to-r from-[var(--color-accent-500)] to-[var(--color-accent-700)] text-white shadow-lg shadow-[var(--color-accent-500)]/30 border-[var(--color-accent-400)]"
@@ -961,7 +875,7 @@ function TopCategoriesSection1({ topcategories, onCategorySelect }) {
           </div>
 
           {/* Right Side: Subcategories Grid */}
-          <div className="lg:w-7/12 p-4">
+          <div className="lg:w-7/12 p-3">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {subCategories.map((subCategory, subIndex) => (
                 <div
@@ -1227,135 +1141,233 @@ function TopCategoriesSection3({ onCategorySelect }) {
 // ============================================================================
 // CATEGORY GRID COMPONENT
 // ============================================================================
+
+
 function CategoryGrid({ categories, onCategoryClick, loading }) {
   const router = useRouter();
-  
+
   const slugify = (text) => {
     return text
       .toLowerCase()
       .trim()
-      .replace(/&/g, "& ")
+      .replace(/&/g, "and")
       .replace(/[^a-z0-9\s-]/g, "")
       .replace(/\s+/g, "-")
-      .replace(/-+/g, "-")
-      .replace(/^-|-$/g, "");
+      .replace(/-+/g, "-");
   };
 
-  const handleCategoryClick = (categoryId, categoryName) => {
+  const handleCategoryClick = (id, name) => {
     if (onCategoryClick) {
-      onCategoryClick(categoryId, categoryName);
+      onCategoryClick(id, name);
     }
 
-    const slug = slugify(categoryName);
-    router.push(`/categories/${slug}/${categoryId}`);
+    const slug = slugify(name);
+    router.push(`/categories/${slug}/${id}`);
   };
 
   const handleViewAll = () => {
-    router.push('/categories');
+    router.push("/categories");
   };
 
+  /* ===========================
+      LOADING SKELETON
+  ============================ */
   if (loading && categories.length === 0) {
     return (
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4">
+
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4 text-gray-800">Browse Categories</h2>
-            <p className="text-gray-600 text-lg">
-              Explore business opportunities by category
-            </p>
+            <div className="h-8 w-60 mx-auto bg-gray-200 rounded animate-pulse" />
+            <div className="h-4 w-96 mx-auto mt-4 bg-gray-200 rounded animate-pulse" />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {[...Array(8)].map((_, i) => (
               <div
                 key={i}
-                className="rounded-xl overflow-hidden shadow-lg animate-pulse bg-white"
-              >
-                <div className="bg-gray-200 h-48 w-full"></div>
-                <div className="p-6">
-                  <div className="bg-gray-200 h-6 rounded w-3/4 mb-2"></div>
-                  <div className="bg-gray-200 h-4 rounded w-full"></div>
-                </div>
-              </div>
+                className="h-64 rounded-2xl bg-gray-200 animate-pulse"
+              />
             ))}
           </div>
+
         </div>
       </section>
     );
   }
 
+  /* ===========================
+        MAIN UI
+  ============================ */
   return (
-    <section className="py-10 bg-[var(--color-accent-50)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl font-sans font-semibold  mb-4 text-[var(--color-black-darker: #1a1a1a)]">Categories Hub</h2>
-          <p className="text-[var( --color-black-soft: #111111)] text-lg">
-            Explore business opportunities by category
+    <section className="py-20 bg-gradient-to-b from-[var(--color-accent-50)] to-white">
+
+      <div className="max-w-7xl mx-auto px-4">
+
+        {/* Header */}
+        <div className="text-center mb-14">
+
+          <h2 className="text-3xl md:text-4xl font-semibold font-sans text-gray-900 mb-3">
+            Categories Hub
+          </h2>
+
+          <p className="text-gray-600 text-lg max-w-xl mx-auto">
+            Discover business opportunities across multiple industries
           </p>
+
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {categories.slice(0, 8).map((category, index) => {
-            const categoryImage = category.image_url || category.image || "/default-category.jpg";
+        {/* Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+          {categories.slice(0, 8).map((category) => {
+            const image =
+              category.image_url ||
+              category.image ||
+              "/default-category.jpg";
 
             return (
               <div
                 key={category.id}
-                onClick={() => handleCategoryClick(category.id, category.name)}
-                className="rounded-lg overflow-hidden shadow-lg hover:scale-[1.03] transition-all duration-300 cursor-pointer bg-white group"
+                onClick={() =>
+                  handleCategoryClick(category.id, category.name)
+                }
+                className="
+                  group
+                  relative
+                  h-64
+                  rounded-2xl
+                  overflow-hidden
+                  cursor-pointer
+                  shadow-md
+                  hover:shadow-xl
+                  transition-all
+                  duration-500
+                "
               >
-                <div className="relative h-48 bg-gray-200">
-                  <Image
-  src={categoryImage}
-  alt={category.name}
-  width={80}  // Set your desired dimensions
-  height={80}
- // opacity={90}
-    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-  loading="lazy"
-/>
-                
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors"></div>
-                </div>
-                <div className="p-5">
-                  <h3 className="text-sm  font-sans  text-gray-800 group-hover:text-[var(--color-black-darker: #1a1a1a)] transition-colors">
+                {/* Image */}
+                <Image
+                  src={image}
+                  alt={category.name}
+                  fill
+                  className="
+                    object-contain
+                    scale-100
+                    group-hover:scale-110
+                    transition-transform
+                    duration-700
+                  "
+                />
+
+                {/* Gradient Overlay */}
+                <div
+                  className="
+                    absolute
+                    inset-0
+                    bg-gradient-to-t
+                    from-black/70
+                    via-black/30
+                    to-transparent
+                    opacity-90
+                  "
+                />
+
+                {/* Glass Effect */}
+                <div
+                  className="
+                    absolute
+                    bottom-0
+                    w-full
+                    backdrop-blur-md
+                    bg-white/10
+                    p-4
+                  "
+                >
+                  <h3
+                    className="
+                      text-gray-200
+                      font-semibold
+                      sont-sans
+                      
+                      tracking-wide
+                      group-hover:translate-x-1
+                      transition-transform
+                    "
+                  >
                     {category.name}
                   </h3>
                 </div>
+
+                {/* Hover Border */}
+                {/* <div
+                  className="
+                    absolute
+                    inset-0
+                    border-2
+                    border-transparent
+                    group-hover:border-[var(--color-accent-600)]
+                    rounded-2xl
+                    transition-all
+                  "
+                /> */}
               </div>
             );
           })}
+
         </div>
 
-       <div className="text-center mt-12">
-  <button
-    onClick={handleViewAll}
-    className="inline-flex items-center px-6 py-3 bg-[var(--color-accent-800)] text-white text-sm font-sans font-semibold border border-gray-300 rounded-lg hover:bg-[var(--color-accent-900)] transition-all shadow-sm"
-  >
-    View All Categories
-    <svg
-      className="w-4 h-4 ml-2"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M9 5l7 7-7 7"
-      />
-    </svg>
-  </button>
-</div>
+        {/* View All Button */}
+        <div className="text-center mt-16">
+
+          <button
+            onClick={handleViewAll}
+            className="
+              inline-flex
+              items-center
+              gap-2
+              px-8
+              py-3
+              bg-[var(--color-accent-800)]
+              text-white
+              font-semibold
+              rounded-full
+              shadow-md
+              hover:shadow-xl
+              hover:bg-[var(--color-accent-900)]
+              transition-all
+            "
+          >
+            View All Categories
+
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+
+          </button>
+
+        </div>
 
       </div>
     </section>
   );
 }
 
+
+
 // ============================================================================
 // LISTINGS GRID COMPONENT
-// ============================================================================
+// ==================================================================
+
 function ListingsGrid({
   listings,
   userLocation,
@@ -1364,198 +1376,248 @@ function ListingsGrid({
   loading,
   hasMore,
 }) {
-     const router=useRouter()
+  const router = useRouter();
 
-  // Sort listings by views (highest first) and limit to 6
+  const scrollRef = useRef(null);
+  const animationRef = useRef(null);
+  const isPaused = useRef(false);
+
+  /* ===============================
+     SORT + LIMIT
+  =============================== */
   const sortedListings = [...listings]
     .sort((a, b) => (b.view || b.views || 0) - (a.view || a.views || 0))
     .slice(0, 6);
 
+  /* ===============================
+     DUPLICATE FOR INFINITE
+  =============================== */
+  const infiniteListings = [
+    ...sortedListings,
+    ...sortedListings,
+  ];
+
+  /* ===============================
+     AUTO INFINITE SCROLL
+  =============================== */
+  useEffect(() => {
+    const container = scrollRef.current;
+
+    if (!container || sortedListings.length === 0) return;
+
+    const speed = 0.5; // change speed here
+
+    const scroll = () => {
+      if (!isPaused.current) {
+        container.scrollLeft += speed;
+
+        // Reset without flicker
+        if (container.scrollLeft >= container.scrollWidth / 2) {
+          container.scrollLeft = 0;
+        }
+      }
+
+      animationRef.current = requestAnimationFrame(scroll);
+    };
+
+    animationRef.current = requestAnimationFrame(scroll);
+
+    return () => cancelAnimationFrame(animationRef.current);
+  }, [sortedListings]);
+
+  /* ===============================
+     LOADING UI
+  =============================== */
   if (loading && listings.length === 0) {
     return (
       <section className="py-12 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-8 text-gray-900">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+
+          <h2 className="text-3xl font-bold mb-6">
             Trending Listings
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => (
+
+          <div className="flex gap-4 overflow-hidden">
+            {[...Array(4)].map((_, i) => (
               <div
                 key={i}
-                className="rounded-xl overflow-hidden shadow-md bg-white border border-gray-200"
-              >
-                <div className="bg-gray-200 h-40 w-full animate-pulse"></div>
-                <div className="p-4 space-y-3">
-                  <div className="flex justify-between items-start">
-                    <div className="space-y-2 flex-1">
-                      <div className="bg-gray-300 h-4 rounded w-4/5 animate-pulse"></div>
-                      <div className="bg-gray-300 h-3 rounded w-3/4 animate-pulse"></div>
-                    </div>
-                    <div className="bg-gray-300 h-5 rounded-full w-12 animate-pulse"></div>
-                  </div>
-                  <div className="bg-gray-300 h-3 rounded w-full animate-pulse"></div>
-                  <div className="flex justify-between items-center pt-2">
-                    <div className="bg-gray-300 h-5 rounded w-16 animate-pulse"></div>
-                    <div className="bg-gray-300 h-8 rounded-lg w-24 animate-pulse"></div>
-                  </div>
-                </div>
-              </div>
+                className="w-1/4 h-[300px] bg-gray-200 rounded-xl animate-pulse"
+              />
             ))}
           </div>
+
         </div>
       </section>
-      
     );
- 
   }
 
+  /* ===============================
+     MAIN UI
+  =============================== */
   return (
-    <section className="py-12 bg-[var(--color-accent-50)]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-12 bg-gradient-to-b from-[var(--color-accent-50)] to-white">
+
+      <div className="max-w-7xl mx-auto px-4">
+
         {/* Header */}
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-sans font-semibold text-gray-900 mb-3">
+        <div className="text-center mb-10">
+          <h2 className="font-sans md:text-4xl mb-2 font-semibold">
             Most Viewed Listings
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Popular business opportunities
-          </p>
         </div>
 
-        {/* Controls */}
-        {/* <div className="flex flex-col lg:flex-row justify-between items-center mb-8 gap-4">
-          <div className="text-center lg:text-left">
-            <div className="flex items-center gap-2">
-              <span className="text-xl font-bold text-gray-800">
-                Top {sortedListings.length} Listings
-              </span>
-            </div>
-          </div>
-        </div> */}
-
         {sortedListings.length === 0 ? (
-     <div className="text-center py-16">
-  <div className="w-24 h-24 bg-[var(--color-accent-100)] rounded-full flex items-center justify-center mx-auto mb-6 border border-[var(--color-accent-200)]">
-    <Search className="w-10 h-10 text-[var(--color-accent-600)]" />
-  </div>
-  <h3 className="text-xl font-sans font-semibold text-[var(--color-accent-900)] mb-3">
-    No listings found
-  </h3>
-  <p className="text-[var(--color-accent-700)] font-sans max-w-md mx-auto mb-8">
-    Start exploring to see popular listings.
-  </p>
-  <button
-    onClick={() => router.push('/listings')}
-    className="bg-[var(--color-accent-800)] hover:bg-[var(--color-accent-900)] text-white font-sans font-semibold px-8 py-3 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg"
-  >
-    Browse All Listings
-  </button>
-</div>
+          <div className="text-center py-16">
+
+            <Search className="w-12 h-12 mx-auto text-gray-400 mb-4" />
+
+            <h3 className="text-xl font-semibold mb-2">
+              No listings found
+            </h3>
+
+            <button
+              onClick={() => router.push("/listings")}
+              className="mt-4 bg-blue-600 text-white px-6 py-3 rounded-lg"
+            >
+              Browse Listings
+            </button>
+
+          </div>
         ) : (
           <>
-            {/* Listings Grid - 3 cards per row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {sortedListings.map((listing, index) => (
+            {/* ===============================
+                INFINITE SCROLLER
+            =============================== */}
+
+            <div
+              ref={scrollRef}
+
+              /* Pause on hover */
+              onMouseEnter={() => (isPaused.current = true)}
+              onMouseLeave={() => (isPaused.current = false)}
+
+              /* Pause on touch */
+              onTouchStart={() => (isPaused.current = true)}
+              onTouchEnd={() => (isPaused.current = false)}
+
+              className="
+                flex
+                gap-4
+                overflow-hidden
+                pb-4
+                cursor-pointer
+                select-none
+              "
+            >
+              {infiniteListings.map((listing, index) => (
                 <div
-                  key={listing.id}
-                  className="group bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-200 border border-gray-100"
+                  key={index}
+                 className="
+  flex-shrink-0
+
+  w-[85%]        /* Mobile */
+  sm:w-[48%]     /* Tablet */
+  lg:w-[25%]     /* Desktop */
+
+  bg-white
+  rounded-2xl
+  shadow-md
+  border
+  border-gray-200
+"
+
                 >
-                  {/* Views Counter */}
-                  <div className="absolute top-3 right-3 z-10 bg-white/95 text-gray-700 px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1 border border-gray-200">
-                    <svg className="w-3 h-3 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                      <circle cx="12" cy="12" r="3"/>
-                    </svg>
-                    {listing.view || listing.views || 0}
+                  {/* Image */}
+                  <div className="relative h-48 overflow-hidden rounded-t-2xl">
+
+                    <Image
+                      src={listing.image}
+                      alt={listing.title}
+                      fill
+                      className="object-cover"
+                    />
+
+                    {/* Views */}
+                    <span className="absolute top-3 right-3 bg-white px-2 py-1 rounded-full text-xs font-semibold shadow">
+                      👁 {listing.view || listing.views || 0}
+                    </span>
+
                   </div>
 
-                  {/* Image Section */}
-                  <div className="relative overflow-hidden">
-                          <Image
-  src={listing.image}
-  alt={listing.title}
-  width={80}  // Set your desired dimensions
-  height={80}
- // opacity={90}
-    className="w-full h-40 object-cover group-hover:scale-105 rounded-2xl transition-transform duration-300"
-  loading="lazy"
-/>
-               
-                    
-                   
-                  </div>
-
-                  {/* Content Section */}
+                  {/* Content */}
                   <div className="p-4">
-                    {/* Category */}
-                    <div className="mb-2">
-                      <span className="text-xs font-semibold text-blue-600 uppercase tracking-wide">
-                        {listing.category}
-                      </span>
-                    </div>
 
-                    {/* Title */}
-                    <h3 className="font-semibold text-gray-900 text-base mb-2 leading-tight">
+                    <h3 className="font-semibold font-sans text-lg mb-1 line-clamp-2">
                       {listing.title}
                     </h3>
 
-                    {/* Location */}
-                    <div className="flex items-center gap-1 text-gray-600 text-xs mb-3">
-                      <LocationOn className="w-3 h-3 text-gray-500" />
+                    <p className="font-semibold font-sans text-gray-600 mb-3 line-clamp-2">
+                      {listing.description || "Premium opportunity"}
+                    </p>
+
+                    <div className="flex items-center gap-1 font-sans text-gray-500 mb-3">
+
+                      <LocationOn fontSize="small" />
+
                       <span className="truncate">
                         {Array.isArray(listing.location)
                           ? listing.location.join(", ")
                           : listing.location || "Remote"}
                       </span>
+
                     </div>
 
-                    {/* Price & CTA */}
-                    <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                      <div className="text-gray-900 font-bold text-lg">
-                        {listing.price}
+                    <div className="flex justify-between items-center pt-3 border-t">
+
+                      <div>
+                        <p className="text-xs text-gray-400">
+                          Starting from
+                        </p>
+
+                        <p className="font-bold text-lg">
+                          {listing.price}
+                        </p>
                       </div>
+
                       <button
                         onClick={() => onInquiryClick(listing)}
-                        className="bg-[var(--color-accent-800)] hover:bg-[var(--color-accent-900)] text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
+                        className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm"
                       >
-                        View Details
+                        View
                       </button>
+
                     </div>
+
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Load More - Only show if there are more than 6 listings */}
+            {/* Load More */}
             {hasMore && listings.length > 6 && (
-              <div className="text-center mt-10">
+              <div className="text-center mt-8">
+
                 <button
                   onClick={onLoadMore}
                   disabled={loading}
-                  className="inline-flex items-center px-6 py-3 bg-white border border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                  className="px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold"
                 >
-                  {loading ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mr-2"></div>
-                      Loading...
-                    </>
-                  ) : (
-                    <>
-                      Show All Listings
-                      <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </>
-                  )}
+                  {loading ? "Loading..." : "Show More"}
                 </button>
+
               </div>
             )}
+
           </>
         )}
+
       </div>
     </section>
   );
 }
+
+
+
 
 // ============================================================================
 // REVIEWS SECTION COMPONENT

@@ -181,7 +181,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-[var(--color-accent-800)] mt-12 pt-8 text-center text-[var(--color-accent-200)]">
-          <p>&copy; 2025 MSME Guru. All rights reserved.</p>
+          <p>&copy; 2025 MSME Sahaay. All rights reserved.</p>
         </div>
       </div>
     </footer>

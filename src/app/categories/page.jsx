@@ -1,9 +1,8 @@
-// src/app/categories/page.jsx
 "use client";
-
-import { useState, useEffect } from "react";
+import { useRef } from "react";
+import { useState, useEffect, React } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { getAllCategories } from "../api/homeAPI";
 
 const makeSlug = (name) =>
@@ -17,9 +16,20 @@ export default function CategoriesPage() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Single cover image URL
-  const COVER_IMAGE = "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200&h=600&fit=crop";
+  // Color palette for cards
+  const colorPalettes = [
+    { bg: 'bg-blue-100', text: 'text-blue-800' },
+    { bg: 'bg-purple-100', text: 'text-purple-800' },
+    { bg: 'bg-green-100', text: 'text-green-800' },
+    { bg: 'bg-yellow-100', text: 'text-yellow-800' },
+    { bg: 'bg-pink-100', text: 'text-pink-800' },
+    { bg: 'bg-indigo-100', text: 'text-indigo-800' },
+    { bg: 'bg-red-100', text: 'text-red-800' },
+    { bg: 'bg-teal-100', text: 'text-teal-800' },
+  ];
 
   useEffect(() => {
     let mounted = true;
@@ -37,13 +47,15 @@ export default function CategoriesPage() {
           (category) => category.name?.toLowerCase() !== "other"
         );
 
-        const mapped = filteredList.map((c) => ({
+        const mapped = filteredList.map((c, index) => ({
           id: c.id,
           name: c.name,
           description: c.description || `Explore professional ${c.name.toLowerCase()} services`,
           image: c.image || getFallbackImage(),
           listing_count: c.listing_count ?? c.listings_count ?? Math.floor(Math.random() * 2000) + 500,
           slug: makeSlug(c.name),
+          color: colorPalettes[index % colorPalettes.length].bg,
+          textColor: colorPalettes[index % colorPalettes.length].text,
         }));
 
         if (mounted) {
@@ -75,110 +87,258 @@ export default function CategoriesPage() {
     return images[Math.floor(Math.random() * images.length)];
   };
 
+  const handleCardClick = (category) => {
+    // Redirect directly to subcategories page - NO MODAL
+    router.push(`/categories/${category.slug}/${category.id}`);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setTimeout(() => {
+      setSelectedCategory(null);
+    }, 300);
+  };
+
   const openCategory = (cat) => {
     router.push(`/categories/${cat.slug}/${cat.id}`);
   };
 
   const totalListings = categories.reduce((sum, cat) => sum + (cat.listing_count || 0), 0);
 
-  // if (loading) {
-  //   return (
-  //     <div className="min-h-screen flex items-center justify-center bg-[var(--color-accent-100)]">
-  //       <div className="text-center">
-  //         <div className="animate-spin rounded-full h-14 w-14 border-b-2 border-[var(--color-accent-800)] mx-auto mb-4" />
-  //         <div className="text-[var(--color-accent-900)] font-sans font-semibold">Loading Categories...</div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-14 w-14 border-b-2 border-blue-600 mx-auto mb-4" />
+          <div className="text-gray-700 font-semibold">Loading Categories...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-[var(--color-accent-100)]">
-      {/* Cover Section with Single Image */}
-   
-
-      {/* Categories Grid Section */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-           <h2 className="text-3xl sm:text-4xl font-sans font-semibold text-[var(--color-accent-800)] mb-15 text-center">
-      Categories
-    </h2>
-          {error && ( 
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="flex-1 p-4 md:p-8">
+        <header className="mb-8 md:mb-12 text-center">
+          <motion.h1 
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="text-3xl md:text-4xl font-bold text-gray-800 mb-2"
+          >
+            Categories 
+          </motion.h1>
+          <motion.p 
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="text-gray-600 max-w-2xl mx-auto"
+          >
+            Browse through our professional service categories. Click on any category to explore detailed listings.
+          </motion.p>
+          
+          {error && (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-8 rounded-2xl bg-white p-6 border border-[var(--color-accent-300)] shadow-lg text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="mt-4 inline-block px-4 py-2 bg-yellow-100 text-yellow-800 rounded-lg"
             >
-              <p className="text-[var(--color-accent-800)] font-sans font-semibold">
-                {error}
-              </p>
+              {error}
             </motion.div>
           )}
+        </header>
 
-          {/* Stats Bar */}
-        
-
-          {/* Categories Grid */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
-          >
-            {categories.map((cat, index) => (
-              <motion.div
-                key={cat.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                onClick={() => openCategory(cat)}
-                className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl border border-[var(--color-accent-200)] cursor-pointer flex flex-col h-full overflow-hidden transition-all duration-500 hover:scale-105 hover:-translate-y-2"
-                style={{
-                  transformStyle: 'preserve-3d',
-                }}
-              >
-                {/* Image Section */}
-                <div className="h-48 w-full overflow-hidden relative">
-                  <img
-                    src={cat.image}
-                    alt={cat.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+        <main className="max-w-7xl mx-auto">
+          {/* Desktop Layout - 4 columns with varying row heights */}
+          <div className="hidden md:grid grid-cols-4 gap-4 md:gap-6 min-h-[600px]">
+            {/* Column 1 - 2 cards: Full layout (image + title + description + click to explore + arrow) */}
+            <div className="col-span-1 grid grid-rows-2 md:gap-6">
+              {categories[0] && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className="row-span-1"
+                >
+                  <FullLayoutCard 
+                    category={categories[0]}
+                    onClick={() => handleCardClick(categories[0])}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                  
-                  {/* Listing Count Badge */}
-                  {/* <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
-                    <span className="text-sm font-sans font-semibold text-[var(--color-accent-900)]">
-                      {cat.listing_count?.toLocaleString?.() ?? 0}
-                    </span>
-                  </div> */}
-                </div>
+                </motion.div>
+              )}
+              
+              {categories[1] && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="row-span-1"
+                >
+                  <FullLayoutCard 
+                    category={categories[1]}
+                    onClick={() => handleCardClick(categories[1])}
+                  />
+                </motion.div>
+              )}
+            </div>
 
-                {/* Content Section */}
-                <div className="p-5 flex-1 flex flex-col">
-                  <h3 className="text-sm font-sans font-semibold mb-3 text-[var(--color-accent-900)] group-hover:text-[var(--color-accent-800)] transition-colors">
-                    {cat.name}
-                  </h3>
+            {/* Column 2 - 3 cards: Simple layout (image + title only) */}
+            <div className="col-span-1 grid grid-rows-3 gap-4 md:gap-6">
+              {categories[2] && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="row-span-1"
+                >
+                  <SimpleLayoutCard 
+                    category={categories[2]}
+                    onClick={() => handleCardClick(categories[2])}
+                  />
+                </motion.div>
+              )}
+              
+              {categories[3] && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="row-span-1"
+                >
+                  <SimpleLayoutCard 
+                    category={categories[3]}
+                    onClick={() => handleCardClick(categories[3])}
+                  />
+                </motion.div>
+              )}
+              
+              {categories[4] && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="row-span-1"
+                >
+                  <SimpleLayoutCard
+                    category={categories[4]}
+                    onClick={() => handleCardClick(categories[4])}
+                  />
+                </motion.div>
+              )}
+            </div>
 
-                  <p className="text-[var(--color-accent-700)] font-sans mb-4 leading-relaxed flex-1 line-clamp-2">
-                    {cat.description}
-                  </p>
+            {/* Column 3 - 2 cards: Full layout (image + title + description + click to explore + arrow) */}
+            <div className="col-span-1 grid grid-rows-2 gap-4 md:gap-6">
+              {categories[5] && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="row-span-1"
+                >
+                  <FullLayoutCard 
+                    category={categories[5]}
+                    onClick={() => handleCardClick(categories[5])}
+                  />
+                </motion.div>
+              )}
+              
+              {categories[6] && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 }}
+                  className="row-span-1"
+                >
+                  <FullLayoutCard 
+                    category={categories[6]}
+                    onClick={() => handleCardClick(categories[6])}
+                  />
+                </motion.div>
+              )}
+            </div>
 
-                  {/* Footer */}
-                  <div className="flex items-center justify-between pt-4 border-t border-[var(--color-accent-200)]">
-                    <span className="text-sm font-sans font-semibold text-[var(--color-accent-600)]">
-                      {cat.listing_count?.toLocaleString?.() ?? 0} listings
-                    </span>
+            {/* Column 4 - 3 cards: Simple layout (image + title only) */}
+            <div className="col-span-1 grid grid-rows-3 gap-4 md:gap-6">
+              {categories[7] && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 }}
+                  className="row-span-1"
+                >
+                  <SimpleLayoutCard 
+                    category={categories[7]}
+                    onClick={() => handleCardClick(categories[7])}
+                  />
+                </motion.div>
+              )}
+              
+              {categories[8] && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.9 }}
+                  className="row-span-1"
+                >
+                  <SimpleLayoutCard 
+                    category={categories[8]}
+                    onClick={() => handleCardClick(categories[8])}
+                  />
+                </motion.div>
+              )}
+              
+              {categories[9] && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.0 }}
+                  className="row-span-1"
+                >
+                  <SimpleLayoutCard 
+                    category={categories[9]}
+                    onClick={() => handleCardClick(categories[9])}
+                  />
+                </motion.div>
+              )}
+            </div>
+          </div>
 
-                    <div className="flex items-center gap-1 text-[var(--color-accent-800)] font-sans font-semibold text-sm group-hover:gap-2 transition-all">
-                      <span>Explore</span>
-                      <span className="group-hover:translate-x-1 transition-transform">→</span>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+          {/* Mobile Layout - Grid (using FullLayoutCard for all) */}
+          <div className="md:hidden">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {categories.map((category, index) => (
+                <motion.div
+                  key={category.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <FullLayoutCard 
+                    category={category}
+                    onClick={() => handleCardClick(category)}
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Additional categories in rows for desktop (if more than 10) */}
+          {categories.length > 10 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.1 }}
+              className="hidden md:grid grid-cols-4 gap-6 mt-8"
+            >
+              {categories.slice(10, 14).map((category, index) => (
+                <FullLayoutCard
+                  key={category.id}
+                  category={category}
+                  onClick={() => handleCardClick(category)}
+                />
+              ))}
+            </motion.div>
+          )}
 
           {/* Empty State */}
           {categories.length === 0 && !error && (
@@ -187,17 +347,122 @@ export default function CategoriesPage() {
               animate={{ opacity: 1, y: 0 }}
               className="text-center py-20"
             >
-              <div className="w-24 h-24 bg-[var(--color-accent-200)] rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-3xl text-[var(--color-accent-600)]">📁</span>
+              <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-3xl text-gray-600">📁</span>
               </div>
-              <h2 className="text-2xl font-sans font-semibold mb-3 text-[var(--color-accent-900)]">No Categories Available</h2>
-              <p className="text-[var(--color-accent-700)] font-sans max-w-md mx-auto">
+              <h2 className="text-2xl font-semibold mb-3 text-gray-900">No Categories Available</h2>
+              <p className="text-gray-700 max-w-md mx-auto">
                 There are currently no categories to display.
               </p>
             </motion.div>
           )}
+        </main>
+
+        {/* REMOVED MODAL - No modal will show for any category */}
+      </div>
+
+      {/* Footer - Fixed at bottom */}
+      <motion.footer 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="bg-white border-t border-gray-200 py-4 md:py-6"
+      >
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <div className="text-center text-gray-500 text-sm">
+            <p>Click any category to view details • Total: {categories.length} categories</p>
+          </div>
         </div>
-      </section>
+      </motion.footer>
     </div>
   );
 }
+
+// Full Layout Card Component - For Column 1 & 3
+const FullLayoutCard = ({ category, onClick }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ 
+        scale: 1.03,
+        transition: { duration: 0.2 }
+      }}
+      whileTap={{ scale: 0.98 }}
+      onClick={onClick}
+      className={`h-110 cursor-pointer rounded-2xl shadow-lg  md: flex flex-col justify-between transition-all duration-300 hover:shadow-xl border-2 border-transparent hover:border-white hover:border-opacity-50`}
+    >
+      <div className="relative flex-1 flex flex-col">
+        {/* Category Image */}
+        {category.image && (
+          <div className="mb-3 overflow-hidden rounded-xl flex-shrink-0">
+            <motion.img
+              src={category.image}
+              alt={category.name}
+              className="w-full h-64 object-cover"
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.3 }}
+            />
+          </div>
+        )}
+        
+        <h3 className="text-lg md:text-xl font-sans px-3 line-clamp-1">{category.name}</h3>
+        <p className="text-sm font-sans opacity-75 mb-2 line-clamp-2 p-3 flex-1">{category.description}</p>
+        
+        {/* Listing Count */}
+        {/* {category.listing_count > 0 && (
+          <div className="mt-2">
+            <span className="inline-block px-2 py-1 text-xs font-semibold rounded-full bg-white bg-opacity-30">
+              {category.listing_count.toLocaleString()} listings
+            </span>
+          </div>
+        )} */}
+      </div>
+      
+      <div className="mt-4 border-t border-black border-opacity-20">
+        <div className="flex items-center justify-between">
+          <span className="text-base p-5 opacity-90">Click to explore</span>
+        
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+// Simple Layout Card Component - For Column 2 & 4
+const SimpleLayoutCard = ({ category, onClick }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ 
+        scale: 1.03,
+        transition: { duration: 0.2 }
+      }}
+      whileTap={{ scale: 0.98 }}
+      onClick={onClick}
+      className={`h-full cursor-pointer rounded-2xl shadow-lg transition-all duration-300 hover:shadow-xl  border-2 border-transparent hover:border-white hover:border-opacity-50 overflow-hidden`}
+    >
+      {/* Image fills most of the card */}
+      {category.image && (
+        <div className="h-3/4 w-full overflow-hidden relative">
+          <motion.img
+            src={category.image}
+            alt={category.name}
+            className="w-full h-48 object-cover"
+            whileHover={{ scale: 1.1 }}
+            transition={{ duration: 0.3 }}
+          />
+         
+        </div>
+      )}
+      
+      {/* Title at bottom */}
+      <div className="h-1/6 flex items-center justify-center ">
+        <h3 className="text-lg  font-sans text-center line-clamp-2">
+          {category.name}
+        </h3>
+      </div>
+    </motion.div>
+  );
+};

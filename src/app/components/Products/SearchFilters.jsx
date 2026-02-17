@@ -16,7 +16,7 @@ const useDebounce = (value, delay) => {
     return () => clearTimeout(handler);
   }, [value, delay]);
 
-  return debouncedValue;
+  return debouncedValue;  
 };
 
 const SearchFilters = ({

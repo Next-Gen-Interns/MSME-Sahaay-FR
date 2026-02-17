@@ -101,6 +101,17 @@ const CategoryPage = () => {
   const getColorPalette = (index) => COLOR_PALETTES[index % COLOR_PALETTES.length];
   const getIcon = (index) => SUBCATEGORY_ICONS[index % SUBCATEGORY_ICONS.length];
 
+  // Function to chunk array into pairs for 2 cards per row
+  const chunkArray = (array, chunkSize) => {
+    const result = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      result.push(array.slice(i, i + chunkSize));
+    }
+    return result;
+  };
+
+  const subcategoryChunks = chunkArray(subcategories, 2);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Hero Section with Parent Category */}
@@ -144,7 +155,7 @@ const CategoryPage = () => {
         </section>
       )}
 
-      {/* Subcategories Section */}
+      {/* Subcategories Section - Two Cards per Row with Equal Size */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
@@ -157,67 +168,83 @@ const CategoryPage = () => {
             </p>
           </div>
 
-          {/* Subcategories Grid */}
+          {/* Grid with 2 cards per row, each with different layout */}
           {subcategories.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {subcategories.map((subcategory, index) => {
-                const colors = getColorPalette(index);
-                const icon = getIcon(index);
+            <div className="space-y-8">
+              {subcategoryChunks.map((chunk, rowIndex) => (
+                <div 
+                  key={rowIndex} 
+                  className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+                >
+                  {chunk.map((subcategory, cardIndex) => {
+                    const globalIndex = rowIndex * 2 + cardIndex;
+                    const colors = getColorPalette(globalIndex);
+                    const icon = getIcon(globalIndex);
+                    const isLeftCard = cardIndex === 0; // First card in pair is left card
+                    
+                    return (
+                      <Link
+                        key={subcategory.id}
+                        href={`/categories/subcategory/${subcategory.id}/listings`}
+                        className="block group"
+                      >
+                        <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group-hover:scale-[1.02] border border-gray-100 h-full">
+                          <div className={`flex flex-col lg:flex-row h-full ${
+                            isLeftCard ? 'lg:flex-row' : 'lg:flex-row-reverse'
+                          }`}>
+                            {/* Image Section - Fixed equal size for all */}
+                            <div className="lg:w-1/2 h-48 lg:h-full relative overflow-hidden">
+                              <img
+                                src={subcategory.image || parentCategory?.image}
+                                alt={subcategory.name}
+                                className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent"></div>
+                            </div>
 
-                return (
-                  <Link
-                    key={subcategory.id}
-                    href={`/categories/subcategory/${subcategory.id}/listings`}
-                    className="group block"
-                  >
-                    <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group-hover:scale-[1.02] h-full flex flex-col border border-gray-100">
-                      {/* Image Section with Reduced Overlay */}
-                      <div className="relative h-48 overflow-hidden">
-                        <img
-                          src={subcategory.image || parentCategory?.image}
-                          alt={subcategory.name}
-                          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                        />
-                        {/* Reduced overlay for better image visibility */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                        
-                        {/* Icon with subtle background */}
-                        {/* <div className={`absolute top-4 right-4 ${colors.accent} text-white p-2 rounded-lg bg-opacity-80 backdrop-blur-sm`}>
-                          {icon}
-                        </div> */}
-                      </div>
+                            {/* Content Section - Fixed equal size for all */}
+                            <div className="lg:w-1/2 p-5 lg:p-6 flex flex-col h-full">
+                              <div className="flex-1">
+                                {/* Title - Fixed height with consistent font size */}
+                                <h3 className="text-lg lg:text-xl font-sans font-semibold text-[var(--color-accent-900)] mb-3 group-hover:text-[var(--color-accent-800)] transition-colors line-clamp-2 min-h-[3.5rem]">
+                                  {subcategory.name}
+                                </h3>
+                                
+                                {/* Description - Fixed height with consistent font size */}
+                                <div className="mb-3 min-h-[6rem]">
+                                  <p className="text-sm text-[var(--color-accent-700)] leading-relaxed line-clamp-4">
+                                    {subcategory.description || `Professional ${subcategory.name} services tailored to your specific business requirements.`}
+                                  </p>
+                                </div>
 
-                      {/* Content Section */}
-                      <div className="p-6 flex-1 flex flex-col">
-                        <div className="flex-1">
-                          <h3 className="text-xl font-sans font-semibold text-[var(--color-accent-900)] mb-3 group-hover:text-[var(--color-accent-800)] transition-colors">
-                            {subcategory.name}
-                          </h3>
-                          
-                          <p className="text-[var(--color-accent-700)] leading-relaxed mb-4 line-clamp-3">
-                            {subcategory.description || `Professional ${subcategory.name} services for your business needs`}
-                          </p>
-                        </div>
+                                {/* Service count badge */}
+                                <div className="mt-2">
+                                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                               
+                                    {subcategory.listing_count || 0} Services
+                                  </span>
+                                </div>
+                              </div>
 
-                        {/* Footer */}
-                        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                          <div className="flex items-center gap-2">
-                            {/* <div className={`w-2 h-2 rounded-full ${colors.accent}`}></div> */}
-                            <span className="text-sm font-medium text-gray-700">
-                              {subcategory.listing_count || 0} {subcategory.listing_count === 1 ? 'Service' : 'Services'}
-                            </span>
+                              {/* CTA Button - Fixed at bottom */}
+                           <div className="w-full border-t border-black/30 pt-3 mt-3">
+  <div className="flex items-center justify-end gap-2 
+    text-black font-semibold 
+    group-hover:text-[var(--color-accent-700)] 
+    transition-colors"
+  >
+    <span className="text-sm text-[var(--color-accent-700)] ">View Details</span>
+  </div>
+</div>
+
+                            </div>
                           </div>
-                          
-                          <div className="flex items-center gap-1 text-[var(--color-accent-900)] text-sm font-semibold group-hover:text-[var(--color-accent-700)] transition-colors">
-                            <span>Explore</span>
-                            <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
+                      </Link>
+                    );
+                  })}
+                </div>
+              ))}
             </div>
           ) : (
             <div className="text-center py-12">
@@ -231,8 +258,8 @@ const CategoryPage = () => {
         </div>
       </section>
 
-      {/* Stats Section with Reduced Opacity */}
-   
+      {/* Additional Info Section */}
+
     </div>
   );
 };

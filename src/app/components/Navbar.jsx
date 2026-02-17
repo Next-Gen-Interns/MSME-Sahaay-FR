@@ -41,6 +41,12 @@ import {
   BookOpen,
   Award,
   Zap,
+  Heart,
+  Truck,
+  MessageCircle,
+  CheckCircle,
+  Share2,
+  Info,
 } from "lucide-react";
 import { fetchUserProfile } from "../lib/redux/slices/profileSlice";
 import Image from "next/image";
@@ -59,43 +65,52 @@ export default function Navbar() {
   const megaMenuButtonRef = useRef(null);
   const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-  const megaMenuItems = [
-    { name: "Dashboard", icon: Grid, route: "/dashboard" },
-    { name: "All Products", icon: Package, route: "/products" },
-    { name: "My Orders", icon: ShoppingCart, route: "/orders" },
-    { name: "Analytics", icon: BarChart, route: "/analytics" },
-    { name: "Settings", icon: Settings, route: "/settings" },
-    { name: "Help Center", icon: HelpCircle, route: "/help" },
-    { name: "Notifications", icon: Bell, route: "/notifications" },
-    { name: "Messages", icon: Mail, route: "/messages" },
-    { name: "Documents", icon: FileText, route: "/documents" },
-    { name: "Billing", icon: CreditCard, route: "/billing" },
-    { name: "Security", icon: Shield, route: "/security" },
-    { name: "Global Market", icon: Globe, route: "/global-market" },
-    { name: "Recent Activity", icon: Clock, route: "/activity" },
-    { name: "Favorites", icon: Star, route: "/favorites" },
-    { name: "Trending", icon: TrendingUp, route: "/trending" },
-    { name: "Team", icon: Users2, route: "/team" },
-    { name: "Calendar", icon: Calendar, route: "/calendar" },
-    { name: "Chat", icon: MessageSquare, route: "/chat" },
-    { name: "Downloads", icon: Download, route: "/downloads" },
-    { name: "Uploads", icon: Upload, route: "/uploads" },
-    { name: "Filters", icon: Filter, route: "/filters" },
-    { name: "Categories", icon: Layers, route: "/categories" },
-    { name: "Goals", icon: Target, route: "/goals" },
-    { name: "Reports", icon: PieChart, route: "/reports" },
-    { name: "Wallet", icon: Wallet, route: "/wallet" },
-    { name: "Support", icon: Headphones, route: "/support" },
-    { name: "Knowledge Base", icon: BookOpen, route: "/knowledge" },
-    { name: "Achievements", icon: Award, route: "/achievements" },
-    { name: "Quick Actions", icon: Zap, route: "/quick-actions" },
+  // Common menu items for all users
+  const commonMenuItems = [
+    { name: "Home", icon: Grid, route: "/" },
+    { name: "View All Categories", icon: Package, route: "/categories" },
   ];
 
+  // Menu items for logged-in users only
+  const loggedInMenuItems = [
+    { name: "Post Your requirement", icon: ShoppingCart, route: "/orders" },
+    { name: "Messages", icon: MessageCircle, route: "/messages" },
+    { name: "My Orders", icon: BarChart, route: "/orders" },
+    { name: "My Favourites", icon: Heart, route: "/favorites" },
+  ];
+
+  // Business-related items for all
+  const businessMenuItems = [
+    { name: "Ship with India Mart", icon: Truck, route: "/shipping" },
+    { name: "Verified Experts", icon: CheckCircle, route: "/verified-experts" },
+    { name: "Become a Seller for Free", icon: Users, route: "/seller/signup" },
+  ];
+
+  // Additional items for all users
+  const additionalMenuItems = [
+    { name: "Feedback", icon: MessageSquare, route: "/feedback" },
+    { name: "Help & Support", icon: HelpCircle, route: "/help" },
+    { name: "Share App", icon: Share2, route: "/share" },
+    { name: "About MSME Sahaay", icon: Info, route: "/about" },
+    { name: "Settings", icon: Settings, route: "/settings" }
+  ];
+
+  // Generate mega menu items based on login status
+  const megaMenuItems = [
+    ...commonMenuItems,
+    ...(isLoggedIn ? loggedInMenuItems : []),
+    ...businessMenuItems,
+    ...additionalMenuItems
+  ];
+
+  // Navigation tabs - conditionally shown based on user role
   const navTabs = [
-    ...(userData?.role === "seller"
-      ? [{ name: "Lead Hub", route: "/seller/leads" }]
-      : []),
+    // Common tabs for all
     { name: "Privacy Policy", route: "/privacy-policy" },
+    // Role-specific tabs
+    ...(isLoggedIn && userData?.role === "seller" 
+      ? [{ name: "Lead Hub", route: "/seller/leads" }] 
+      : []),
   ];
 
   useEffect(() => {
@@ -233,6 +248,7 @@ export default function Navbar() {
               </span>
             </Link>
 
+
             {/* Search Bar - Desktop Only */}
             <div className="hidden lg:flex flex-1 max-w-2xl mx-8">
               <div className="relative w-full">
@@ -245,8 +261,21 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Desktop Nav - Only Menu Button */}
+            {/* Desktop Nav - Navigation Tabs + Menu Button */}
             <div className="hidden lg:flex items-center space-x-6">
+              {/* Navigation Tabs */}
+              <div className="flex items-center space-x-4">
+                {navTabs.map((tab, idx) => ( 
+                  <Link
+                    key={idx}
+                    href={tab.route}
+                    className="px-4 py-2 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] transition-all duration-200 rounded-xl font-medium"
+                  >
+                    {tab.name}
+                  </Link>
+                ))}
+              </div>
+
               {/* Mega Menu Button Container */}
               <div 
                 className="relative" 
@@ -266,32 +295,66 @@ export default function Navbar() {
                   />
                 </button>
 
-                {/* Mega Menu Dropdown - Opens on click, closes on item click */}
+                {/* Mega Menu Dropdown */}
                 {isMegaMenuOpen && (
                   <div
                     ref={megaMenuRef}
                     className="absolute left-0 top-full mt-2 bg-white border border-gray-200 rounded-2xl shadow-2xl z-50 min-w-[280px]"
                     style={{
-                      maxHeight: "50vh",
+                      maxHeight: "60vh",
                       overflowY: "auto",
                     }}
                   >
                     <div className="p-3">
-                      {/* SINGLE VERTICAL COLUMN - Shows all items */}
+                      {/* Show login message if not logged in */}
+                      {/* {!isLoggedIn && (
+                        <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
+                          <p className="text-sm text-blue-800 font-medium">
+                            Log in to access more features!
+                          </p>
+                          <Link
+                            href="/auth/login"
+                            onClick={handleMenuItemClick}
+                            className="mt-2 block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+                          >
+                            Sign In
+                          </Link>
+                        </div>
+                      )} */}
+
+                      {/* Menu Items */}
                       <div className="flex flex-col space-y-1">
                         {megaMenuItems.map((item, index) => {
                           const Icon = item.icon;
+                          // Highlight logged-in only items
+                          const isLoggedInOnly = loggedInMenuItems.some(
+                            loggedInItem => loggedInItem.name === item.name
+                          );
+                          
                           return (
                             <Link
                               key={index}
-                              href={item.route}
+                              href={isLoggedInOnly && !isLoggedIn ? "/auth/login" : item.route}
                               onClick={handleMenuItemClick}
-                              className="flex items-center p-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg transition-all duration-200 group w-full"
+                              className={`flex items-center p-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg transition-all duration-200 group w-full ${
+                                isLoggedInOnly && !isLoggedIn ? "opacity-60" : ""
+                              }`}
                             >
                               <div className="flex-shrink-0 mr-3">
-                                <Icon size={18} className="text-gray-500 group-hover:text-[var(--color-accent-700)]" />
+                                <Icon size={18} className={`${
+                                  isLoggedInOnly && !isLoggedIn 
+                                    ? "text-gray-400" 
+                                    : "text-gray-500 group-hover:text-[var(--color-accent-700)]"
+                                }`} />
                               </div>
-                              <span className="text-sm font-medium">{item.name}</span>
+                              <span className="text-sm font-medium flex-1">
+                                {item.name}
+                                {isLoggedInOnly && !isLoggedIn && (
+                                  <span className="ml-2 text-xs bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded">
+                                    Login Required
+                                  </span>
+                                )}
+                              </span>
                             </Link>
                           );
                         })}
@@ -300,9 +363,6 @@ export default function Navbar() {
                   </div>
                 )}
               </div>
-
-              {/* Spacing between menu button and profile/sign-in */}
-              <div className="w-6"></div>
             </div>
 
             {/* Right Side Auth */}
@@ -367,18 +427,46 @@ export default function Navbar() {
                           <User size={18} />
                           <span>My Profile</span>
                         </Link>
+                        
+                        {/* Logged-in specific menu items */}
+                        <Link
+                          href="/messages"
+                          onClick={() => setIsDropdownOpen(false)}
+                          className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg transition-all duration-150"
+                        >
+                          <MessageCircle size={18} />
+                          <span>Messages</span>
+                        </Link>
+                        
+                        <Link
+                          href="/orders"
+                          onClick={() => setIsDropdownOpen(false)}
+                          className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg transition-all duration-150"
+                        >
+                          <ShoppingCart size={18} />
+                          <span>My Orders</span>
+                        </Link>
+                        
+                        <Link
+                          href="/favorites"
+                          onClick={() => setIsDropdownOpen(false)}
+                          className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg transition-all duration-150"
+                        >
+                          <Heart size={18} />
+                          <span>My Favourites</span>
+                        </Link>
+
                         {userData?.role === "buyer" && (
-                          <>
-                            <Link
-                              href="/my-leads"
-                              className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg transition-all duration-150"
-                              onClick={() => setIsDropdownOpen(false)}
-                            >
-                              <Building size={18} />
-                              <span>My Inquiries</span>
-                            </Link>
-                          </>
+                          <Link
+                            href="/my-leads"
+                            className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg transition-all duration-150"
+                            onClick={() => setIsDropdownOpen(false)}
+                          >
+                            <Building size={18} />
+                            <span>My Inquiries</span>
+                          </Link>
                         )}
+                        
                         {userData?.role === "seller" && (
                           <>
                             <Link
@@ -457,61 +545,83 @@ export default function Navbar() {
               </div>
             </div>
 
-            <div className="space-y-1">
-              {navTabs.map((tab, idx) => (
-                <Link
-                  key={idx}
-                  href={tab.route}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center space-x-4 px-4 py-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xl transition-all duration-200 font-medium text-lg"
-                >
-                  <span>{tab.name}</span>
-                </Link>
-              ))}
-
-              {/* Mega Menu Items in Mobile - Single vertical column */}
-              <div className="border-t border-gray-200 pt-4 mt-4">
-                <h3 className="px-4 py-2 text-sm font-semibold text-gray-500 uppercase tracking-wider">
-                  Quick Access
-                </h3>
-                <div className="space-y-2">
-                  {megaMenuItems.map((item, index) => {
-                    const Icon = item.icon;
-                    return (
-                      <Link
-                        key={index}
-                        href={item.route}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="flex items-center p-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg"
-                      >
-                        <Icon size={18} className="mr-3 flex-shrink-0" />
-                        <span className="text-sm">{item.name}</span>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {isLoggedIn && (
-                <div className="border-t border-gray-200 pt-4 mt-4">
+            {/* Navigation Tabs in Mobile */}
+            <div className="mb-6">
+              <h3 className="text-sm font-semibold text-gray-500 uppercase mb-2">
+                Navigation
+              </h3>
+              <div className="space-y-1">
+                {navTabs.map((tab, idx) => (
                   <Link
-                    href="/profile"
+                    key={idx}
+                    href={tab.route}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center space-x-4 px-4 py-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xl font-medium"
+                    className="flex items-center space-x-4 px-4 py-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xl transition-all duration-200 font-medium"
                   >
-                    <User size={20} />
-                    <span>My Profile</span>
+                    <span>{tab.name}</span>
                   </Link>
-
-                  <button
-                    onClick={handleLogout}
-                    className="flex items-center space-x-4 w-full px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl"
-                  >
-                    <span>Sign Out</span>
-                  </button>
-                </div>
-              )}
+                ))}
+              </div>
             </div>
+
+            {/* Menu Items in Mobile */}
+            <div className="border-t border-gray-200 pt-4">
+              <h3 className="text-sm font-semibold text-gray-500 uppercase mb-2">
+                Menu
+              </h3>
+              <div className="space-y-1">
+                {megaMenuItems.map((item, index) => {
+                  const Icon = item.icon;
+                  const isLoggedInOnly = loggedInMenuItems.some(
+                    loggedInItem => loggedInItem.name === item.name
+                  );
+                  
+                  return (
+                    <Link
+                      key={index}
+                      href={isLoggedInOnly && !isLoggedIn ? "/auth/login" : item.route}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`flex items-center p-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg ${
+                        isLoggedInOnly && !isLoggedIn ? "opacity-60" : ""
+                      }`}
+                    >
+                      <Icon size={18} className="mr-3 flex-shrink-0" />
+                      <span className="text-sm flex-1">
+                        {item.name}
+                        {isLoggedInOnly && !isLoggedIn && (
+                          <span className="ml-2 text-xs bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded">
+                            Login Required
+                          </span>
+                        )}
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+
+            {isLoggedIn && (
+              <div className="border-t border-gray-200 pt-4 mt-4">
+                <h3 className="text-sm font-semibold text-gray-500 uppercase mb-2">
+                  Account
+                </h3>
+                <Link
+                  href="/profile"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center space-x-4 px-4 py-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xl font-medium"
+                >
+                  <User size={20} />
+                  <span>My Profile</span>
+                </Link>
+
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center space-x-4 w-full px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl"
+                >
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
