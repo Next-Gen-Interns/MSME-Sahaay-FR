@@ -6,10 +6,20 @@ import SearchFilters from "../components/Products/SearchFilters";
 import { smartSearchListings } from "../api/smartSearchAPI";
 import { getCategories } from "../api/productsAPI";
 import ProductCard from "../components/Products/ProductCard";
-import { Search, FilterList, MyLocation } from "@mui/icons-material";
+import {
+  Search,
+  FilterList,
+  MyLocation,
+  AddCircleOutline,
+  Storefront,
+  TrendingUp,
+  Verified,
+} from "@mui/icons-material";
 import { detectUserLocation } from "../api/homeAPI";
+import { useRouter } from "next/navigation";
 
 export default function ProductsPage() {
+  const router = useRouter();
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -32,7 +42,8 @@ export default function ProductsPage() {
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const locationFetched = useRef(false);
-  const convertFiltersToApiParams = (filterObj) => {  
+
+  const convertFiltersToApiParams = (filterObj) => {
     const apiParams = {};
     if (filterObj.search) apiParams.search = filterObj.search;
     if (filterObj.minPrice) apiParams.min_price = filterObj.minPrice;
@@ -60,13 +71,7 @@ export default function ProductsPage() {
   const fetchListings = async (page = 1, filterParams = {}) => {
     try {
       setLoading(true);
-
-      const searchParams = {
-        page,
-        limit: 12,
-        ...filterParams,
-      };
-
+      const searchParams = { page, limit: 12, ...filterParams };
       Object.keys(searchParams).forEach((key) => {
         if (
           searchParams[key] === "" ||
@@ -76,21 +81,17 @@ export default function ProductsPage() {
           delete searchParams[key];
         }
       });
-
       const response = await smartSearchListings(searchParams);
       const data = response.data;
-
       setListings(data.listings || []);
       setPagination(data.pagination);
       setCurrentPage(page);
       setError("");
-
       if (data.detectedCity) {
         setCurrentCity(data.detectedCity);
         setFilters((prev) => ({ ...prev, city: data.detectedCity }));
       }
     } catch (err) {
-      console.error("Failed to fetch listings:", err);
       const errorMessage =
         err.response?.data?.message ||
         err.message ||
@@ -108,22 +109,16 @@ export default function ProductsPage() {
       const response = await detectUserLocation({ latitude, longitude });
       const locationData = response.data?.data;
       const detectedCity = locationData.city || locationData.detectedCity;
-
       if (detectedCity) {
         setCurrentCity(detectedCity);
-        const updatedFilters = {
-          ...filters,
-          city: detectedCity,
-        };
+        const updatedFilters = { ...filters, city: detectedCity };
         setFilters(updatedFilters);
-        const apiParams = convertFiltersToApiParams(updatedFilters);
-        await fetchListings(1, apiParams);
+        await fetchListings(1, convertFiltersToApiParams(updatedFilters));
         toast.success(`Location set to ${detectedCity}`);
       } else {
         toast.error("Could not detect city from location");
       }
     } catch (error) {
-      console.error("Failed to detect location:", error);
       toast.error("Failed to detect location. Please enter city manually.");
     } finally {
       setLocationLoading(false);
@@ -132,7 +127,6 @@ export default function ProductsPage() {
 
   useEffect(() => {
     if (locationFetched.current) return;
-
     const loadInitialData = async () => {
       locationFetched.current = true;
       try {
@@ -143,55 +137,32 @@ export default function ProductsPage() {
               try {
                 await handleLocationDetect(
                   position.coords.latitude,
-                  position.coords.longitude
+                  position.coords.longitude,
                 );
-              } catch (error) {
+              } catch {
                 console.log("Background location detection failed");
               }
             },
-            (error) => {
-              console.log("Location permission denied:", error);
-            },
-            {
-              timeout: 8000,
-              enableHighAccuracy: false,
-            }
+            (error) => console.log("Location permission denied:", error),
+            { timeout: 8000, enableHighAccuracy: false },
           );
         }
       } catch (error) {
         console.error("Initial data load failed:", error);
       }
     };
-
     loadInitialData();
   }, []);
 
-  function LoadingScreen() {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-12 h-12 border-3 border-[#3B38A0] border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="mt-3 text-gray-600 text-sm">Loading MSME Guru...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (loading && listings.length === 0) {
-    return <LoadingScreen />;
-  }
-
   const handlePageChange = (page) => {
-    const apiParams = convertFiltersToApiParams(filters);
-    fetchListings(page, apiParams);
+    fetchListings(page, convertFiltersToApiParams(filters));
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleFilterChange = (newFilters) => {
     const updatedFilters = { ...filters, ...newFilters };
     setFilters(updatedFilters);
-    const apiParams = convertFiltersToApiParams(updatedFilters);
-    fetchListings(1, apiParams);
+    fetchListings(1, convertFiltersToApiParams(updatedFilters));
   };
 
   const clearFilters = () => {
@@ -212,53 +183,126 @@ export default function ProductsPage() {
   };
 
   const hasActiveFilters = Object.values(filters).some(
-    (value) => value !== "" && value !== null
+    (value) => value !== "" && value !== null,
   );
 
-  return (
-    <div className="min-h-screen bg-white">
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          {/* Top Section Container */}
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            {/* Left Section */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
-              <h1 className="text-lg sm:text-xl font-semibold text-gray-900">
-                {currentCity ? `Services in ${currentCity}` : "All Services"}
-              </h1>
+  if (loading && listings.length === 0) {
+    return (
+      <div className="min-h-screen bg-[#f5f5f5] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-10 h-10 border-2 border-[var(--color-accent-700)] border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="mt-3 text-gray-500 text-sm">Loading listings...</p>
+        </div>
+      </div>
+    );
+  }
 
-              <span className="mt-2 sm:mt-0 text-xs sm:text-sm text-gray-500 bg-[#f2f3fb] px-2 py-1 rounded">
-                {pagination?.total || 0} services
+  return (
+    <div className="min-h-screen bg-[#f5f5f5]">
+      {/* ══════════════════════════════════════════
+          SELLER TRUST BAR — top of page
+      ══════════════════════════════════════════ */}
+      <div className="bg-[var(--color-accent-900)]">
+        <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between gap-4">
+          <div className="hidden sm:flex items-center divide-x divide-[var(--color-accent-700)]">
+            {[
+              {
+                icon: <Storefront sx={{ fontSize: 12 }} />,
+                text: "5,000+ Active Sellers",
+              },
+              {
+                icon: <Verified sx={{ fontSize: 12 }} />,
+                text: "Verified Listings",
+              },
+              {
+                icon: <TrendingUp sx={{ fontSize: 12 }} />,
+                text: "Grow Your MSME",
+              },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-1.5 text-[var(--color-accent-300)] text-[10px] font-semibold px-4 first:pl-0"
+              >
+                {item.icon}
+                {item.text}
+              </div>
+            ))}
+          </div>
+          <p className="sm:hidden text-[var(--color-accent-300)] text-[10px] font-semibold">
+            5,000+ Verified Sellers on MSME Guru
+          </p>
+          <button
+            onClick={() => router.push("/seller/create-listing")}
+            className="flex-shrink-0 flex items-center gap-1.5 bg-white hover:bg-[var(--color-accent-50)] text-[var(--color-accent-800)] text-[11px] font-bold px-3 py-1.5 rounded transition-all"
+          >
+            <AddCircleOutline sx={{ fontSize: 13 }} />
+            List Your Service — Free
+          </button>
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════
+          TOP BAR — sticky
+      ══════════════════════════════════ */}
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-20 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-2.5">
+          <div className="flex items-center justify-between gap-3">
+            {/* Left: breadcrumb + title */}
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-1 h-6 rounded-full bg-[var(--color-accent-700)] flex-shrink-0" />
+              <div className="min-w-0">
+                <div className="flex items-center gap-1 text-[10px] text-gray-400 mb-0.5">
+                  <span>Home</span>
+                  <span>›</span>
+                  <span className="text-[var(--color-accent-700)]">
+                    Services
+                  </span>
+                  {currentCity && (
+                    <>
+                      <span>›</span>
+                      <span className="text-[var(--color-accent-700)] truncate">
+                        {currentCity}
+                      </span>
+                    </>
+                  )}
+                </div>
+                <h1 className="text-sm font-bold text-gray-900 truncate">
+                  {currentCity
+                    ? `Services in ${currentCity}`
+                    : "All Listed Services"}
+                </h1>
+              </div>
+              <span className="flex-shrink-0 text-[10px] text-[var(--color-accent-700)] bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] px-2 py-0.5 rounded font-bold">
+                {pagination?.total || 0} listings
               </span>
             </div>
 
-            {/* Right Section */}
-            <div className="flex items-center flex-wrap gap-3 sm:space-x-3 sm:flex-nowrap">
-              {/* Location Button */}
+            {/* Right: controls */}
+            <div className="flex items-center gap-2 flex-shrink-0">
               <button
                 onClick={() => {
                   if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(
-                      async (position) => {
-                        await handleLocationDetect(
-                          position.coords.latitude,
-                          position.coords.longitude
-                        );
-                      }
-                    );
+                    navigator.geolocation.getCurrentPosition(async (pos) => {
+                      await handleLocationDetect(
+                        pos.coords.latitude,
+                        pos.coords.longitude,
+                      );
+                    });
                   }
                 }}
-                className="flex items-center space-x-1 px-3 py-2 text-sm text-gray-600 hover:text-[#3B38A0] transition-colors border border-gray-300 rounded-md hover:border-[#3B38A0]"
+                disabled={locationLoading}
+                className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-semibold text-gray-600 hover:text-[var(--color-accent-700)] border border-gray-300 hover:border-[var(--color-accent-400)] bg-white rounded transition-all"
               >
-                <MyLocation className="w-4 h-4" />
-                <span>Location</span>
+                <MyLocation sx={{ fontSize: 13 }} />
+                {locationLoading
+                  ? "Detecting..."
+                  : currentCity || "Set Location"}
               </button>
 
-              {/* Sort Dropdown */}
               <select
                 value={filters.sortBy}
                 onChange={(e) => handleFilterChange({ sortBy: e.target.value })}
-                className="text-sm border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#3B38A0] focus:border-[#3B38A0] w-full sm:w-auto bg-white"
+                className="text-[11px] font-semibold border border-gray-300 rounded px-2.5 py-1.5 bg-white text-gray-700 cursor-pointer focus:outline-none focus:ring-1 focus:ring-[var(--color-accent-500)]"
               >
                 <option value="relevance">Recommended</option>
                 <option value="price_low">Price: Low to High</option>
@@ -267,54 +311,127 @@ export default function ProductsPage() {
                 <option value="newest">Newest First</option>
               </select>
 
-              {/* Mobile Filter Button */}
+              <button
+                onClick={() => router.push("/list-products")}
+                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-900)] text-white text-[11px] font-bold rounded transition-colors"
+              >
+                <AddCircleOutline sx={{ fontSize: 13 }} />
+                Add Listing
+              </button>
+
               <button
                 onClick={() => setMobileFiltersOpen(true)}
-                className="lg:hidden flex items-center space-x-2 px-3 py-2 bg-[#3B38A0] text-white rounded-md text-sm hover:bg-[#1A2A80] transition-colors w-full sm:w-auto justify-center"
+                className="lg:hidden flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 bg-white text-gray-700 text-[11px] font-semibold rounded"
               >
-                <FilterList className="w-4 h-4" />
-                <span>Filters</span>
+                <FilterList sx={{ fontSize: 13 }} />
+                Filter
+                {hasActiveFilters && (
+                  <span className="w-4 h-4 bg-[var(--color-accent-700)] text-white rounded-full text-[9px] font-black flex items-center justify-center">
+                    {
+                      Object.values(filters).filter(
+                        (v) => v !== "" && v !== null && v !== "relevance",
+                      ).length
+                    }
+                  </span>
+                )}
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="flex flex-col lg:flex-row gap-6">
-          {/* Desktop Filters */}
-          <div className="hidden lg:block w-64 flex-shrink-0">
-            <div className="sticky top-6 space-y-4 bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-gray-900">FILTERS</h3>
-                {hasActiveFilters && (
-                  <button
-                    onClick={clearFilters}
-                    className="text-xs text-[#3B38A0] hover:text-[#1A2A80] font-medium"
-                  >
-                    Clear all
-                  </button>
-                )}
+      {/* ══════════════════════════════════
+          MAIN LAYOUT
+      ══════════════════════════════════ */}
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <div className="flex gap-4 items-start">
+          {/* ── Desktop Sidebar ── */}
+          <aside className="hidden lg:block w-56 flex-shrink-0">
+            <div className="sticky top-[76px] space-y-3">
+              {/* Filter Panel */}
+              <div className="bg-white border border-gray-200 rounded-sm overflow-hidden">
+                <div className="flex items-center justify-between px-3 py-2.5 bg-[var(--color-accent-800)]">
+                  <h3 className="text-[11px] font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+                    <FilterList sx={{ fontSize: 13 }} />
+                    Filter Results
+                  </h3>
+                  {hasActiveFilters && (
+                    <button
+                      onClick={clearFilters}
+                      className="text-[10px] text-[var(--color-accent-300)] hover:text-white font-semibold transition-colors"
+                    >
+                      Clear All
+                    </button>
+                  )}
+                </div>
+                <div className="p-3">
+                  <SearchFilters
+                    filters={filters}
+                    onFilterChange={handleFilterChange}
+                    currentCity={currentCity}
+                    onLocationDetect={handleLocationDetect}
+                    locationLoading={locationLoading}
+                    compact={true}
+                  />
+                </div>
               </div>
 
-              <div className="space-y-4">
-                <SearchFilters
-                  filters={filters}
-                  onFilterChange={handleFilterChange}
-                  currentCity={currentCity}
-                  onLocationDetect={handleLocationDetect}
-                  locationLoading={locationLoading}
-                  compact={true}
-                />
+              {/* Seller CTA Panel */}
+              <div className="bg-white border border-[var(--color-accent-200)] rounded-sm overflow-hidden">
+                <div className="px-3 py-2 bg-[var(--color-accent-50)] border-b border-[var(--color-accent-100)]">
+                  <p className="text-[11px] font-bold text-[var(--color-accent-800)] flex items-center gap-1.5">
+                    <Storefront sx={{ fontSize: 13 }} />
+                    Sell on MSME Guru
+                  </p>
+                </div>
+                <div className="p-3">
+                  <p className="text-[11px] text-gray-500 leading-relaxed mb-3">
+                    Reach thousands of buyers. List your services for free.
+                  </p>
+                  <ul className="space-y-1.5 mb-3">
+                    {[
+                      "Free listing",
+                      "Verified badge",
+                      "Direct buyer leads",
+                      "Pan-India reach",
+                    ].map((item) => (
+                      <li
+                        key={item}
+                        className="flex items-center gap-2 text-[11px] text-gray-600 font-medium"
+                      >
+                        <span className="w-3.5 h-3.5 rounded-full bg-green-100 text-green-700 flex items-center justify-center text-[8px] font-black flex-shrink-0">
+                          ✓
+                        </span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                  <button
+                    onClick={() => router.push("/list-products")}
+                    className="w-full py-2 bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-900)] text-white text-[11px] font-bold rounded transition-colors flex items-center justify-center gap-1"
+                  >
+                    <AddCircleOutline sx={{ fontSize: 13 }} />
+                    Post Free Listing
+                  </button>
+                  <button
+                    onClick={() => router.push("/my-leads")}
+                    className="w-full mt-2 py-1.5 border border-[var(--color-accent-300)] text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] text-[11px] font-semibold rounded transition-colors"
+                  >
+                    View My Leads →
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </aside>
 
-          {/* Main Content */}
-          <div className="flex-1">
+          {/* ── Main Content ── */}
+          <div className="flex-1 min-w-0">
             {/* Active Filters */}
             {hasActiveFilters && (
-              <div className="flex flex-wrap gap-2 mb-4">
+              <div className="flex flex-wrap items-center gap-2 mb-3 px-3 py-2.5 bg-white border border-gray-200 rounded-sm">
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">
+                  Filtered by:
+                </span>
                 {filters.search && (
                   <FilterChip
                     label={`"${filters.search}"`}
@@ -323,53 +440,66 @@ export default function ProductsPage() {
                 )}
                 {filters.minPrice && (
                   <FilterChip
-                    label={`Min: ₹${filters.minPrice}`}
+                    label={`Min ₹${filters.minPrice}`}
                     onRemove={() => handleFilterChange({ minPrice: "" })}
                   />
                 )}
                 {filters.maxPrice && (
                   <FilterChip
-                    label={`Max: ₹${filters.maxPrice}`}
+                    label={`Max ₹${filters.maxPrice}`}
                     onRemove={() => handleFilterChange({ maxPrice: "" })}
                   />
                 )}
                 {filters.category && (
                   <FilterChip
-                    label={`${
+                    label={
                       categories.find((c) => c.id == filters.category)?.name ||
                       filters.category
-                    }`}
+                    }
                     onRemove={() => handleFilterChange({ category: "" })}
                   />
                 )}
+                {filters.city && (
+                  <FilterChip
+                    label={`📍 ${filters.city}`}
+                    onRemove={() => handleFilterChange({ city: "" })}
+                  />
+                )}
+                <button
+                  onClick={clearFilters}
+                  className="ml-auto text-[10px] font-bold text-red-500 hover:text-red-700 transition-colors"
+                >
+                  Clear all ×
+                </button>
               </div>
             )}
 
             {/* Products Grid */}
-            {!error && (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            {!error && listings.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
                 {listings.map((listing) => (
                   <ProductCard
                     key={listing.listing_id}
                     listing={listing}
-                    className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white"
+                    className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white rounded-sm"
                   />
                 ))}
               </div>
             )}
 
-            {/* Loading More */}
+            {/* Loading Skeletons */}
             {loading && listings.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 mt-3">
                 {[...Array(3)].map((_, i) => (
                   <div
                     key={i}
-                    className="animate-pulse bg-white rounded-lg p-4 border border-gray-200"
+                    className="animate-pulse bg-white rounded-sm border border-gray-200 overflow-hidden"
                   >
-                    <div className="bg-gray-200 h-40 rounded-lg mb-3"></div>
-                    <div className="space-y-2">
-                      <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                      <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                    <div className="bg-gray-100 h-40 w-full" />
+                    <div className="p-4 space-y-2.5">
+                      <div className="h-3.5 bg-gray-100 rounded w-3/4" />
+                      <div className="h-3 bg-gray-100 rounded w-1/2" />
+                      <div className="h-3 bg-gray-100 rounded w-2/3" />
                     </div>
                   </div>
                 ))}
@@ -378,96 +508,153 @@ export default function ProductsPage() {
 
             {/* Empty State */}
             {listings.length === 0 && !loading && !error && (
-              <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
-                <div className="w-16 h-16 bg-[#f2f3fb] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Search className="w-8 h-8 text-[#7A85C1]" />
+              <div className="bg-white border border-gray-200 rounded-sm overflow-hidden">
+                <div className="text-center py-10 border-b border-gray-100">
+                  <div className="w-12 h-12 bg-[var(--color-accent-50)] border border-[var(--color-accent-100)] rounded flex items-center justify-center mx-auto mb-3">
+                    <Search
+                      sx={{ fontSize: 22, color: "var(--color-accent-400)" }}
+                    />
+                  </div>
+                  <h3 className="text-base font-bold text-gray-800 mb-1">
+                    No services found
+                  </h3>
+                  <p className="text-gray-400 text-sm mb-4">
+                    {hasActiveFilters
+                      ? "Try adjusting your filters or location"
+                      : "No services listed yet in this category"}
+                  </p>
+                  {hasActiveFilters && (
+                    <button
+                      onClick={clearFilters}
+                      className="px-5 py-2 bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-900)] text-white text-sm font-semibold rounded transition-colors"
+                    >
+                      Clear Filters
+                    </button>
+                  )}
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  No services found
-                </h3>
-                <p className="text-gray-500 text-sm mb-6">
-                  {hasActiveFilters
-                    ? "Try adjusting your filters or search in a different location"
-                    : "No services available at the moment"}
-                </p>
-                {hasActiveFilters && (
+                {/* Seller CTA inside empty */}
+                <div className="px-6 py-5 bg-[var(--color-accent-50)] flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div>
+                    <p className="text-sm font-bold text-[var(--color-accent-900)] mb-0.5">
+                      🏪 Be the first seller in this category
+                    </p>
+                    <p className="text-xs text-[var(--color-accent-600)]">
+                      Post your listing free and reach buyers instantly.
+                    </p>
+                  </div>
                   <button
-                    onClick={clearFilters}
-                    className="px-5 py-2 bg-[#3B38A0] text-white text-sm rounded-md hover:bg-[#1A2A80] transition-colors"
+                    onClick={() => router.push("/list-products")}
+                    className="flex-shrink-0 flex items-center gap-2 px-5 py-2.5 bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-900)] text-white text-sm font-bold rounded transition-colors"
                   >
-                    Clear filters
+                    <AddCircleOutline sx={{ fontSize: 16 }} />
+                    Post Free Listing
                   </button>
-                )}
+                </div>
               </div>
             )}
 
             {/* Error State */}
             {error && (
-              <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
-                <div className="w-16 h-16 bg-[#f2f3fb] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl text-[#7A85C1]">⚠️</span>
+              <div className="text-center py-16 bg-white border border-gray-200 rounded-sm">
+                <div className="w-12 h-12 bg-red-50 border border-red-100 rounded flex items-center justify-center mx-auto mb-3">
+                  <span className="text-xl">⚠️</span>
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                <h3 className="text-base font-bold text-gray-800 mb-1">
                   Unable to load services
                 </h3>
-                <p className="text-gray-500 text-sm mb-6">{error}</p>
+                <p className="text-gray-400 text-sm mb-4">{error}</p>
                 <button
                   onClick={() => fetchListings()}
-                  className="px-5 py-2 bg-[#3B38A0] text-white text-sm rounded-md hover:bg-[#1A2A80] transition-colors"
+                  className="px-5 py-2 bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-900)] text-white text-sm font-semibold rounded transition-colors"
                 >
-                  Try again
+                  Try Again
+                </button>
+              </div>
+            )}
+
+            {/* Inline Seller CTA — between grid and pagination */}
+            {listings.length > 0 && !error && (
+              <div className="mt-4 bg-white border border-[var(--color-accent-100)] rounded-sm px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 bg-[var(--color-accent-50)] rounded flex items-center justify-center flex-shrink-0">
+                    <Storefront
+                      sx={{ fontSize: 18, color: "var(--color-accent-700)" }}
+                    />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-gray-800">
+                      Want to appear in this list?
+                    </p>
+                    <p className="text-[11px] text-gray-500">
+                      Post your service listing free and start getting leads
+                      today.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => router.push("/list-products")}
+                  className="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-900)] text-white text-xs font-bold rounded transition-colors whitespace-nowrap"
+                >
+                  <AddCircleOutline sx={{ fontSize: 14 }} />
+                  Post Free Listing
                 </button>
               </div>
             )}
 
             {/* Pagination */}
             {pagination && pagination.pages > 1 && !error && (
-              <div className="flex justify-center mt-8">
-                <div className="flex items-center space-x-1">
+              <div className="flex items-center justify-between mt-3 bg-white border border-gray-200 rounded-sm px-4 py-3">
+                <p className="text-[11px] text-gray-500">
+                  Page{" "}
+                  <span className="font-bold text-gray-800">{currentPage}</span>{" "}
+                  of{" "}
+                  <span className="font-bold text-gray-800">
+                    {pagination.pages}
+                  </span>
+                  {" · "}
+                  <span className="font-bold text-gray-800">
+                    {pagination.total}
+                  </span>{" "}
+                  listings
+                </p>
+                <div className="flex items-center gap-1">
                   <button
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
-                    className="p-2 rounded border border-gray-300 disabled:opacity-30 hover:bg-[#f2f3fb] text-sm bg-white"
+                    className="px-3 py-1.5 text-[11px] font-semibold border border-gray-300 bg-white hover:bg-[var(--color-accent-50)] hover:border-[var(--color-accent-400)] text-gray-600 rounded disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                   >
-                    ←
+                    ← Prev
                   </button>
-
                   {Array.from(
                     { length: Math.min(5, pagination.pages) },
                     (_, i) => {
                       let pageNum;
-                      if (pagination.pages <= 5) {
-                        pageNum = i + 1;
-                      } else if (currentPage <= 3) {
-                        pageNum = i + 1;
-                      } else if (currentPage >= pagination.pages - 2) {
+                      if (pagination.pages <= 5) pageNum = i + 1;
+                      else if (currentPage <= 3) pageNum = i + 1;
+                      else if (currentPage >= pagination.pages - 2)
                         pageNum = pagination.pages - 4 + i;
-                      } else {
-                        pageNum = currentPage - 2 + i;
-                      }
-
+                      else pageNum = currentPage - 2 + i;
                       return (
                         <button
                           key={pageNum}
                           onClick={() => handlePageChange(pageNum)}
-                          className={`w-8 h-8 rounded text-sm transition-colors border ${
+                          className={`w-8 h-8 text-[11px] font-semibold rounded border transition-all ${
                             currentPage === pageNum
-                              ? "bg-[#3B38A0] text-white border-[#3B38A0]"
-                              : "text-gray-600 hover:bg-[#f2f3fb] border-gray-300 bg-white"
+                              ? "bg-[var(--color-accent-700)] text-white border-[var(--color-accent-700)]"
+                              : "bg-white text-gray-600 border-gray-300 hover:bg-[var(--color-accent-50)] hover:border-[var(--color-accent-400)]"
                           }`}
                         >
                           {pageNum}
                         </button>
                       );
-                    }
+                    },
                   )}
-
                   <button
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === pagination.pages}
-                    className="p-2 rounded border border-gray-300 disabled:opacity-30 hover:bg-[#f2f3fb] text-sm bg-white"
+                    className="px-3 py-1.5 text-[11px] font-semibold border border-gray-300 bg-white hover:bg-[var(--color-accent-50)] hover:border-[var(--color-accent-400)] text-gray-600 rounded disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                   >
-                    →
+                    Next →
                   </button>
                 </div>
               </div>
@@ -476,25 +663,43 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      {/* Mobile Filters Overlay */}
+      {/* ══════════════════════════════════
+          MOBILE FILTERS DRAWER
+      ══════════════════════════════════ */}
       {mobileFiltersOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div
-            className="absolute inset-0 bg-black bg-opacity-10"
+            className="absolute inset-0 bg-black/40"
             onClick={() => setMobileFiltersOpen(false)}
           />
-          <div className="absolute right-0 top-0 h-full w-80 bg-white shadow-xl">
-            <div className="p-4 h-full overflow-y-auto">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">Filters</h3>
-                <button
-                  onClick={() => setMobileFiltersOpen(false)}
-                  className="p-1 hover:bg-[#f2f3fb] rounded text-gray-600"
-                >
-                  ✕
-                </button>
-              </div>
+          <div className="absolute right-0 top-0 h-full w-[300px] bg-white shadow-2xl flex flex-col">
+            <div className="flex items-center justify-between px-4 py-3 bg-[var(--color-accent-800)] flex-shrink-0">
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <FilterList sx={{ fontSize: 15 }} />
+                Filter Services
+              </h3>
+              <button
+                onClick={() => setMobileFiltersOpen(false)}
+                className="w-7 h-7 flex items-center justify-center rounded bg-white/10 hover:bg-white/20 text-white transition-colors"
+              >
+                ✕
+              </button>
+            </div>
 
+            {/* Seller shortcut in drawer */}
+            <div className="flex items-center justify-between px-4 py-2.5 bg-[var(--color-accent-50)] border-b border-[var(--color-accent-100)]">
+              <p className="text-[11px] text-[var(--color-accent-700)] font-semibold">
+                Are you a seller?
+              </p>
+              <button
+                onClick={() => router.push("/list-products")}
+                className="text-[10px] font-bold text-white bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-900)] px-2.5 py-1 rounded transition-colors"
+              >
+                + Post Listing
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-4">
               <SearchFilters
                 filters={filters}
                 onFilterChange={handleFilterChange}
@@ -503,21 +708,21 @@ export default function ProductsPage() {
                 locationLoading={locationLoading}
                 compact={true}
               />
+            </div>
 
-              <div className="flex space-x-3 pt-4 mt-4 border-t border-gray-200">
-                <button
-                  onClick={clearFilters}
-                  className="flex-1 py-2 border border-gray-300 rounded text-gray-700 text-sm hover:bg-[#f2f3fb] bg-white"
-                >
-                  Clear all
-                </button>
-                <button
-                  onClick={() => setMobileFiltersOpen(false)}
-                  className="flex-1 py-2 bg-[#3B38A0] text-white rounded text-sm hover:bg-[#1A2A80]"
-                >
-                  Apply
-                </button>
-              </div>
+            <div className="flex gap-2 p-4 border-t border-gray-200 flex-shrink-0 bg-gray-50">
+              <button
+                onClick={clearFilters}
+                className="flex-1 py-2 border border-gray-300 bg-white hover:bg-gray-50 rounded text-sm font-semibold text-gray-700 transition-colors"
+              >
+                Clear All
+              </button>
+              <button
+                onClick={() => setMobileFiltersOpen(false)}
+                className="flex-1 py-2 bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-900)] text-white rounded text-sm font-semibold transition-colors"
+              >
+                Apply Filters
+              </button>
             </div>
           </div>
         </div>
@@ -526,15 +731,15 @@ export default function ProductsPage() {
   );
 }
 
-// Filter Chip Component
+/* ── Filter Chip ── */
 const FilterChip = ({ label, onRemove }) => (
-  <div className="inline-flex items-center px-3 py-1 bg-[#f2f3fb] text-[#3B38A0] rounded-full text-xs border border-[#e4e5f7]">
+  <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-[var(--color-accent-50)] text-[var(--color-accent-800)] border border-[var(--color-accent-200)] rounded text-[11px] font-semibold">
     {label}
     <button
       onClick={onRemove}
-      className="ml-1 hover:text-[#1A2A80] text-sm font-medium"
+      className="ml-0.5 text-[var(--color-accent-400)] hover:text-[var(--color-accent-900)] font-bold leading-none transition-colors"
     >
       ×
     </button>
-  </div>
+  </span>
 );
