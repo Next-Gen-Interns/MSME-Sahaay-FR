@@ -78,22 +78,23 @@ const AboutPage = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-50 to-white pt-20 pb-16 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-[var(--color-accent-50)] to-white pt-20 pb-16 overflow-hidden">
         {/* Abstract background pattern */}
         <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl" />
+          <div className="absolute top-20 left-10 w-72 h-72 bg-[var(--color-accent-100)] rounded-full mix-blend-multiply filter blur-3xl" />
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto">
             {/* Badge */}
-            <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium bg-blue-100 text-blue-700 mb-6">
+            <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium bg-[var(--color-accent-100)] text-[var(--color-accent-700)] mb-6">
               🇮🇳 India's Premier MSME Network
             </span>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 tracking-tight mb-6">
-              Empowering India's <span className="text-blue-600">MSMEs</span>
+              Empowering India's{" "}
+              <span className="text-[var(--color-accent-600)]">MSMEs</span>
               <br />
               to Connect & Grow
             </h1>
@@ -108,13 +109,13 @@ const AboutPage = () => {
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/register"
-                className="px-6 py-3 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200"
+                className="px-6 py-3 bg-[var(--color-accent-600)] text-white font-medium rounded-xl hover:bg-[var(--color-accent-700)] transition-colors shadow-lg shadow-[var(--color-accent-200)]"
               >
                 Join as Business
               </Link>
               <Link
                 href="/categories"
-                className="px-6 py-3 bg-white text-gray-700 font-medium rounded-xl border border-gray-300 hover:border-blue-400 hover:text-blue-600 transition-colors"
+                className="px-6 py-3 bg-white text-gray-700 font-medium rounded-xl border border-gray-300 hover:border-[var(--color-accent-400)] hover:text-[var(--color-accent-600)] transition-colors"
               >
                 Explore Categories
               </Link>
@@ -140,7 +141,7 @@ const AboutPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">
+              <span className="text-sm font-semibold text-[var(--color-accent-600)] uppercase tracking-wider">
                 Our Mission
               </span>
               <h2 className="text-3xl font-bold text-gray-900 mt-3 mb-6">
@@ -159,8 +160,8 @@ const AboutPage = () => {
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-blue-50 p-6 rounded-2xl">
-                <div className="text-3xl font-bold text-blue-600 mb-2">
+              <div className="bg-[var(--color-accent-50)] p-6 rounded-2xl">
+                <div className="text-3xl font-bold text-[var(--color-accent-600)] mb-2">
                   50K+
                 </div>
                 <div className="text-sm text-gray-600">
@@ -173,8 +174,10 @@ const AboutPage = () => {
                 </div>
                 <div className="text-sm text-gray-600">Facilitated Trade</div>
               </div>
-              <div className="bg-blue-50 p-6 rounded-2xl col-span-2">
-                <div className="text-3xl font-bold text-blue-600 mb-2">45+</div>
+              <div className="bg-[var(--color-accent-50)] p-6 rounded-2xl col-span-2">
+                <div className="text-3xl font-bold text-[var(--color-accent-600)] mb-2">
+                  45+
+                </div>
                 <div className="text-sm text-gray-600">
                   Business Categories Supported
                 </div>
@@ -188,7 +191,7 @@ const AboutPage = () => {
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">
+            <span className="text-sm font-semibold text-[var(--color-accent-600)] uppercase tracking-wider">
               Why Choose Us
             </span>
             <h2 className="text-3xl font-bold text-gray-900 mt-3">
@@ -204,11 +207,11 @@ const AboutPage = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="bg-white p-6 rounded-2xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all"
+                className="bg-white p-6 rounded-2xl border border-gray-200 hover:border-[var(--color-accent-200)] hover:shadow-lg transition-all"
               >
-                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+                <div className="w-12 h-12 bg-[var(--color-accent-100)] rounded-xl flex items-center justify-center mb-4">
                   <svg
-                    className="w-6 h-6 text-blue-600"
+                    className="w-6 h-6 text-[var(--color-accent-600)]"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -248,9 +251,9 @@ const AboutPage = () => {
               <Link
                 key={index}
                 href={`/categories/${category.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
-                className="group p-4 bg-white border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-md transition-all"
+                className="group p-4 bg-white border border-gray-200 rounded-xl hover:border-[var(--color-accent-300)] hover:shadow-md transition-all"
               >
-                <h3 className="text-sm font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-sm font-medium text-gray-900 group-hover:text-[var(--color-accent-600)] transition-colors">
                   {category.name}
                 </h3>
                 <p className="text-xs text-gray-500 mt-1">{category.count}</p>
@@ -261,7 +264,7 @@ const AboutPage = () => {
           <div className="text-center mt-10">
             <Link
               href="/categories"
-              className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-accent-600)] hover:text-[var(--color-accent-700)]"
             >
               View all categories
               <svg
@@ -286,7 +289,7 @@ const AboutPage = () => {
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">
+            <span className="text-sm font-semibold text-[var(--color-accent-600)] uppercase tracking-wider">
               The Team
             </span>
             <h2 className="text-3xl font-bold text-gray-900 mt-3">
@@ -301,13 +304,15 @@ const AboutPage = () => {
                 key={index}
                 className="bg-white p-6 rounded-2xl border border-gray-200 text-center"
               >
-                <div className="w-20 h-20 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <span className="text-2xl font-bold text-blue-600">
+                <div className="w-20 h-20 bg-[var(--color-accent-100)] rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-[var(--color-accent-600)]">
                     {person.name[0]}
                   </span>
                 </div>
                 <h3 className="font-semibold text-gray-900">{person.name}</h3>
-                <p className="text-sm text-blue-600 mt-1">{person.role}</p>
+                <p className="text-sm text-[var(--color-accent-600)] mt-1">
+                  {person.role}
+                </p>
                 <p className="text-xs text-gray-500 mt-2">{person.expertise}</p>
               </div>
             ))}
@@ -316,30 +321,30 @@ const AboutPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-blue-600">
+      <section className="py-20 bg-[var(--color-accent-600)]">
         <div className="max-w-4xl mx-auto text-center px-4">
           <h2 className="text-3xl font-bold text-white mb-4">
             Ready to grow your business?
           </h2>
-          <p className="text-blue-100 mb-8 text-lg">
+          <p className="text-[var(--color-accent-100)] mb-8 text-lg">
             Join thousands of MSMEs already connecting and thriving on MSME
             Sahaay.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
               href="/list-products"
-              className="px-8 py-4 bg-white text-blue-600 font-semibold rounded-xl hover:bg-gray-50 transition-colors shadow-lg"
+              className="px-8 py-4 bg-white text-[var(--color-accent-600)] font-semibold rounded-xl hover:bg-gray-50 transition-colors shadow-lg"
             >
               Create Free Listing
             </Link>
             <Link
               href="/contact"
-              className="px-8 py-4 bg-blue-700 text-white font-semibold rounded-xl hover:bg-blue-800 transition-colors"
+              className="px-8 py-4 bg-[var(--color-accent-700)] text-white font-semibold rounded-xl hover:bg-[var(--color-accent-800)] transition-colors"
             >
               Contact Team
             </Link>
           </div>
-          <p className="text-blue-200 text-sm mt-6">
+          <p className="text-[var(--color-accent-200)] text-sm mt-6">
             No credit card required. Free plan available.
           </p>
         </div>

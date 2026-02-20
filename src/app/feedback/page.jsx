@@ -140,7 +140,10 @@ const FeedbackPage = () => {
           <div className="text-center max-w-3xl mx-auto">
             {/* Breadcrumb */}
             <div className="flex items-center justify-center gap-2 text-sm text-gray-500 mb-4">
-              <Link href="/" className="hover:text-blue-600 transition-colors">
+              <Link
+                href="/"
+                className="hover:text-[var(--color-accent-600)] transition-colors"
+              >
                 Home
               </Link>
               <span>•</span>
@@ -148,7 +151,8 @@ const FeedbackPage = () => {
             </div>
 
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight mb-4">
-              Share Your <span className="text-blue-600">Feedback</span>
+              Share Your{" "}
+              <span className="text-[var(--color-accent-600)]">Feedback</span>
             </h1>
             <p className="text-lg text-gray-600 mb-6">
               Help us improve MSME Sahaay. Your insights shape the future of our
@@ -158,15 +162,21 @@ const FeedbackPage = () => {
             {/* Quick Stats */}
             <div className="flex flex-wrap justify-center gap-8 mt-8">
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">500+</div>
+                <div className="text-2xl font-bold text-[var(--color-accent-600)]">
+                  500+
+                </div>
                 <div className="text-sm text-gray-500">Feedback Received</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">95%</div>
+                <div className="text-2xl font-bold text-[var(--color-accent-600)]">
+                  95%
+                </div>
                 <div className="text-sm text-gray-500">Implementation Rate</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">4.8/5</div>
+                <div className="text-2xl font-bold text-[var(--color-accent-600)]">
+                  4.8/5
+                </div>
                 <div className="text-sm text-gray-500">User Satisfaction</div>
               </div>
             </div>
@@ -222,9 +232,9 @@ const FeedbackPage = () => {
                           w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
                           ${
                             currentStep === step
-                              ? "bg-blue-600 text-white"
+                              ? "bg-[var(--color-accent-600)] text-white"
                               : currentStep > step
-                                ? "bg-blue-100 text-blue-600"
+                                ? "bg-blue-100 text-[var(--color-accent-600)]"
                                 : "bg-gray-100 text-gray-400"
                           }
                         `}
@@ -251,7 +261,7 @@ const FeedbackPage = () => {
                           <div
                             className={`
                             w-16 h-0.5 mx-2
-                            ${currentStep > step ? "bg-blue-600" : "bg-gray-200"}
+                            ${currentStep > step ? "bg-[var(--color-accent-600)]" : "bg-gray-200"}
                           `}
                           />
                         )}
@@ -289,13 +299,13 @@ const FeedbackPage = () => {
                                 p-4 border rounded-xl text-left transition-all
                                 ${
                                   formData.feedbackType === type.id
-                                    ? "border-blue-600 bg-blue-50 ring-1 ring-blue-600"
+                                    ? "border-[var(--color-accent-600)] bg-blue-50 ring-1 ring-[var(--color-accent-600)]"
                                     : "border-gray-200 hover:border-blue-200 hover:bg-blue-50/50"
                                 }
                               `}
                             >
                               <svg
-                                className={`w-6 h-6 mb-2 ${formData.feedbackType === type.id ? "text-blue-600" : "text-gray-400"}`}
+                                className={`w-6 h-6 mb-2 ${formData.feedbackType === type.id ? "text-[var(--color-accent-600)]" : "text-gray-400"}`}
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -308,7 +318,7 @@ const FeedbackPage = () => {
                                 />
                               </svg>
                               <span
-                                className={`text-sm font-medium ${formData.feedbackType === type.id ? "text-blue-600" : "text-gray-700"}`}
+                                className={`text-sm font-medium ${formData.feedbackType === type.id ? "text-[var(--color-accent-600)]" : "text-gray-700"}`}
                               >
                                 {type.label}
                               </span>
@@ -363,7 +373,7 @@ const FeedbackPage = () => {
                           onChange={handleChange}
                           required
                           placeholder="Brief summary of your feedback"
-                          className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-600 focus:border-blue-600 outline-none"
+                          className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-[var(--color-accent-600)] focus:border-[var(--color-accent-600)] outline-none"
                         />
                       </div>
 
@@ -378,7 +388,7 @@ const FeedbackPage = () => {
                           required
                           rows="5"
                           placeholder="Please share your detailed feedback..."
-                          className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-600 focus:border-blue-600 outline-none resize-none"
+                          className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-[var(--color-accent-600)] focus:border-[var(--color-accent-600)] outline-none resize-none"
                         />
                       </div>
 
@@ -386,7 +396,7 @@ const FeedbackPage = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Attach File (Optional)
                         </label>
-                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-colors">
+                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-[var(--color-accent-400)] transition-colors">
                           <input
                             type="file"
                             name="attachFile"
@@ -439,7 +449,7 @@ const FeedbackPage = () => {
                             value={formData.name}
                             onChange={handleChange}
                             placeholder="Your name"
-                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-600 focus:border-blue-600 outline-none"
+                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-[var(--color-accent-600)] focus:border-[var(--color-accent-600)] outline-none"
                           />
                         </div>
                         <div>
@@ -452,7 +462,7 @@ const FeedbackPage = () => {
                             value={formData.email}
                             onChange={handleChange}
                             placeholder="your@email.com"
-                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-600 focus:border-blue-600 outline-none"
+                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-[var(--color-accent-600)] focus:border-[var(--color-accent-600)] outline-none"
                           />
                         </div>
                       </div>
@@ -468,7 +478,7 @@ const FeedbackPage = () => {
                             value={formData.company}
                             onChange={handleChange}
                             placeholder="Your company"
-                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-600 focus:border-blue-600 outline-none"
+                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-[var(--color-accent-600)] focus:border-[var(--color-accent-600)] outline-none"
                           />
                         </div>
                         <div>
@@ -479,7 +489,7 @@ const FeedbackPage = () => {
                             name="userType"
                             value={formData.userType}
                             onChange={handleChange}
-                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-600 focus:border-blue-600 outline-none"
+                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-[var(--color-accent-600)] focus:border-[var(--color-accent-600)] outline-none"
                           >
                             {userTypes.map((type) => (
                               <option key={type.id} value={type.id}>
@@ -492,12 +502,14 @@ const FeedbackPage = () => {
 
                       {/* Feedback Summary */}
                       <div className="bg-blue-50 rounded-xl p-4">
-                        <h4 className="text-sm font-medium text-blue-800 mb-2">
+                        <h4 className="text-sm font-medium text-[var(--color-accent-800)] mb-2">
                           Feedback Summary
                         </h4>
                         <div className="space-y-1 text-sm">
                           <p>
-                            <span className="text-blue-600">Type:</span>{" "}
+                            <span className="text-[var(--color-accent-600)]">
+                              Type:
+                            </span>{" "}
                             {
                               feedbackTypes.find(
                                 (t) => t.id === formData.feedbackType,
@@ -505,11 +517,15 @@ const FeedbackPage = () => {
                             }
                           </p>
                           <p>
-                            <span className="text-blue-600">Subject:</span>{" "}
+                            <span className="text-[var(--color-accent-600)]">
+                              Subject:
+                            </span>{" "}
                             {formData.subject || "(Not provided)"}
                           </p>
                           <p>
-                            <span className="text-blue-600">Rating:</span>{" "}
+                            <span className="text-[var(--color-accent-600)]">
+                              Rating:
+                            </span>{" "}
                             {formData.rating} / 5 stars
                           </p>
                         </div>
@@ -522,7 +538,7 @@ const FeedbackPage = () => {
                           id="consent"
                           checked={formData.consent}
                           onChange={handleChange}
-                          className="rounded border-gray-300 text-blue-600 focus:ring-blue-600"
+                          className="rounded border-gray-300 text-[var(--color-accent-600)] focus:ring-[var(--color-accent-600)]"
                           required
                         />
                         <label
@@ -555,8 +571,8 @@ const FeedbackPage = () => {
                           onClick={nextStep}
                           disabled={currentStep === 1 && !formData.feedbackType}
                           className={`
-                            px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg
-                            hover:bg-blue-700 transition-colors
+                            px-6 py-2 text-sm font-medium text-white bg-[var(--color-accent-600)] rounded-lg
+                            hover:bg-[var(--color-accent-700)] transition-colors
                             ${currentStep === 1 && !formData.feedbackType ? "opacity-50 cursor-not-allowed" : ""}
                           `}
                         >
@@ -572,8 +588,8 @@ const FeedbackPage = () => {
                             !formData.message
                           }
                           className={`
-                            px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg
-                            hover:bg-blue-700 transition-colors
+                            px-6 py-2 text-sm font-medium text-white bg-[var(--color-accent-600)] rounded-lg
+                            hover:bg-[var(--color-accent-700)] transition-colors
                             ${isSubmitting || !formData.consent || !formData.subject || !formData.message ? "opacity-50 cursor-not-allowed" : ""}
                           `}
                         >
@@ -625,7 +641,7 @@ const FeedbackPage = () => {
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
                       <svg
-                        className="w-4 h-4 text-blue-600"
+                        className="w-4 h-4 text-[var(--color-accent-600)]"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -645,7 +661,7 @@ const FeedbackPage = () => {
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
                       <svg
-                        className="w-4 h-4 text-blue-600"
+                        className="w-4 h-4 text-[var(--color-accent-600)]"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -679,42 +695,6 @@ const FeedbackPage = () => {
                       <p className="text-xs text-gray-500">{item.answer}</p>
                     </div>
                   ))}
-                </div>
-              </div>
-
-              {/* Recent Feedback Card */}
-              <div className="bg-white border border-gray-200 rounded-2xl p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  Recent Implementations
-                </h3>
-                <div className="space-y-3">
-                  <div className="border-l-3 border-blue-600 pl-3">
-                    <p className="text-xs text-gray-500">2 days ago</p>
-                    <p className="text-sm text-gray-700">
-                      "Add category filters for machinery"
-                    </p>
-                    <span className="inline-block mt-1 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
-                      Implemented
-                    </span>
-                  </div>
-                  <div className="border-l-3 border-blue-600 pl-3">
-                    <p className="text-xs text-gray-500">1 week ago</p>
-                    <p className="text-sm text-gray-700">
-                      "Mobile app for listing management"
-                    </p>
-                    <span className="inline-block mt-1 text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full">
-                      In Progress
-                    </span>
-                  </div>
-                  <div className="border-l-3 border-blue-600 pl-3">
-                    <p className="text-xs text-gray-500">2 weeks ago</p>
-                    <p className="text-sm text-gray-700">
-                      "Hindi language support"
-                    </p>
-                    <span className="inline-block mt-1 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
-                      Implemented
-                    </span>
-                  </div>
                 </div>
               </div>
             </div>
@@ -792,7 +772,7 @@ const FeedbackPage = () => {
       {/* Quick Feedback CTA */}
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-blue-600 rounded-2xl p-8 text-center">
+          <div className="bg-[var(--color-accent-600)] rounded-2xl p-8 text-center">
             <h3 className="text-2xl font-bold text-white mb-2">Quick Poll</h3>
             <p className="text-blue-100 mb-6">
               How likely are you to recommend MSME Sahaay to other businesses?

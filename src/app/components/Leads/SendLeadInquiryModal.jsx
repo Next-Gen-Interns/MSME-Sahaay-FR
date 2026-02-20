@@ -46,7 +46,7 @@ const LeadInquiryModal = ({
       />
 
       {/* Modal Container */}
-      <div className="relative w-full max-w-2xl transform transition-all duration-300 scale-100 opacity-100">
+      <div className="relative w-full max-w-2xl transition-all duration-300 scale-100 opacity-100">
         {/* Modal Content */}
         <div className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 flex flex-col max-h-[90vh]">
           {/* Header */}

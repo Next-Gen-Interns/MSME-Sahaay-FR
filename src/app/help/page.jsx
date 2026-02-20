@@ -236,7 +236,10 @@ const HelpSupportPage = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           {/* Breadcrumb */}
           <div className="flex items-center justify-center gap-2 text-sm text-gray-500 mb-4">
-            <Link href="/" className="hover:text-blue-600 transition-colors">
+            <Link
+              href="/"
+              className="hover:text-[var(--color-accent-600)] transition-colors"
+            >
               Home
             </Link>
             <span>•</span>
@@ -244,7 +247,8 @@ const HelpSupportPage = () => {
           </div>
 
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight mb-4">
-            How can we <span className="text-blue-600">help you?</span>
+            How can we{" "}
+            <span className="text-[var(--color-accent-600)]">help you?</span>
           </h1>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
             Search our knowledge base, browse guides, or get in touch with our
@@ -259,11 +263,11 @@ const HelpSupportPage = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search for help articles, FAQs, topics..."
-                className="w-full px-6 py-4 pr-24 text-base border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none shadow-lg"
+                className="w-full px-6 py-4 pr-24 text-base border border-gray-300 rounded-2xl focus:ring-2 focus:ring-[var(--color-accent-600)] focus:border-[var(--color-accent-600)] outline-none shadow-lg"
               />
               <button
                 type="submit"
-                className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition-colors"
+                className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-[var(--color-accent-600)] text-white font-medium rounded-xl hover:bg-[var(--color-accent-700)] transition-colors"
               >
                 Search
               </button>
@@ -281,7 +285,7 @@ const HelpSupportPage = () => {
             ].map((item, index) => (
               <button
                 key={index}
-                className="px-4 py-2 text-sm bg-white border border-gray-200 rounded-full text-gray-600 hover:border-blue-400 hover:text-blue-600 transition-colors"
+                className="px-4 py-2 text-sm bg-white border border-gray-200 rounded-full text-gray-600 hover:border-[var(--color-accent-400)] hover:text-[var(--color-accent-600)] transition-colors"
               >
                 {item}
               </button>
@@ -298,7 +302,7 @@ const HelpSupportPage = () => {
             <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl transition-shadow">
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
                 <svg
-                  className="w-6 h-6 text-blue-600"
+                  className="w-6 h-6 text-[var(--color-accent-600)]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -327,7 +331,7 @@ const HelpSupportPage = () => {
                   Avg. 2 min response
                 </span>
               </div>
-              <button className="w-full px-4 py-2.5 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition-colors">
+              <button className="w-full px-4 py-2.5 bg-[var(--color-accent-600)] text-white font-medium rounded-xl hover:bg-[var(--color-accent-700)] transition-colors">
                 Start Chat
               </button>
             </div>
@@ -336,7 +340,7 @@ const HelpSupportPage = () => {
             <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl transition-shadow">
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
                 <svg
-                  className="w-6 h-6 text-blue-600"
+                  className="w-6 h-6 text-[var(--color-accent-600)]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -363,7 +367,7 @@ const HelpSupportPage = () => {
               </div>
               <a
                 href="mailto:support@msmesahaay.in"
-                className="block w-full px-4 py-2.5 bg-white border border-gray-300 text-gray-700 font-medium rounded-xl hover:bg-gray-50 hover:border-blue-400 transition-colors text-center"
+                className="block w-full px-4 py-2.5 bg-white border border-gray-300 text-gray-700 font-medium rounded-xl hover:bg-gray-50 hover:border-[var(--color-accent-400)] transition-colors text-center"
               >
                 Send Email
               </a>
@@ -373,7 +377,7 @@ const HelpSupportPage = () => {
             <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl transition-shadow">
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
                 <svg
-                  className="w-6 h-6 text-blue-600"
+                  className="w-6 h-6 text-[var(--color-accent-600)]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -400,7 +404,7 @@ const HelpSupportPage = () => {
               </div>
               <button
                 onClick={() => setShowTicketForm(true)}
-                className="w-full px-4 py-2.5 bg-white border border-gray-300 text-gray-700 font-medium rounded-xl hover:bg-gray-50 hover:border-blue-400 transition-colors"
+                className="w-full px-4 py-2.5 bg-white border border-gray-300 text-gray-700 font-medium rounded-xl hover:bg-gray-50 hover:border-[var(--color-accent-400)] transition-colors"
               >
                 Create Ticket
               </button>
@@ -428,7 +432,7 @@ const HelpSupportPage = () => {
                         w-full flex items-center gap-3 px-3 py-2.5 text-sm rounded-xl transition-colors
                         ${
                           activeCategory === category.id
-                            ? "bg-blue-50 text-blue-600 font-medium"
+                            ? "bg-blue-50 text-[var(--color-accent-600)] font-medium"
                             : "text-gray-600 hover:bg-gray-50"
                         }
                       `}
@@ -575,7 +579,7 @@ const HelpSupportPage = () => {
                                 subject: e.target.value,
                               })
                             }
-                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-600 focus:border-blue-600 outline-none"
+                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-[var(--color-accent-600)] focus:border-[var(--color-accent-600)] outline-none"
                             placeholder="Brief summary of your issue"
                           />
                         </div>
@@ -594,7 +598,7 @@ const HelpSupportPage = () => {
                                   category: e.target.value,
                                 })
                               }
-                              className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-600 focus:border-blue-600 outline-none"
+                              className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-[var(--color-accent-600)] focus:border-[var(--color-accent-600)] outline-none"
                             >
                               {ticketCategories.map((cat) => (
                                 <option key={cat.id} value={cat.id}>
@@ -617,7 +621,7 @@ const HelpSupportPage = () => {
                                   priority: e.target.value,
                                 })
                               }
-                              className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-600 focus:border-blue-600 outline-none"
+                              className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-[var(--color-accent-600)] focus:border-[var(--color-accent-600)] outline-none"
                             >
                               {priorityLevels.map((level) => (
                                 <option key={level.id} value={level.id}>
@@ -642,7 +646,7 @@ const HelpSupportPage = () => {
                                 description: e.target.value,
                               })
                             }
-                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-600 focus:border-blue-600 outline-none resize-none"
+                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-[var(--color-accent-600)] focus:border-[var(--color-accent-600)] outline-none resize-none"
                             placeholder="Please provide detailed information about your issue..."
                           />
                         </div>
@@ -651,7 +655,7 @@ const HelpSupportPage = () => {
                           <label className="block text-sm font-medium text-gray-700 mb-2">
                             Attachment (Optional)
                           </label>
-                          <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-colors">
+                          <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-[var(--color-accent-400)] transition-colors">
                             <input
                               type="file"
                               id="ticket-attachment"
@@ -697,8 +701,8 @@ const HelpSupportPage = () => {
                             type="submit"
                             disabled={isSubmitting}
                             className={`
-                              px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg
-                              hover:bg-blue-700 transition-colors
+                              px-6 py-2.5 bg-[var(--color-accent-600)] text-white font-medium rounded-lg
+                              hover:bg-[var(--color-accent-700)] transition-colors
                               ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}
                             `}
                           >
@@ -719,7 +723,7 @@ const HelpSupportPage = () => {
               )}
 
               {/* Popular Articles Section */}
-              <div className="mb-8">
+              {/* <div className="mb-8">
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">
                   Popular Articles
                 </h2>
@@ -728,10 +732,10 @@ const HelpSupportPage = () => {
                     <Link
                       key={index}
                       href="#"
-                      className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-md transition-all group"
+                      className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-xl hover:border-[var(--color-accent-300)] hover:shadow-md transition-all group"
                     >
                       <div>
-                        <h4 className="text-sm font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+                        <h4 className="text-sm font-medium text-gray-900 group-hover:text-[var(--color-accent-600)] transition-colors">
                           {article.title}
                         </h4>
                         <p className="text-xs text-gray-400 mt-1">
@@ -739,7 +743,7 @@ const HelpSupportPage = () => {
                         </p>
                       </div>
                       <svg
-                        className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors"
+                        className="w-5 h-5 text-gray-400 group-hover:text-[var(--color-accent-600)] transition-colors"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -754,7 +758,7 @@ const HelpSupportPage = () => {
                     </Link>
                   ))}
                 </div>
-              </div>
+              </div> */}
 
               {/* FAQs Section */}
               <div>
@@ -803,7 +807,7 @@ const HelpSupportPage = () => {
                         <div className="px-5 pb-4">
                           <p className="text-sm text-gray-600">{faq.answer}</p>
                           <div className="mt-3 flex items-center gap-3">
-                            <button className="text-xs text-blue-600 hover:text-blue-700 font-medium">
+                            <button className="text-xs text-[var(--color-accent-600)] hover:text-[var(--color-accent-700)] font-medium">
                               Was this helpful? 👍
                             </button>
                             <span className="text-xs text-gray-300">|</span>
@@ -823,7 +827,7 @@ const HelpSupportPage = () => {
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                     <svg
-                      className="w-6 h-6 text-blue-600"
+                      className="w-6 h-6 text-[var(--color-accent-600)]"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -847,7 +851,7 @@ const HelpSupportPage = () => {
                   </div>
                   <button
                     onClick={() => setShowTicketForm(true)}
-                    className="px-5 py-2.5 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition-colors whitespace-nowrap"
+                    className="px-5 py-2.5 bg-[var(--color-accent-600)] text-white font-medium rounded-xl hover:bg-[var(--color-accent-700)] transition-colors whitespace-nowrap"
                   >
                     Contact Support
                   </button>
@@ -859,7 +863,7 @@ const HelpSupportPage = () => {
       </section>
 
       {/* Video Tutorials Section */}
-      <section className="py-16 bg-gray-50">
+      {/* <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h2 className="text-2xl font-bold text-gray-900">
@@ -894,7 +898,7 @@ const HelpSupportPage = () => {
               >
                 <div className="aspect-video bg-gray-100 relative">
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-700 transition-colors">
+                    <div className="w-12 h-12 bg-[var(--color-accent-600)] rounded-full flex items-center justify-center cursor-pointer hover:bg-[var(--color-accent-700)] transition-colors">
                       <svg
                         className="w-5 h-5 text-white ml-1"
                         fill="currentColor"
@@ -919,7 +923,7 @@ const HelpSupportPage = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Community Section */}
       <section className="py-12">
@@ -962,7 +966,9 @@ const HelpSupportPage = () => {
                   <p className="text-sm text-gray-600 mb-2">
                     Community members
                   </p>
-                  <div className="text-3xl font-bold text-blue-600">5,000+</div>
+                  <div className="text-3xl font-bold text-[var(--color-accent-600)]">
+                    5,000+
+                  </div>
                   <p className="text-xs text-gray-400 mt-1">
                     and growing daily
                   </p>

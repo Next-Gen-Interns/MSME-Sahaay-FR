@@ -212,7 +212,7 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-[var(--color-accent-300)] to-[var(--color-accent-700)] rounded-xl animate-pulse"></div>
+              <div className="w-10 h-10 bg-gradient-to-r from-[var(--color-accent-300)] to-[var(--color-accent-700)] rounded-xs animate-pulse"></div>
               <div className="w-32 h-6 bg-gray-300 rounded animate-pulse"></div>
             </div>
             <div className="hidden lg:flex items-center space-x-8">
@@ -224,7 +224,7 @@ export default function Navbar() {
               ))}
             </div>
             <div className="flex items-center space-x-4">
-              <div className="w-24 h-10 bg-gray-300 rounded-lg animate-pulse"></div>
+              <div className="w-24 h-10 bg-gray-300 rounded-xs animate-pulse"></div>
             </div>
           </div>
         </div>
@@ -239,7 +239,7 @@ export default function Navbar() {
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3 group">
-              <div className="relative w-14 h-14 rounded-xl overflow-hidden group-hover:shadow-sm transition-all duration-300">
+              <div className="relative w-14 h-14 rounded-xs overflow-hidden group-hover:shadow-sm transition-all duration-300">
                 <Image
                   src="/msmeshahhayonlylogo.png"
                   alt="MSME Guru Logo"
@@ -262,7 +262,7 @@ export default function Navbar() {
                 <input
                   type="text"
                   placeholder="Search products, sellers, or categories..."
-                  className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-transparent"
+                  className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xs focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-transparent"
                 />
               </div>
             </div>
@@ -275,7 +275,7 @@ export default function Navbar() {
                   <Link
                     key={idx}
                     href={tab.route}
-                    className="px-4 py-2 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] transition-all duration-200 rounded-xl font-medium"
+                    className="px-4 py-2 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] transition-all duration-200 rounded-xs font-medium"
                   >
                     {tab.name}
                   </Link>
@@ -286,7 +286,7 @@ export default function Navbar() {
               <div className="relative" ref={megaMenuButtonRef}>
                 <button
                   onClick={toggleMegaMenu}
-                  className="flex items-center px-6 py-2.5 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] transition-all duration-200 rounded-xl font-medium border border-gray-200 hover:border-[var(--color-accent-300)]"
+                  className="flex items-center px-6 py-2.5 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] transition-all duration-200 rounded-xs font-medium border border-gray-200 hover:border-[var(--color-accent-300)]"
                 >
                   <Grid size={20} className="mr-2" />
                   Menu
@@ -302,7 +302,7 @@ export default function Navbar() {
                 {isMegaMenuOpen && (
                   <div
                     ref={megaMenuRef}
-                    className="absolute left-0 top-full mt-2 bg-white border border-gray-200 rounded-2xl shadow-2xl z-50 min-w-[280px]"
+                    className="absolute left-0 top-full mt-2 bg-white border border-gray-200 rounded-xs shadow-2xl z-50 min-w-[280px]"
                     style={{
                       maxHeight: "60vh",
                       overflowY: "auto",
@@ -343,7 +343,7 @@ export default function Navbar() {
                                   : item.route
                               }
                               onClick={handleMenuItemClick}
-                              className={`flex items-center p-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg transition-all duration-200 group w-full ${
+                              className={`flex items-center p-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs transition-all duration-200 group w-full ${
                                 isLoggedInOnly && !isLoggedIn
                                   ? "opacity-60"
                                   : ""
@@ -383,7 +383,7 @@ export default function Navbar() {
                 <div className="relative" ref={dropdownRef}>
                   <button
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="flex items-center space-x-3 bg-white hover:bg-gray-50 px-4 py-2 rounded-xl transition-all duration-200 border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md"
+                    className="flex items-center space-x-3 bg-white hover:bg-gray-50 px-4 py-2 rounded-xs transition-all duration-200 border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md"
                   >
                     {userData?.avatar_url ? (
                       <img
@@ -413,7 +413,7 @@ export default function Navbar() {
                   </button>
 
                   {isDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-2xl shadow-xl z-50 overflow-hidden">
+                    <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-xs shadow-xl z-50 overflow-hidden">
                       <div className="px-4 py-3 bg-gradient-to-r from-[var(--color-accent-50)] to-[var(--color-accent-100)] border-b border-gray-200">
                         <p className="text-sm font-semibold text-gray-900 truncate">
                           {userData?.fullname || userData?.username || "User"}
@@ -423,7 +423,7 @@ export default function Navbar() {
                             {userData?.role || "user"}
                           </p>
                           {userData?.has_complete_profile && (
-                            <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">
+                            <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-xs font-medium">
                               Verified
                             </span>
                           )}
@@ -434,7 +434,7 @@ export default function Navbar() {
                         <Link
                           href="/profile"
                           onClick={() => setIsDropdownOpen(false)}
-                          className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg transition-all duration-150"
+                          className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs transition-all duration-150"
                         >
                           <User size={18} />
                           <span>My Profile</span>
@@ -444,25 +444,25 @@ export default function Navbar() {
                         <Link
                           href="/messages"
                           onClick={() => setIsDropdownOpen(false)}
-                          className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg transition-all duration-150"
+                          className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs transition-all duration-150"
                         >
                           <MessageCircle size={18} />
                           <span>Messages</span>
                         </Link>
 
-                        <Link
+                        {/* <Link
                           href="/orders"
                           onClick={() => setIsDropdownOpen(false)}
                           className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg transition-all duration-150"
                         >
                           <ShoppingCart size={18} />
                           <span>My Orders</span>
-                        </Link>
+                        </Link> */}
 
                         <Link
                           href="/favorites"
                           onClick={() => setIsDropdownOpen(false)}
-                          className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg transition-all duration-150"
+                          className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs transition-all duration-150"
                         >
                           <Heart size={18} />
                           <span>My Favourites</span>
@@ -471,7 +471,7 @@ export default function Navbar() {
                         {userData?.role === "buyer" && (
                           <Link
                             href="/my-leads"
-                            className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg transition-all duration-150"
+                            className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs transition-all duration-150"
                             onClick={() => setIsDropdownOpen(false)}
                           >
                             <Building size={18} />
@@ -484,7 +484,7 @@ export default function Navbar() {
                             <Link
                               href="/list-products"
                               onClick={() => setIsDropdownOpen(false)}
-                              className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg"
+                              className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs"
                             >
                               <Briefcase size={18} />
                               <span>List Products</span>
@@ -493,7 +493,7 @@ export default function Navbar() {
                             <Link
                               href="/seller/leads"
                               onClick={() => setIsDropdownOpen(false)}
-                              className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg"
+                              className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs"
                             >
                               <Users size={18} />
                               <span>Lead Management</span>
@@ -505,7 +505,7 @@ export default function Navbar() {
 
                         <button
                           onClick={handleLogout}
-                          className="flex items-center space-x-3 w-full px-3 py-2.5 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-all duration-150"
+                          className="flex items-center space-x-3 w-full px-3 py-2.5 text-sm text-red-600 hover:bg-red-50 rounded-xs transition-all duration-150"
                         >
                           <span>Sign Out</span>
                         </button>
@@ -516,7 +516,7 @@ export default function Navbar() {
               ) : (
                 <Link
                   href="/auth/login"
-                  className="px-6 py-2.5 rounded-xl font-semibold text-white shadow-lg transition-all duration-200 bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-800)]"
+                  className="px-6 py-2.5 rounded-xs font-semibold text-white shadow-lg transition-all duration-200 bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-800)]"
                 >
                   Sign In
                 </Link>
@@ -524,7 +524,7 @@ export default function Navbar() {
 
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden p-2 rounded-xl bg-gray-100 hover:bg-gray-200"
+                className="lg:hidden p-2 rounded-xs bg-gray-100 hover:bg-gray-200"
               >
                 {isMobileMenuOpen ? (
                   <X size={20} className="text-gray-700" />
@@ -555,7 +555,7 @@ export default function Navbar() {
                 <input
                   type="text"
                   placeholder="Search..."
-                  className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-500)]"
+                  className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xs focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-500)]"
                 />
               </div>
             </div>
@@ -571,7 +571,7 @@ export default function Navbar() {
                     key={idx}
                     href={tab.route}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center space-x-4 px-4 py-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xl transition-all duration-200 font-medium"
+                    className="flex items-center space-x-4 px-4 py-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs transition-all duration-200 font-medium"
                   >
                     <span>{tab.name}</span>
                   </Link>
@@ -600,7 +600,7 @@ export default function Navbar() {
                           : item.route
                       }
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className={`flex items-center p-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg ${
+                      className={`flex items-center p-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs ${
                         isLoggedInOnly && !isLoggedIn ? "opacity-60" : ""
                       }`}
                     >
@@ -627,7 +627,7 @@ export default function Navbar() {
                 <Link
                   href="/profile"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center space-x-4 px-4 py-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xl font-medium"
+                  className="flex items-center space-x-4 px-4 py-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs font-medium"
                 >
                   <User size={20} />
                   <span>My Profile</span>
@@ -635,7 +635,7 @@ export default function Navbar() {
 
                 <button
                   onClick={handleLogout}
-                  className="flex items-center space-x-4 w-full px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl"
+                  className="flex items-center space-x-4 w-full px-4 py-3 text-red-600 hover:bg-red-50 rounded-xs"
                 >
                   <span>Sign Out</span>
                 </button>

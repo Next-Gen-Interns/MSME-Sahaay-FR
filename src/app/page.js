@@ -319,7 +319,7 @@ function HeroSection() {
      UI
   =============================== */
   return (
-    <section className="relative w-full bg-white overflow-x-hidden py-6 md:py-12 px-2 sm:px-4">
+    <section className="relative w-full bg-white overflow-x-hidden py-3 md:py-6 px-2 sm:px-4">
       <div className="max-w-8xl mx-auto">
         {/* HERO */}
         <div
@@ -332,8 +332,8 @@ function HeroSection() {
             h-[65vh]
             sm:h-[420px]
             md:h-[600px]
-            rounded-xl
-            md:rounded-3xl
+            rounded-xs
+            md:rounded-sm
             overflow-hidden
             shadow-xl
             cursor-pointer
@@ -458,9 +458,12 @@ function HeroSection() {
                     {heroSlides[currentSlide].keyPoints.map((p, i) => (
                       <div
                         key={i}
-                        className="flex gap-3 p-3 bg-gray-50 rounded-lg"
+                        className="flex gap-3 p-3 bg-gray-50 rounded-xs"
                       >
-                        <Check size={16} className="text-blue-600 mt-1" />
+                        <Check
+                          size={16}
+                          className="text-[var(--color-accent-600)] mt-1"
+                        />
                         <span className="text-sm md:text-base">{p}</span>
                       </div>
                     ))}
@@ -473,15 +476,20 @@ function HeroSection() {
                       ["95%", "Success"],
                       ["150+", "Cities"],
                     ].map(([v, t], i) => (
-                      <div key={i} className="p-3 bg-blue-50 rounded-lg">
-                        <div className="font-bold text-blue-700">{v}</div>
+                      <div
+                        key={i}
+                        className="p-3 bg-[var(--color-accent-50)] rounded-xs"
+                      >
+                        <div className="font-bold text-[var(--color-accent-700)]">
+                          {v}
+                        </div>
                         <div className="text-xs text-gray-600">{t}</div>
                       </div>
                     ))}
                   </div>
 
                   {/* CTA */}
-                  <button className="w-full py-3 bg-blue-600 text-white rounded-lg flex justify-center items-center gap-2 font-semibold hover:bg-blue-700">
+                  <button className="w-full py-3 bg-[var(--color-accent-600)] text-white rounded-xs flex justify-center items-center gap-2 font-semibold hover:bg-[var(--color-accent-700)]">
                     {heroSlides[currentSlide].ctaText}
                     <ArrowRight size={16} />
                   </button>
@@ -577,7 +585,7 @@ function SearchFilterBar({
             <select
               value={selectedCategory}
               onChange={handleCategoryDropdownChange}
-              className="w-full px-4 py-3 rounded-xl bg-white/80 backdrop-blur-sm text-[var(--color-accent-900)] font-sans font-medium transition-all duration-300 shadow-sm border border-[var(--color-accent-200)] hover:border-[var(--color-accent-300)] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] cursor-pointer appearance-none"
+              className="w-full px-4 py-3 rounded-xs bg-white/80 backdrop-blur-sm text-[var(--color-accent-900)] font-sans font-medium transition-all duration-300 shadow-sm border border-[var(--color-accent-200)] hover:border-[var(--color-accent-300)] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] cursor-pointer appearance-none"
             >
               <option value="" className="text-[var(--color-accent-600)]">
                 All Categories
@@ -619,13 +627,13 @@ function SearchFilterBar({
               value={userLocation}
               onChange={(e) => onLocationChange(e.target.value)}
               placeholder="Enter location..."
-              className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/80 backdrop-blur-sm text-[var(--color-accent-900)] font-sans font-medium transition-all duration-300 shadow-sm border border-[var(--color-accent-200)] hover:border-[var(--color-accent-300)] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)]"
+              className="w-full pl-10 pr-4 py-3 rounded-xs bg-white/80 backdrop-blur-sm text-[var(--color-accent-900)] font-sans font-medium transition-all duration-300 shadow-sm border border-[var(--color-accent-200)] hover:border-[var(--color-accent-300)] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)]"
             />
           </div>
 
           {/* Price Range Filter */}
           <div className="relative">
-            <select className="w-full px-4 py-3 rounded-xl bg-white/80 backdrop-blur-sm text-[var(--color-accent-900)] font-sans font-medium transition-all duration-300 shadow-sm border border-[var(--color-accent-200)] hover:border-[var(--color-accent-300)] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] cursor-pointer appearance-none">
+            <select className="w-full px-4 py-3 rounded-xs bg-white/80 backdrop-blur-sm text-[var(--color-accent-900)] font-sans font-medium transition-all duration-300 shadow-sm border border-[var(--color-accent-200)] hover:border-[var(--color-accent-300)] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] cursor-pointer appearance-none">
               {priceRanges.map((range) => (
                 <option key={range.value} value={range.value}>
                   {range.label}
@@ -651,7 +659,7 @@ function SearchFilterBar({
 
           {/* Sort Filter */}
           <div className="relative">
-            <select className="w-full px-4 py-3 rounded-xl bg-white/80 backdrop-blur-sm text-[var(--color-accent-900)] font-sans font-medium transition-all duration-300 shadow-sm border border-[var(--color-accent-200)] hover:border-[var(--color-accent-300)] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] cursor-pointer appearance-none">
+            <select className="w-full px-4 py-3 rounded-xs bg-white/80 backdrop-blur-sm text-[var(--color-accent-900)] font-sans font-medium transition-all duration-300 shadow-sm border border-[var(--color-accent-200)] hover:border-[var(--color-accent-300)] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] cursor-pointer appearance-none">
               {sortOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
@@ -679,7 +687,7 @@ function SearchFilterBar({
         {/* Quick Category Chips */}
         <div className="flex flex-wrap justify-center gap-3">
           <span className="text-sm font-sans font-semibold text-[var(--color-accent-700)] flex items-center">
-            <span className="w-2 h-2 bg-[var(--color-accent-500)] rounded-full mr-2 animate-pulse"></span>
+            <span className="w-2 h-2 bg-[var(--color-accent-500)] rounded-xs mr-2 animate-pulse"></span>
             Popular Categories:
           </span>
 
@@ -687,7 +695,7 @@ function SearchFilterBar({
             <button
               key={category.id}
               onClick={() => handlePopularCategoryClick(category)}
-              className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-sans font-medium transition-all duration-300 hover:scale-105 border
+              className={`inline-flex items-center px-4 py-2 rounded-xs text-sm font-sans font-medium transition-all duration-300 hover:scale-105 border
                 ${
                   selectedCategory === category.id
                     ? "bg-gradient-to-r from-[var(--color-accent-500)] to-[var(--color-accent-700)] text-white shadow-lg shadow-[var(--color-accent-500)]/30 border-[var(--color-accent-400)]"
@@ -738,59 +746,42 @@ function StatsSection({ stats }) {
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-br from-white to-[var(--color-accent-100)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Heading */}
-        <div className="text-center mb-12">
-          <h3 className="text-4xl mb-2  font-semibold bg-gradient-to-r from-[var(--color-accent-900)] to-[var(--color-accent-600)] bg-clip-text text-transparent">
-            India&apos;s Fastest Growing MSME Platform
-          </h3>
-          <p className="text-[var(--color-accent-700)] text-lg font-medium">
-            Trusted by businesses across the country
-          </p>
+    <section className="py-10 bg-white border-t border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        {/* ── Header ── */}
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-1 h-7 rounded-full bg-[var(--color-accent-700)]" />
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 leading-tight">
+              India's Fastest Growing MSME Platform
+            </h2>
+            <p className="text-xs text-gray-500 mt-0.5">
+              Trusted by businesses across the country
+            </p>
+          </div>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* ── Stats Row ── */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-gray-200 border border-gray-200 rounded-sm overflow-hidden bg-white">
           {statItems.map((stat, index) => (
             <div
               key={index}
-              className="relative group cursor-default overflow-hidden rounded-3xl bg-white
-        border border-[var(--color-accent-100)] shadow-sm
-        hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300"
+              className="group relative flex items-center gap-4 px-6 py-5 hover:bg-[var(--color-accent-50)] transition-colors duration-150 cursor-default"
             >
-              {/* Subtle gradient wash on hover */}
-              <div
-                className="absolute inset-0 bg-gradient-to-br from-[var(--color-accent-50)] to-transparent 
-        opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-              />
+              {/* Left accent bar on hover */}
+              <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-[var(--color-accent-700)] scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
 
-              {/* Top accent line */}
-              <div
-                className="h-0.5 w-full bg-gradient-to-r from-transparent via-[var(--color-accent-400)] to-transparent
-        opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              />
+              {/* Icon */}
+              <div className="w-11 h-11 flex-shrink-0 rounded bg-[var(--color-accent-800)] text-white flex items-center justify-center shadow-sm group-hover:bg-[var(--color-accent-900)] transition-colors duration-150">
+                {stat.icon}
+              </div>
 
-              <div className="relative p-6 flex flex-col items-center text-center gap-3">
-                {/* Icon */}
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center
-          bg-[var(--color-accent-800)] text-white shadow-md
-          group-hover:scale-110 group-hover:rounded-3xl transition-all duration-300"
-                >
-                  {stat.icon}
-                </div>
-
-                {/* Value */}
-                <div className="text-3xl font-extrabold tracking-tight text-[var(--color-accent-900)] leading-none">
+              {/* Text */}
+              <div>
+                <div className="text-2xl font-extrabold text-gray-900 leading-none tracking-tight">
                   {stat.value}
                 </div>
-
-                {/* Divider */}
-                <div className="w-8 h-px bg-[var(--color-accent-200)] group-hover:w-14 transition-all duration-300" />
-
-                {/* Label */}
-                <div className="text-xs font-semibold uppercase tracking-widest text-[var(--color-accent-500)]">
+                <div className="text-[11px] font-semibold text-gray-500 uppercase tracking-wide mt-1">
                   {stat.label}
                 </div>
               </div>
@@ -848,88 +839,130 @@ function TopCategoriesSection1({ topcategories, onCategorySelect }) {
   const renderCategorySection = (category, subCategories, index) => (
     <div
       key={category.id || index}
-      className="max-w-7xl mx-auto px-6 border-t-5 border-blue-800 shadow-xs rounded-2xl mb-10"
+      className="max-w-7xl mx-auto px-4 sm:px-6 mb-4"
     >
-      {/* Main Category Header */}
-      <div className="mb-5 mt-5">
-        <h1 className="text-3xl font-sans font-semibold text-[var(--color-black-darker)] pb-3">
-          {category?.name || `Category ${index + 1}`}
-        </h1>
-      </div>
+      <div className="bg-white border border-gray-200 rounded-sm overflow-hidden">
+        {/* ── Category Header Bar ── */}
+        <div className="flex items-center justify-between bg-[var(--color-accent-800)] px-4 py-2.5">
+          <h2 className="text-white font-bold text-base tracking-wide uppercase">
+            {category?.name || `Category ${index + 1}`}
+          </h2>
+          <button
+            onClick={() => handleCategoryClick(category.id, category.name)}
+            className="text-[var(--color-accent-200)] hover:text-white text-xs font-semibold flex items-center gap-1 transition-colors"
+          >
+            View All
+            <svg
+              className="w-3.5 h-3.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </div>
 
-      {/* Main Content Box */}
-      <div className="bg-white rounded-2xl overflow-hidden mb-0.5">
-        <div className="flex flex-col lg:flex-row">
-          {/* Left Side: Category Photo & Description */}
-          <div className="lg:w-5/12 mb-5 p-4 rounded-xl">
-            <div className="relative h-70 rounded-xl overflow-hidden shadow-lg mb-3">
+        {/* ── Main Body ── */}
+        <div className="flex flex-col sm:flex-row">
+          {/* ── Left: Category Image Block ── */}
+          <div className="sm:w-[200px] lg:w-[220px] flex-shrink-0 border-r border-gray-200 bg-gray-50 flex flex-col">
+            {/* Image */}
+            <div className="relative h-40 sm:h-full min-h-[160px] overflow-hidden">
               <Image
                 src={category?.image_url || "/placeholder-category.jpg"}
                 alt={category?.name || `Category ${index + 1}`}
                 fill
-                className="object-cover hover:scale-105 transition duration-500"
+                className="object-cover hover:scale-105 transition-transform duration-500"
               />
+              {/* Subtle gradient at bottom */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
             </div>
-
-            <div className="space-y-2">
-              <p className="text-[var(--color-accent-800)] font-sans font-semibold leading-relaxed">
-                {category?.name || `Category ${index + 1}`}
-              </p>
-
-              <div className="pt-0 mb-1">
-                <button
-                  onClick={() =>
-                    handleCategoryClick(category.id, category.name)
-                  }
-                  className="bg-[var(--color-accent-800)] hover:bg-[var(--color-accent-900)] text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
-                >
-                  View Details
-                </button>
-              </div>
-            </div>
+            {/* View All button under image */}
+            <button
+              onClick={() => handleCategoryClick(category.id, category.name)}
+              className="w-full py-2 text-xs font-bold text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] border-t border-gray-200 transition-colors bg-white flex items-center justify-center gap-1"
+            >
+              View All Products
+              <svg
+                className="w-3 h-3"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
           </div>
 
-          {/* Right Side: Subcategories Grid */}
-          <div className="lg:w-7/12 p-3">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* ── Right: Subcategories Grid ── */}
+          <div className="flex-1 p-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-0">
               {subCategories.map((subCategory, subIndex) => (
                 <div
                   key={subCategory.id || subIndex}
                   onClick={() =>
                     handleCategoryClick(subCategory.id, subCategory.name)
                   }
-                  className="bg-white rounded-xs p-3 hover:shadow-md hover:border-blue-200 transition-all duration-200 cursor-pointer"
+                  className="group flex flex-col items-center text-center p-2.5 border border-transparent hover:border-[var(--color-accent-200)] hover:bg-[var(--color-accent-50)] rounded cursor-pointer transition-all duration-150"
                 >
-                  {/* Category Name */}
-                  <h4 className="text-base font-semibold text-[var(--color-accent-800)] mb-3 text-center line-clamp-1">
-                    {subCategory.name || `Subcategory ${subIndex + 1}`}
-                  </h4>
-
-                  <div className="flex gap-3">
-                    {/* Left: Image */}
-                    <div className="relative w-20 h-20 flex-shrink-0 rounded-md overflow-hidden">
-                      <Image
-                        src={
-                          subCategory.image_url ||
-                          "/placeholder-subcategory.jpg"
-                        }
-                        alt={subCategory.name || `Subcategory ${subIndex + 1}`}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-
-                    {/* Right: Description */}
-                    <div className="flex-1">
-                      <p className="text-xs font-sans font-semibold text-[var(--color-accent-800)] line-clamp-4">
-                        {subCategory.description ||
-                          subCategory.name ||
-                          "Explore quality products in this category."}
-                      </p>
-                    </div>
+                  {/* Subcategory Image */}
+                  <div className="relative w-16 h-16 mb-1.5 rounded overflow-hidden border border-gray-100 bg-gray-50 flex-shrink-0">
+                    <Image
+                      src={
+                        subCategory.image_url || "/placeholder-subcategory.jpg"
+                      }
+                      alt={subCategory.name || `Subcategory ${subIndex + 1}`}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
                   </div>
+
+                  {/* Subcategory Name */}
+                  <p className="text-[11px] leading-tight font-semibold text-[var(--color-accent-800)] group-hover:text-[var(--color-accent-600)] line-clamp-2 transition-colors">
+                    {subCategory.name || `Subcategory ${subIndex + 1}`}
+                  </p>
                 </div>
               ))}
+
+              {/* "More categories" tile */}
+              {subCategories.length > 0 && (
+                <div
+                  onClick={() =>
+                    handleCategoryClick(category.id, category.name)
+                  }
+                  className="group flex flex-col items-center justify-center text-center p-2.5 border border-dashed border-[var(--color-accent-200)] hover:border-[var(--color-accent-400)] hover:bg-[var(--color-accent-50)] rounded cursor-pointer transition-all duration-150"
+                >
+                  <div className="w-16 h-16 mb-1.5 rounded bg-[var(--color-accent-100)] flex items-center justify-center group-hover:bg-[var(--color-accent-200)] transition-colors">
+                    <svg
+                      className="w-6 h-6 text-[var(--color-accent-600)]"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 6h16M4 10h16M4 14h16M4 18h16"
+                      />
+                    </svg>
+                  </div>
+                  <p className="text-[11px] leading-tight font-bold text-[var(--color-accent-700)] group-hover:text-[var(--color-accent-900)] transition-colors">
+                    View All
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -1016,135 +1049,143 @@ function TopCategoriesSection2({ onCategorySelect }) {
   };
 
   return (
-    <section className="py-24 relative overflow-hidden bg-gradient-to-br from-[var(--color-accent-50)] via-white to-[var(--color-accent-100)]">
-      {/* Decorative background blobs */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-[var(--color-accent-100)] rounded-full blur-3xl opacity-40 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-[var(--color-accent-200)] rounded-full blur-3xl opacity-30 translate-x-1/2 translate-y-1/2 pointer-events-none" />
+    <section className="py-10 bg-[#f5f5f5]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        {/* ── Section Title ── */}
+        <h2 className="text-lg font-bold text-gray-800 mb-4 border-l-4 border-[var(--color-accent-700)] pl-3">
+          What are you looking for?
+        </h2>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-14">
-          <span className="inline-block text-xs font-semibold tracking-[0.2em] uppercase text-[var(--color-accent-600)] bg-[var(--color-accent-100)] px-4 py-1.5 rounded-full mb-4">
-            Browse Categories
-          </span>
-          <h2 className="text-4xl font-bold text-[var(--color-accent-900)] tracking-tight">
-            What are you looking for?
-          </h2>
-          <p className="mt-3 text-[var(--color-accent-500)] text-base max-w-md mx-auto">
-            Find trusted professionals for every need — at home or at work.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* LEFT BOX — Home Services */}
-          <div className="group relative bg-white rounded-3xl border border-[var(--color-accent-100)] shadow-sm hover:shadow-xl transition-shadow duration-500 overflow-hidden">
-            {/* Top accent bar */}
-            <div className="h-1 w-full bg-gradient-to-r from-[var(--color-accent-400)] via-[var(--color-accent-600)] to-[var(--color-accent-400)]" />
-
-            <div className="p-8">
-              {/* Box header */}
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 rounded-xl bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] flex items-center justify-center text-xl">
-                  🏠
-                </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {/* ════════════════════════════
+          LEFT BOX — Home Services
+      ════════════════════════════ */}
+          <div className="bg-white border border-gray-200 rounded overflow-hidden">
+            {/* Box Header */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">🏠</span>
                 <div>
-                  <h2 className="text-xl font-bold text-[var(--color-accent-900)] leading-tight">
+                  <h3 className="text-sm font-bold text-gray-800 leading-tight">
                     Home Services
-                  </h2>
-                  <p className="text-xs text-[var(--color-accent-400)] mt-0.5">
+                  </h3>
+                  <p className="text-[10px] text-gray-400">
                     Repairs, cleaning & more
                   </p>
                 </div>
               </div>
+              <button
+                onClick={() => handleCategoryClick("home-services")}
+                className="text-xs font-semibold text-[var(--color-accent-700)] hover:text-[var(--color-accent-900)] hover:underline flex items-center gap-0.5 transition-colors"
+              >
+                View All
+                <svg
+                  className="w-3 h-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2.5}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+            </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {CATEGORIES_SECTION2.section3.map((c, i) => (
-                  <div
-                    key={i}
-                    onClick={() => handleCategoryClick(c.title)}
-                    className="group/card relative flex flex-col items-center gap-3 p-4 rounded-2xl cursor-pointer
-                  bg-[var(--color-accent-50)] hover:bg-[var(--color-accent-500)]
-                  border border-transparent hover:border-[var(--color-accent-500)]
-                  transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-                  >
-                    <div
-                      className="w-16 h-16 rounded-2xl overflow-hidden ring-2 ring-white 
-                  shadow-md group-hover/card:ring-[var(--color-accent-600)] transition-all duration-300"
-                    >
-                      <Image
-                        src={c.img}
-                        alt={c.title}
-                        width={64}
-                        height={64}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                      />
-                    </div>
-                    <span
-                      className="text-xs font-semibold text-center text-[var(--color-accent-800)] 
-                  group-hover/card:text-white leading-tight transition-colors duration-300"
-                    >
-                      {c.title}
-                    </span>
+            {/* Tiles Grid */}
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-0 p-3">
+              {CATEGORIES_SECTION2.section3.map((c, i) => (
+                <div
+                  key={i}
+                  onClick={() => handleCategoryClick(c.title)}
+                  className="group flex flex-col items-center text-center p-3 rounded cursor-pointer hover:bg-gray-50 border border-transparent hover:border-gray-200 transition-all duration-150"
+                >
+                  {/* Circular Image */}
+                  <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-gray-100 group-hover:border-[var(--color-accent-400)] mb-2 flex-shrink-0 transition-colors duration-150 shadow-sm">
+                    <Image
+                      src={c.img}
+                      alt={c.title}
+                      width={56}
+                      height={56}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
                   </div>
-                ))}
-              </div>
+                  {/* Name */}
+                  <span className="text-[11px] font-semibold text-gray-700 group-hover:text-[var(--color-accent-700)] leading-tight line-clamp-2 transition-colors duration-150">
+                    {c.title}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* RIGHT BOX — Professional Services */}
-          <div className="group relative bg-white rounded-3xl border border-[var(--color-accent-100)] shadow-sm hover:shadow-xl transition-shadow duration-500 overflow-hidden">
-            {/* Top accent bar */}
-            <div className="h-1 w-full bg-gradient-to-r from-[var(--color-accent-600)] via-[var(--color-accent-400)] to-[var(--color-accent-600)]" />
-
-            <div className="p-8">
-              {/* Box header */}
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 rounded-xl bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] flex items-center justify-center text-xl">
-                  💼
-                </div>
+          {/* ════════════════════════════
+          RIGHT BOX — Professional Services
+      ════════════════════════════ */}
+          <div className="bg-white border border-gray-200 rounded overflow-hidden">
+            {/* Box Header */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">💼</span>
                 <div>
-                  <h2 className="text-xl font-bold text-[var(--color-accent-900)] leading-tight">
+                  <h3 className="text-sm font-bold text-gray-800 leading-tight">
                     Professional Services
-                  </h2>
-                  <p className="text-xs text-[var(--color-accent-400)] mt-0.5">
+                  </h3>
+                  <p className="text-[10px] text-gray-400">
                     Legal, finance & consulting
                   </p>
                 </div>
               </div>
+              <button
+                onClick={() => handleCategoryClick("professional-services")}
+                className="text-xs font-semibold text-[var(--color-accent-700)] hover:text-[var(--color-accent-900)] hover:underline flex items-center gap-0.5 transition-colors"
+              >
+                View All
+                <svg
+                  className="w-3 h-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2.5}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+            </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {CATEGORIES_SECTION2.section4.map((c, i) => (
-                  <div
-                    key={i}
-                    onClick={() => handleCategoryClick(c.title)}
-                    className="group/card relative flex flex-col items-center gap-3 p-4 rounded-2xl cursor-pointer
-                  bg-[var(--color-accent-50)] hover:bg-[var(--color-accent-500)]
-                  border border-transparent hover:border-[var(--color-accent-500)]
-                  transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-                  >
-                    <div
-                      className="w-16 h-16 rounded-2xl overflow-hidden ring-2 ring-white 
-                  shadow-md group-hover/card:ring-[var(--color-accent-600)] transition-all duration-300"
-                    >
-                      <Image
-                        src={c.img}
-                        alt={c.title}
-                        width={64}
-                        height={64}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                      />
-                    </div>
-                    <span
-                      className="text-xs font-semibold text-center text-[var(--color-accent-800)] 
-                  group-hover/card:text-white leading-tight transition-colors duration-300"
-                    >
-                      {c.title}
-                    </span>
+            {/* Tiles Grid */}
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-0 p-3">
+              {CATEGORIES_SECTION2.section4.map((c, i) => (
+                <div
+                  key={i}
+                  onClick={() => handleCategoryClick(c.title)}
+                  className="group flex flex-col items-center text-center p-3 rounded cursor-pointer hover:bg-gray-50 border border-transparent hover:border-gray-200 transition-all duration-150"
+                >
+                  {/* Circular Image */}
+                  <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-gray-100 group-hover:border-[var(--color-accent-400)] mb-2 flex-shrink-0 transition-colors duration-150 shadow-sm">
+                    <Image
+                      src={c.img}
+                      alt={c.title}
+                      width={56}
+                      height={56}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
                   </div>
-                ))}
-              </div>
+                  {/* Name */}
+                  <span className="text-[11px] font-semibold text-gray-700 group-hover:text-[var(--color-accent-700)] leading-tight line-clamp-2 transition-colors duration-150">
+                    {c.title}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -1195,7 +1236,7 @@ function TopCategoriesSection3({ onCategorySelect }) {
   };
 
   return (
-    <section className="py-28 relative overflow-hidden bg-[var(--color-accent-900)]">
+    <section className="py-15 relative overflow-hidden bg-[var(--color-accent-900)]">
       {/* Atmospheric background texture */}
       <div
         className="absolute inset-0 opacity-10"
@@ -1240,12 +1281,12 @@ function TopCategoriesSection3({ onCategorySelect }) {
         </div>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {CATEGORIES_SECTION3.section5.map((c, i) => (
             <div
               key={i}
               onClick={() => handleCategoryClick(c.title)}
-              className="group relative rounded-3xl overflow-hidden cursor-pointer
+              className="group relative rounded-sm overflow-hidden cursor-pointer
             aspect-[3/4] shadow-2xl"
               style={{ animationDelay: `${i * 100}ms` }}
             >
@@ -1269,7 +1310,7 @@ function TopCategoriesSection3({ onCategorySelect }) {
 
               {/* Top-right index badge */}
               <div
-                className="absolute top-4 right-4 w-8 h-8 rounded-full
+                className="absolute top-4 right-4 w-8 h-8 rounded-xs
             bg-white/10 backdrop-blur-sm border border-white/20
             flex items-center justify-center
             text-white/60 text-xs font-bold
@@ -1303,9 +1344,9 @@ function TopCategoriesSection3({ onCategorySelect }) {
                 </h3>
 
                 {/* Underline bar */}
-                <div className="mt-3 h-0.5 bg-white/20 rounded-full overflow-hidden">
+                <div className="mt-3 h-0.5 bg-white/20 rounded-xs overflow-hidden">
                   <div
-                    className="h-full bg-[var(--color-accent-400)] rounded-full
+                    className="h-full bg-[var(--color-accent-400)] rounded-xs
                 w-0 group-hover:w-full transition-all duration-500 ease-out"
                   />
                 </div>
@@ -1313,7 +1354,7 @@ function TopCategoriesSection3({ onCategorySelect }) {
 
               {/* Hover glow border */}
               <div
-                className="absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/10
+                className="absolute inset-0 rounded-xs ring-1 ring-inset ring-white/10
             group-hover:ring-[var(--color-accent-400)]/40
             transition-all duration-300 pointer-events-none"
               />
@@ -1384,22 +1425,45 @@ function CategoryGrid({ categories, onCategoryClick, loading }) {
         MAIN UI
   ============================ */
   return (
-    <section className="py-20 bg-gradient-to-b from-[var(--color-accent-50)] to-white">
-      <div className="max-w-7xl mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-semibold font-sans text-gray-900 mb-3">
-            Categories Hub
-          </h2>
-
-          <p className="text-gray-600 text-lg max-w-xl mx-auto">
-            Discover business opportunities across multiple industries
-          </p>
+    <section className="py-16 bg-gray-50 border-t border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        {/* ── Header ── */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-1 h-7 rounded-xs bg-[var(--color-accent-700)]" />
+            <div>
+              <h2 className="text-xl font-bold text-gray-900 leading-tight">
+                Browse Categories
+              </h2>
+              <p className="text-xs text-gray-500 mt-0.5">
+                Discover business opportunities across multiple industries
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={handleViewAll}
+            className="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-accent-700)] hover:text-[var(--color-accent-900)] border border-[var(--color-accent-300)] hover:border-[var(--color-accent-500)] bg-white hover:bg-[var(--color-accent-50)] px-4 py-1.5 rounded transition-all duration-150"
+          >
+            View All
+            <svg
+              className="w-3.5 h-3.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {categories.slice(0, 8).map((category) => {
+        {/* ── Category Grid ── */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-0 bg-white border border-gray-200 rounded-xs overflow-hidden">
+          {categories.slice(0, 8).map((category, index) => {
             const image =
               category.image_url || category.image || "/default-category.jpg";
 
@@ -1407,112 +1471,66 @@ function CategoryGrid({ categories, onCategoryClick, loading }) {
               <div
                 key={category.id}
                 onClick={() => handleCategoryClick(category.id, category.name)}
-                className="
-                  group
-                  relative
-                  h-64
-                  rounded-2xl
-                  overflow-hidden
-                  cursor-pointer
-                  shadow-md
-                  hover:shadow-xl
-                  transition-all
-                  duration-500
-                "
+                className={`
+              group relative flex flex-col items-center justify-start
+              p-4 cursor-pointer
+              border-gray-200 hover:bg-[var(--color-accent-50)]
+              transition-all duration-150
+              ${index !== 0 ? "border-l" : ""}
+              ${index >= 4 ? "border-t" : ""}
+            `}
               >
                 {/* Image */}
-                <Image
-                  src={image}
-                  alt={category.name}
-                  fill
-                  className="
-                    object-contain
-                    scale-100
-                    group-hover:scale-110
-                    transition-transform
-                    duration-700
-                  "
-                />
-
-                {/* Gradient Overlay */}
-                <div
-                  className="
-                    absolute
-                    inset-0
-                    bg-gradient-to-t
-                    from-black/70
-                    via-black/30
-                    to-transparent
-                    opacity-90
-                  "
-                />
-
-                {/* Glass Effect */}
-                <div
-                  className="
-                    absolute
-                    bottom-0
-                    w-full
-                    backdrop-blur-md
-                    bg-white/10
-                    p-4
-                  "
-                >
-                  <h3
-                    className="
-                      text-gray-200
-                      font-semibold
-                      sont-sans
-                      
-                      tracking-wide
-                      group-hover:translate-x-1
-                      transition-transform
-                    "
-                  >
-                    {category.name}
-                  </h3>
+                <div className="relative w-16 h-16 mb-2.5 overflow-hidden rounded-sm bg-gray-50 border border-gray-100 flex-shrink-0">
+                  <Image
+                    src={image}
+                    alt={category.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
 
-                {/* Hover Border */}
-                {/* <div
-                  className="
-                    absolute
-                    inset-0
-                    border-2
-                    border-transparent
-                    group-hover:border-[var(--color-accent-600)]
-                    rounded-2xl
-                    transition-all
-                  "
-                /> */}
+                {/* Name */}
+                <p className="text-[11px] font-semibold text-gray-700 group-hover:text-[var(--color-accent-700)] text-center leading-tight line-clamp-2 transition-colors">
+                  {category.name}
+                </p>
+
+                {/* Bottom accent line on hover */}
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--color-accent-600)] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-center" />
               </div>
             );
           })}
         </div>
 
-        {/* View All Button */}
-        <div className="text-center mt-16">
+        {/* ── Second Row: Text-only quick links (IndiaMART style) ── */}
+        <div className="mt-1 bg-white border border-t-0 border-gray-200 rounded-b-sm px-4 py-2.5 flex flex-wrap gap-x-1 gap-y-1 items-center">
+          <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wide mr-2">
+            Popular:
+          </span>
+          {categories.slice(0, 12).map((category, index) => (
+            <span key={category.id} className="flex items-center">
+              <button
+                onClick={() => handleCategoryClick(category.id, category.name)}
+                className="text-[11px] text-[var(--color-accent-700)] hover:text-[var(--color-accent-900)] hover:underline font-medium transition-colors"
+              >
+                {category.name}
+              </button>
+              {index < 11 && (
+                <span className="text-gray-300 ml-1 text-[11px]">|</span>
+              )}
+            </span>
+          ))}
+        </div>
+
+        {/* ── Mobile: View All Button ── */}
+        <div className="mt-4 text-center sm:hidden">
           <button
             onClick={handleViewAll}
-            className="
-              inline-flex
-              items-center
-              gap-2
-              px-8
-              py-3
-              bg-[var(--color-accent-800)]
-              text-white
-              font-semibold
-              rounded-full
-              shadow-md
-              hover:shadow-xl
-              hover:bg-[var(--color-accent-900)]
-              transition-all
-            "
+            className="inline-flex items-center gap-2 px-6 py-2.5 bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-900)] text-white text-sm font-semibold rounded transition-all"
           >
             View All Categories
             <svg
-              className="w-5 h-5"
+              className="w-4 h-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -1615,96 +1633,137 @@ function ListingsGrid({
      MAIN UI
   =============================== */
   return (
-    <section className="py-12 bg-gradient-to-b from-[var(--color-accent-50)] to-white">
-      <div className="max-w-7xl mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-10">
-          <h2 className="font-sans md:text-4xl mb-2 font-semibold">
-            Most Viewed Listings
-          </h2>
+    <section className="py-10 bg-white border-t border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        {/* ── Header ── */}
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-3">
+            <div className="w-1 h-7 rounded-full bg-[var(--color-accent-700)]" />
+            <div>
+              <h2 className="text-xl font-bold text-gray-900 leading-tight">
+                Most Viewed Listings
+              </h2>
+              <p className="text-xs text-gray-500 mt-0.5">
+                Trending business opportunities right now
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => router.push("/listings")}
+            className="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-accent-700)] hover:text-[var(--color-accent-900)] border border-[var(--color-accent-300)] hover:border-[var(--color-accent-500)] bg-white hover:bg-[var(--color-accent-50)] px-4 py-1.5 rounded transition-all duration-150"
+          >
+            View All
+            <svg
+              className="w-3.5 h-3.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
         </div>
 
         {sortedListings.length === 0 ? (
-          <div className="text-center py-16">
-            <Search className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-
-            <h3 className="text-xl font-semibold mb-2">No listings found</h3>
-
+          /* ── Empty State ── */
+          <div className="text-center py-16 bg-white border border-gray-200 rounded-sm">
+            <Search className="w-10 h-10 mx-auto text-gray-300 mb-3" />
+            <h3 className="text-base font-semibold text-gray-600 mb-1">
+              No listings found
+            </h3>
+            <p className="text-xs text-gray-400 mb-4">
+              Check back soon for new opportunities
+            </p>
             <button
               onClick={() => router.push("/listings")}
-              className="mt-4 bg-blue-600 text-white px-6 py-3 rounded-lg"
+              className="inline-flex items-center gap-2 bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-900)] text-white text-sm font-semibold px-5 py-2 rounded transition-all"
             >
               Browse Listings
             </button>
           </div>
         ) : (
           <>
-            {/* ===============================
-                INFINITE SCROLLER
-            =============================== */}
-
+            {/* ── Infinite Scroller ── */}
             <div
               ref={scrollRef}
-              /* Pause on hover */
               onMouseEnter={() => (isPaused.current = true)}
               onMouseLeave={() => (isPaused.current = false)}
-              /* Pause on touch */
               onTouchStart={() => (isPaused.current = true)}
               onTouchEnd={() => (isPaused.current = false)}
-              className="
-                flex
-                gap-4
-                overflow-hidden
-                pb-4
-                cursor-pointer
-                select-none
-              "
+              className="flex gap-3 overflow-hidden pb-2 cursor-pointer select-none"
             >
               {infiniteListings.map((listing, index) => (
                 <div
                   key={index}
                   className="
-  flex-shrink-0
-
-  w-[85%]        /* Mobile */
-  sm:w-[48%]     /* Tablet */
-  lg:w-[25%]     /* Desktop */
-
-  bg-white
-  rounded-2xl
-  shadow-md
-  border
-  border-gray-200
-"
+                flex-shrink-0
+                w-[85%]
+                sm:w-[46%]
+                lg:w-[23%]
+                bg-white
+                border border-gray-200
+                rounded-sm
+                hover:shadow-md
+                hover:border-[var(--color-accent-300)]
+                transition-all duration-200
+                overflow-hidden
+                group
+              "
                 >
-                  {/* Image */}
-                  <div className="relative h-48 overflow-hidden rounded-t-2xl">
+                  {/* ── Image ── */}
+                  <div className="relative h-40 overflow-hidden bg-gray-100">
                     <Image
                       src={listing.image}
                       alt={listing.title}
                       fill
-                      className="object-cover"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
 
-                    {/* Views */}
-                    <span className="absolute top-3 right-3 bg-white px-2 py-1 rounded-full text-xs font-semibold shadow">
-                      👁 {listing.view || listing.views || 0}
+                    {/* Views Badge */}
+                    <span className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm border border-gray-200 text-gray-600 px-2 py-0.5 rounded text-[10px] font-semibold flex items-center gap-1 shadow-sm">
+                      <svg
+                        className="w-3 h-3"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                        />
+                      </svg>
+                      {listing.view || listing.views || 0} views
                     </span>
                   </div>
 
-                  {/* Content */}
-                  <div className="p-4">
-                    <h3 className="font-semibold font-sans text-lg mb-1 line-clamp-2">
+                  {/* ── Content ── */}
+                  <div className="p-3">
+                    {/* Title */}
+                    <h3 className="font-bold text-sm text-gray-900 line-clamp-1 mb-0.5 group-hover:text-[var(--color-accent-700)] transition-colors">
                       {listing.title}
                     </h3>
 
-                    <p className="font-semibold font-sans text-gray-600 mb-3 line-clamp-2">
-                      {listing.description || "Premium opportunity"}
+                    {/* Description */}
+                    <p className="text-[11px] text-gray-500 line-clamp-2 leading-relaxed mb-2">
+                      {listing.description || "Premium business opportunity"}
                     </p>
 
-                    <div className="flex items-center gap-1 font-sans text-gray-500 mb-3">
-                      <LocationOn fontSize="small" />
-
+                    {/* Location */}
+                    <div className="flex items-center gap-1 text-[11px] text-gray-400 mb-3">
+                      <LocationOn sx={{ fontSize: 13 }} />
                       <span className="truncate">
                         {Array.isArray(listing.location)
                           ? listing.location.join(", ")
@@ -1712,18 +1771,22 @@ function ListingsGrid({
                       </span>
                     </div>
 
-                    <div className="flex justify-between items-center pt-3 border-t">
+                    {/* ── Footer ── */}
+                    <div className="flex items-center justify-between pt-2.5 border-t border-gray-100">
                       <div>
-                        <p className="text-xs text-gray-400">Starting from</p>
-
-                        <p className="font-bold text-lg">{listing.price}</p>
+                        <p className="text-[10px] text-gray-400 leading-none mb-0.5">
+                          Starting from
+                        </p>
+                        <p className="font-bold text-sm text-gray-900">
+                          {listing.price}
+                        </p>
                       </div>
 
                       <button
                         onClick={() => onInquiryClick(listing)}
-                        className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm"
+                        className="text-xs font-semibold text-[var(--color-accent-700)] hover:text-white border border-[var(--color-accent-400)] hover:bg-[var(--color-accent-700)] hover:border-[var(--color-accent-700)] px-3 py-1.5 rounded transition-all duration-150"
                       >
-                        View
+                        View Details
                       </button>
                     </div>
                   </div>
@@ -1731,15 +1794,55 @@ function ListingsGrid({
               ))}
             </div>
 
-            {/* Load More */}
+            {/* ── Load More ── */}
             {hasMore && listings.length > 6 && (
-              <div className="text-center mt-8">
+              <div className="text-center mt-6">
                 <button
                   onClick={onLoadMore}
                   disabled={loading}
-                  className="px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold"
+                  className="inline-flex items-center gap-2 px-6 py-2 border border-[var(--color-accent-400)] text-[var(--color-accent-700)] hover:bg-[var(--color-accent-700)] hover:text-white text-sm font-semibold rounded transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? "Loading..." : "Show More"}
+                  {loading ? (
+                    <>
+                      <svg
+                        className="w-4 h-4 animate-spin"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v8z"
+                        />
+                      </svg>
+                      Loading...
+                    </>
+                  ) : (
+                    <>
+                      Show More Listings
+                      <svg
+                        className="w-3.5 h-3.5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2.5}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </>
+                  )}
                 </button>
               </div>
             )}
@@ -1775,7 +1878,7 @@ function ReviewsSection({ reviews }) {
               className="group bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100"
             >
               <div className="flex items-start space-x-4 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-teal-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-semibold text-lg">
+                <div className="w-12 h-12 bg-gradient-to-r from-teal-500 to-[var(--color-accent-600)] rounded-xl flex items-center justify-center text-white font-semibold text-lg">
                   {review.user?.charAt(0) || "U"}
                 </div>
                 <div className="flex-1">
