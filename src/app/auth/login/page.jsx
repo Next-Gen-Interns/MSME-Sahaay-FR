@@ -145,7 +145,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-[var(--color-accent-600)] to-[var(--color-accent-800)] hover:from-[var(--color-accent-700)] hover:to-[var(--color-accent-900)] text-white py-3 rounded-xl font-semibold transition-all transform hover:scale-[1.02] shadow-lg disabled:opacity-50"
+              className="w-full bg-gradient-to-r from-[var(--color-accent-600)] to-[var(--color-accent-800)] hover:from-[var(--color-accent-700)] hover:to-[var(--color-accent-900)] text-white py-3 rounded-xl font-semibold transition-all hover:scale-[1.02] shadow-lg disabled:opacity-50"
             >
               {isLoading ? "Signing in..." : "Sign in"}
             </button>

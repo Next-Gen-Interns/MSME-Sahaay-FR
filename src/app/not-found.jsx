@@ -58,7 +58,7 @@ export default function NotFoundPage() {
         >
           <button
             onClick={() => router.push("/")}
-            className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-[var(--color-accent-500)] to-[var(--color-accent-700)] hover:from-[var(--color-accent-600)] hover:to-[var(--color-accent-800)] text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 overflow-hidden"
+            className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-[var(--color-accent-500)] to-[var(--color-accent-700)] hover:from-[var(--color-accent-600)] hover:to-[var(--color-accent-800)] text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 overflow-hidden"
           >
             {/* Hover glow */}
             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>

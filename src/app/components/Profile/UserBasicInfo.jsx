@@ -56,12 +56,12 @@ const UserBasicInfo = ({ userData, onSave, saving }) => {
       const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL || "";
       const avatarPath = userData.avatar_url
         ? `${backendURL}${userData.avatar_url}`
-        : "/default-avatar.png";
+        : "/uploads/default-avatar.png";
       setAvatarPreview(avatarPath);
 
       if (userData.country) {
         const countryObj = Country.getAllCountries().find(
-          (c) => c.name === userData.country
+          (c) => c.name === userData.country,
         );
         if (countryObj) {
           setSelectedCountry(countryObj.isoCode);
@@ -71,7 +71,7 @@ const UserBasicInfo = ({ userData, onSave, saving }) => {
       if (userData.state) setSelectedState(userData.state);
       if (userData.city) setSelectedCity(userData.city);
     } else {
-      setAvatarPreview("/default-avatar.png");
+      setAvatarPreview("/uploads/default-avatar.png");
     }
   }, [userData]);
 
@@ -80,7 +80,7 @@ const UserBasicInfo = ({ userData, onSave, saving }) => {
       (state) => ({
         value: state.isoCode,
         label: state.name,
-      })
+      }),
     );
     setStates(countryStates);
     setCities([]);
@@ -93,7 +93,7 @@ const UserBasicInfo = ({ userData, onSave, saving }) => {
       (city) => ({
         value: city.name,
         label: city.name,
-      })
+      }),
     );
     setCities(stateCities);
     setSelectedCity("");
@@ -185,7 +185,7 @@ const UserBasicInfo = ({ userData, onSave, saving }) => {
       });
       if (userData.country) {
         const countryObj = Country.getAllCountries().find(
-          (c) => c.name === userData.country
+          (c) => c.name === userData.country,
         );
         if (countryObj) {
           setSelectedCountry(countryObj.isoCode);
@@ -253,7 +253,7 @@ const UserBasicInfo = ({ userData, onSave, saving }) => {
       <div className="flex items-center gap-6">
         <div>
           <img
-            src={avatarPreview || "/default-avatar.png"}
+            src={avatarPreview || "/uploads/default-avatar.png"}
             alt="avatar"
             className="h-20 w-20 rounded-full object-cover"
           />

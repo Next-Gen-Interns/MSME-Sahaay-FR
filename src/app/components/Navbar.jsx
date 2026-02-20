@@ -73,17 +73,21 @@ export default function Navbar() {
 
   // Menu items for logged-in users only
   const loggedInMenuItems = [
-    { name: "Post Your requirement", icon: ShoppingCart, route: "/orders" },
-    { name: "Messages", icon: MessageCircle, route: "/messages" },
-    { name: "My Orders", icon: BarChart, route: "/orders" },
+    {
+      name: "Post Your requirement",
+      icon: ShoppingCart,
+      route: "/list-products",
+    },
+    { name: "Messages", icon: MessageCircle, route: "/seller/leads" },
+    { name: "My Inquiries", icon: BarChart, route: "/my-leads" },
     { name: "My Favourites", icon: Heart, route: "/favorites" },
   ];
 
   // Business-related items for all
   const businessMenuItems = [
-    { name: "Ship with India Mart", icon: Truck, route: "/shipping" },
+    { name: "Ship with MSME Sahaay", icon: Truck, route: "/listings" },
     { name: "Verified Experts", icon: CheckCircle, route: "/verified-experts" },
-    { name: "Become a Seller for Free", icon: Users, route: "/seller/signup" },
+    { name: "Become a Seller for Free", icon: Users, route: "/auth/signup" },
   ];
 
   // Additional items for all users
@@ -92,7 +96,7 @@ export default function Navbar() {
     { name: "Help & Support", icon: HelpCircle, route: "/help" },
     { name: "Share App", icon: Share2, route: "/share" },
     { name: "About MSME Sahaay", icon: Info, route: "/about" },
-    { name: "Settings", icon: Settings, route: "/settings" }
+    { name: "Settings", icon: Settings, route: "/settings" },
   ];
 
   // Generate mega menu items based on login status
@@ -100,7 +104,7 @@ export default function Navbar() {
     ...commonMenuItems,
     ...(isLoggedIn ? loggedInMenuItems : []),
     ...businessMenuItems,
-    ...additionalMenuItems
+    ...additionalMenuItems,
   ];
 
   // Navigation tabs - conditionally shown based on user role
@@ -108,8 +112,8 @@ export default function Navbar() {
     // Common tabs for all
     { name: "Privacy Policy", route: "/privacy-policy" },
     // Role-specific tabs
-    ...(isLoggedIn && userData?.role === "seller" 
-      ? [{ name: "Lead Hub", route: "/seller/leads" }] 
+    ...(isLoggedIn && userData?.role === "seller"
+      ? [{ name: "Lead Hub", route: "/seller/leads" }]
       : []),
   ];
 
@@ -167,9 +171,9 @@ export default function Navbar() {
         setIsMobileMenuOpen(false);
       }
       if (
-        megaMenuRef.current && 
+        megaMenuRef.current &&
         !megaMenuRef.current.contains(event.target) &&
-        megaMenuButtonRef.current && 
+        megaMenuButtonRef.current &&
         !megaMenuButtonRef.current.contains(event.target)
       ) {
         setIsMegaMenuOpen(false);
@@ -248,11 +252,13 @@ export default function Navbar() {
               </span>
             </Link>
 
-
             {/* Search Bar - Desktop Only */}
             <div className="hidden lg:flex flex-1 max-w-2xl mx-8">
               <div className="relative w-full">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Search
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  size={20}
+                />
                 <input
                   type="text"
                   placeholder="Search products, sellers, or categories..."
@@ -265,7 +271,7 @@ export default function Navbar() {
             <div className="hidden lg:flex items-center space-x-6">
               {/* Navigation Tabs */}
               <div className="flex items-center space-x-4">
-                {navTabs.map((tab, idx) => ( 
+                {navTabs.map((tab, idx) => (
                   <Link
                     key={idx}
                     href={tab.route}
@@ -277,10 +283,7 @@ export default function Navbar() {
               </div>
 
               {/* Mega Menu Button Container */}
-              <div 
-                className="relative" 
-                ref={megaMenuButtonRef}
-              >
+              <div className="relative" ref={megaMenuButtonRef}>
                 <button
                   onClick={toggleMegaMenu}
                   className="flex items-center px-6 py-2.5 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] transition-all duration-200 rounded-xl font-medium border border-gray-200 hover:border-[var(--color-accent-300)]"
@@ -328,24 +331,33 @@ export default function Navbar() {
                           const Icon = item.icon;
                           // Highlight logged-in only items
                           const isLoggedInOnly = loggedInMenuItems.some(
-                            loggedInItem => loggedInItem.name === item.name
+                            (loggedInItem) => loggedInItem.name === item.name,
                           );
-                          
+
                           return (
                             <Link
                               key={index}
-                              href={isLoggedInOnly && !isLoggedIn ? "/auth/login" : item.route}
+                              href={
+                                isLoggedInOnly && !isLoggedIn
+                                  ? "/auth/login"
+                                  : item.route
+                              }
                               onClick={handleMenuItemClick}
                               className={`flex items-center p-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg transition-all duration-200 group w-full ${
-                                isLoggedInOnly && !isLoggedIn ? "opacity-60" : ""
+                                isLoggedInOnly && !isLoggedIn
+                                  ? "opacity-60"
+                                  : ""
                               }`}
                             >
                               <div className="flex-shrink-0 mr-3">
-                                <Icon size={18} className={`${
-                                  isLoggedInOnly && !isLoggedIn 
-                                    ? "text-gray-400" 
-                                    : "text-gray-500 group-hover:text-[var(--color-accent-700)]"
-                                }`} />
+                                <Icon
+                                  size={18}
+                                  className={`${
+                                    isLoggedInOnly && !isLoggedIn
+                                      ? "text-gray-400"
+                                      : "text-gray-500 group-hover:text-[var(--color-accent-700)]"
+                                  }`}
+                                />
                               </div>
                               <span className="text-sm font-medium flex-1">
                                 {item.name}
@@ -427,7 +439,7 @@ export default function Navbar() {
                           <User size={18} />
                           <span>My Profile</span>
                         </Link>
-                        
+
                         {/* Logged-in specific menu items */}
                         <Link
                           href="/messages"
@@ -437,7 +449,7 @@ export default function Navbar() {
                           <MessageCircle size={18} />
                           <span>Messages</span>
                         </Link>
-                        
+
                         <Link
                           href="/orders"
                           onClick={() => setIsDropdownOpen(false)}
@@ -446,7 +458,7 @@ export default function Navbar() {
                           <ShoppingCart size={18} />
                           <span>My Orders</span>
                         </Link>
-                        
+
                         <Link
                           href="/favorites"
                           onClick={() => setIsDropdownOpen(false)}
@@ -466,7 +478,7 @@ export default function Navbar() {
                             <span>My Inquiries</span>
                           </Link>
                         )}
-                        
+
                         {userData?.role === "seller" && (
                           <>
                             <Link
@@ -536,7 +548,10 @@ export default function Navbar() {
             {/* Search in Mobile Menu */}
             <div className="mb-6">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Search
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  size={20}
+                />
                 <input
                   type="text"
                   placeholder="Search..."
@@ -573,13 +588,17 @@ export default function Navbar() {
                 {megaMenuItems.map((item, index) => {
                   const Icon = item.icon;
                   const isLoggedInOnly = loggedInMenuItems.some(
-                    loggedInItem => loggedInItem.name === item.name
+                    (loggedInItem) => loggedInItem.name === item.name,
                   );
-                  
+
                   return (
                     <Link
                       key={index}
-                      href={isLoggedInOnly && !isLoggedIn ? "/auth/login" : item.route}
+                      href={
+                        isLoggedInOnly && !isLoggedIn
+                          ? "/auth/login"
+                          : item.route
+                      }
                       onClick={() => setIsMobileMenuOpen(false)}
                       className={`flex items-center p-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-lg ${
                         isLoggedInOnly && !isLoggedIn ? "opacity-60" : ""
