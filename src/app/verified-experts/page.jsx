@@ -141,10 +141,10 @@ const StarRating = ({ rating }) => {
 
 const ExpertCard = ({ expert }) => {
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-5">
+    <div className="bg-white rounded-xs border border-gray-200 p-5">
       {/* Header */}
       <div className="flex items-start gap-3 mb-4">
-        <div className="w-12 h-12 bg-[var(--color-accent-700)] rounded-lg flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+        <div className="w-12 h-12 bg-[var(--color-accent-700)] rounded-xs flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
           {expert.avatar}
         </div>
         <div className="flex-1 min-w-0">
@@ -201,7 +201,7 @@ const ExpertCard = ({ expert }) => {
       </div>
 
       {/* CTA Button */}
-      <button className="w-full py-2.5 px-4 bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-800)] text-white text-sm font-medium rounded-lg transition-colors">
+      <button className="w-full py-2.5 px-4 bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-800)] text-white text-sm font-medium rounded-xs transition-colors">
         Book Consultation
       </button>
     </div>
@@ -261,7 +261,7 @@ export default function VerifiedExpertsPage() {
               placeholder="Search experts..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:border-[var(--color-accent-500)]"
+              className="w-full pl-9 pr-4 py-2 bg-white border border-gray-300 rounded-xs text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:border-[var(--color-accent-500)]"
             />
           </div>
 
@@ -271,7 +271,7 @@ export default function VerifiedExpertsPage() {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-3 py-1.5 rounded-xs text-sm font-medium transition-colors ${
                   selectedCategory === cat
                     ? "bg-[var(--color-accent-700)] text-white"
                     : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
@@ -296,7 +296,7 @@ export default function VerifiedExpertsPage() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
+          <div className="text-center py-12 bg-white rounded-xs border border-gray-200">
             <p className="text-gray-500">
               No experts found matching your criteria.
             </p>
@@ -304,14 +304,14 @@ export default function VerifiedExpertsPage() {
         )}
 
         {/* Become an Expert CTA */}
-        <div className="mt-10 bg-[var(--color-accent-700)] rounded-lg p-6 text-center">
+        <div className="mt-10 bg-[var(--color-accent-700)] rounded-xs p-6 text-center">
           <h2 className="text-xl font-semibold text-white mb-2">
             Are you an MSME Expert?
           </h2>
           <p className="text-gray-300 mb-4 max-w-md mx-auto text-sm">
             Join our verified network and help businesses grow.
           </p>
-          <button className="bg-white text-gray-900 font-medium px-5 py-2 rounded-lg hover:bg-gray-100 transition-colors text-sm">
+          <button className="bg-white text-gray-900 font-medium px-5 py-2 rounded-xs hover:bg-gray-100 transition-colors text-sm">
             Apply as Expert
           </button>
         </div>

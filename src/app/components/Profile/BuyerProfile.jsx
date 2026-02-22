@@ -46,7 +46,7 @@ const BuyerProfile = ({ buyerData, onSave, saving, isEditing }) => {
 
       if (newFormData.country) {
         const countryObj = Country.getAllCountries().find(
-          (c) => c.name === newFormData.country
+          (c) => c.name === newFormData.country,
         );
         if (countryObj) {
           setSelectedCountry(countryObj.isoCode);
@@ -72,7 +72,7 @@ const BuyerProfile = ({ buyerData, onSave, saving, isEditing }) => {
 
   const loadCities = (countryCode, stateCode) => {
     const stateCities = City.getCitiesOfState(countryCode, stateCode).map(
-      (c) => ({ value: c.name, label: c.name })
+      (c) => ({ value: c.name, label: c.name }),
     );
     setCities(stateCities);
     setSelectedCity("");
@@ -137,7 +137,7 @@ const BuyerProfile = ({ buyerData, onSave, saving, isEditing }) => {
       setFormData(newFormData);
       if (newFormData.country) {
         const countryObj = Country.getAllCountries().find(
-          (c) => c.name === newFormData.country
+          (c) => c.name === newFormData.country,
         );
         if (countryObj) {
           setSelectedCountry(countryObj.isoCode);
@@ -153,7 +153,7 @@ const BuyerProfile = ({ buyerData, onSave, saving, isEditing }) => {
     <div className="space-y-6">
       {showSuccess && (
         <div
-          className="rounded-md p-3"
+          className="rounded-xs p-3"
           style={{
             background: "var(--color-accent-50)",
             border: "1px solid var(--color-accent-100)",
@@ -175,7 +175,7 @@ const BuyerProfile = ({ buyerData, onSave, saving, isEditing }) => {
         {!editMode && buyerData && (
           <button
             onClick={handleEdit}
-            className="px-3 py-1 rounded-md text-sm"
+            className="px-3 py-1 rounded-xs text-sm"
             style={{
               border: "1px solid var(--color-accent-100)",
               color: "var(--color-accent-700)",
@@ -201,7 +201,7 @@ const BuyerProfile = ({ buyerData, onSave, saving, isEditing }) => {
                 value={formData.full_name}
                 onChange={handleChange}
                 required
-                className="px-3 py-2 rounded-md border"
+                className="px-3 py-2 rounded-xs border"
                 style={{ borderColor: "var(--color-accent-100)" }}
               />
             </label>
@@ -218,7 +218,7 @@ const BuyerProfile = ({ buyerData, onSave, saving, isEditing }) => {
                 value={formData.company_name}
                 onChange={handleChange}
                 required
-                className="px-3 py-2 rounded-md border"
+                className="px-3 py-2 rounded-xs border"
                 style={{ borderColor: "var(--color-accent-100)" }}
               />
             </label>
@@ -235,7 +235,7 @@ const BuyerProfile = ({ buyerData, onSave, saving, isEditing }) => {
               <select
                 value={selectedCountry}
                 onChange={handleCountryChange}
-                className="px-3 py-2 rounded-md border"
+                className="px-3 py-2 rounded-xs border"
                 style={{ borderColor: "var(--color-accent-100)" }}
               >
                 <option value="">Select country</option>
@@ -258,7 +258,7 @@ const BuyerProfile = ({ buyerData, onSave, saving, isEditing }) => {
                 value={selectedState}
                 onChange={handleStateChange}
                 disabled={!selectedCountry}
-                className="px-3 py-2 rounded-md border"
+                className="px-3 py-2 rounded-xs border"
                 style={{
                   borderColor: "var(--color-accent-100)",
                   background: !selectedCountry ? "#fbfbfd" : undefined,
@@ -284,7 +284,7 @@ const BuyerProfile = ({ buyerData, onSave, saving, isEditing }) => {
                 value={selectedCity}
                 onChange={handleCityChange}
                 disabled={!selectedState}
-                className="px-3 py-2 rounded-md border"
+                className="px-3 py-2 rounded-xs border"
                 style={{
                   borderColor: "var(--color-accent-100)",
                   background: !selectedState ? "#fbfbfd" : undefined,
@@ -312,7 +312,7 @@ const BuyerProfile = ({ buyerData, onSave, saving, isEditing }) => {
               value={formData.address}
               onChange={handleChange}
               rows={2}
-              className="px-3 py-2 rounded-md border"
+              className="px-3 py-2 rounded-xs border"
               style={{ borderColor: "var(--color-accent-100)" }}
             />
           </label>
@@ -321,7 +321,7 @@ const BuyerProfile = ({ buyerData, onSave, saving, isEditing }) => {
             <button
               type="button"
               onClick={handleCancel}
-              className="px-4 py-2 rounded-md text-sm"
+              className="px-4 py-2 rounded-xs text-sm"
               style={{
                 border: "1px solid var(--color-accent-100)",
                 color: "var(--color-accent-700)",
@@ -332,7 +332,7 @@ const BuyerProfile = ({ buyerData, onSave, saving, isEditing }) => {
             <button
               type="submit"
               disabled={saving}
-              className="px-5 py-2 rounded-md text-sm font-medium"
+              className="px-5 py-2 rounded-xs text-sm font-medium"
               style={{
                 background: "var(--color-accent-800)",
                 color: "white",

@@ -579,8 +579,8 @@ function SearchFilterBar({
     <div className="bg-white/95 backdrop-blur-md border-b border-[var(--color-accent-100)] transition-all duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Filter Row - 4 Filters Only */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          {/* Category Filter */}
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+   
           <div className="relative">
             <select
               value={selectedCategory}
@@ -617,7 +617,7 @@ function SearchFilterBar({
             </div>
           </div>
 
-          {/* Location Filter */}
+   
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
               <LocationOn className="h-5 w-5 text-[var(--color-accent-500)]" />
@@ -631,7 +631,7 @@ function SearchFilterBar({
             />
           </div>
 
-          {/* Price Range Filter */}
+    
           <div className="relative">
             <select className="w-full px-4 py-3 rounded-xs bg-white/80 backdrop-blur-sm text-[var(--color-accent-900)] font-sans font-medium transition-all duration-300 shadow-sm border border-[var(--color-accent-200)] hover:border-[var(--color-accent-300)] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] cursor-pointer appearance-none">
               {priceRanges.map((range) => (
@@ -657,7 +657,7 @@ function SearchFilterBar({
             </div>
           </div>
 
-          {/* Sort Filter */}
+      
           <div className="relative">
             <select className="w-full px-4 py-3 rounded-xs bg-white/80 backdrop-blur-sm text-[var(--color-accent-900)] font-sans font-medium transition-all duration-300 shadow-sm border border-[var(--color-accent-200)] hover:border-[var(--color-accent-300)] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] cursor-pointer appearance-none">
               {sortOptions.map((option) => (
@@ -682,7 +682,7 @@ function SearchFilterBar({
               </svg>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Quick Category Chips */}
         <div className="flex flex-wrap justify-center gap-3">

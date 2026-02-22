@@ -48,15 +48,15 @@ const LeadInquiryModal = ({
       {/* Modal Container */}
       <div className="relative w-full max-w-2xl transition-all duration-300 scale-100 opacity-100">
         {/* Modal Content */}
-        <div className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 flex flex-col max-h-[90vh]">
+        <div className="bg-white/95 backdrop-blur-xl rounded-xs shadow-2xl border border-white/20 flex flex-col max-h-[90vh]">
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-white/20">
             <div className="flex items-center space-x-3">
-              <div className="p-2 bg-blue-500/10 rounded-xl">
-                <Mail className="w-6 h-6 text-blue-600" />
+              <div className="p-2 bg-[var(--color-accent-500)]/10 rounded-xs">
+                <Mail className="w-6 h-6 text-[var(--color-accent-600)]" />
               </div>
               <div>
-                <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 bg-clip-text text-transparent">
                   Send Inquiry
                 </h2>
                 <p className="text-gray-600 text-sm mt-1">
@@ -66,7 +66,7 @@ const LeadInquiryModal = ({
             </div>
             <button
               onClick={() => setShowLeadForm(false)}
-              className="p-2 hover:bg-gray-100/50 rounded-xl transition-all duration-200 hover:scale-110"
+              className="p-2 hover:bg-gray-100/50 rounded-xs transition-all duration-200 hover:scale-110"
             >
               <X className="w-6 h-6 text-gray-500" />
             </button>
@@ -87,7 +87,7 @@ const LeadInquiryModal = ({
                     value={leadForm.project_title}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 bg-white/50 border border-gray-200/50 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+                    className="w-full px-4 py-3 bg-white/50 border border-gray-200/50 rounded-xs focus:ring-2 focus:ring-[var(--color-accent-500)]/20 focus:border-[var(--color-accent-500)] transition-all duration-200"
                     placeholder="Enter your project title"
                   />
                 </div>
@@ -103,7 +103,7 @@ const LeadInquiryModal = ({
                     onChange={handleInputChange}
                     required
                     rows={4}
-                    className="w-full px-4 py-3 bg-white/50 border border-gray-200/50 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none transition-all duration-200"
+                    className="w-full px-4 py-3 bg-white/50 border border-gray-200/50 rounded-xs focus:ring-2 focus:ring-[var(--color-accent-500)]/20 focus:border-[var(--color-accent-500)] resize-none transition-all duration-200"
                     placeholder="Describe your project requirements..."
                   />
                 </div>
@@ -119,7 +119,7 @@ const LeadInquiryModal = ({
                       value={leadForm.budget_range}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 bg-white/50 border border-gray-200/50 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+                      className="w-full px-4 py-3 bg-white/50 border border-gray-200/50 rounded-xs focus:ring-2 focus:ring-[var(--color-accent-500)]/20 focus:border-[var(--color-accent-500)] transition-all duration-200"
                     >
                       <option value="">Select Budget</option>
                       {budgetOptions.map((option) => (
@@ -139,7 +139,7 @@ const LeadInquiryModal = ({
                       value={leadForm.timeline}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 bg-white/50 border border-gray-200/50 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+                      className="w-full px-4 py-3 bg-white/50 border border-gray-200/50 rounded-xs focus:ring-2 focus:ring-[var(--color-accent-500)]/20 focus:border-[var(--color-accent-500)] transition-all duration-200"
                     >
                       <option value="">Select Timeline</option>
                       {timelineOptions.map((option) => (
@@ -161,7 +161,7 @@ const LeadInquiryModal = ({
                     value={leadForm.contact_preference}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 bg-white/50 border border-gray-200/50 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+                    className="w-full px-4 py-3 bg-white/50 border border-gray-200/50 rounded-xs focus:ring-2 focus:ring-[var(--color-accent-500)]/20 focus:border-[var(--color-accent-500)] transition-all duration-200"
                   >
                     <option value="">Select Contact Method</option>
                     {contactOptions.map((option) => (
@@ -182,19 +182,19 @@ const LeadInquiryModal = ({
                     value={leadForm.custom_requirements}
                     onChange={handleInputChange}
                     rows={3}
-                    className="w-full px-4 py-3 bg-white/50 border border-gray-200/50 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none transition-all duration-200"
+                    className="w-full px-4 py-3 bg-white/50 border border-gray-200/50 rounded-xs focus:ring-2 focus:ring-[var(--color-accent-500)]/20 focus:border-[var(--color-accent-500)] resize-none transition-all duration-200"
                     placeholder="Any specific requirements or preferences..."
                   />
                 </div>
 
                 {/* Urgent Project */}
-                <div className="flex items-center space-x-3 p-4 bg-blue-50/50 rounded-xl border border-blue-200/30">
+                <div className="flex items-center space-x-3 p-4 bg-blue-50/50 rounded-xs border border-[var(--color-accent-200)]/30">
                   <input
                     type="checkbox"
                     name="is_urgent"
                     checked={leadForm.is_urgent}
                     onChange={handleInputChange}
-                    className="w-5 h-5 text-blue-600 border-gray-300 rounded-lg focus:ring-blue-500/20 focus:ring-2"
+                    className="w-5 h-5 text-[var(--color-accent-600)] border-gray-300 rounded-xs focus:ring-[var(--color-accent-500)]/20 focus:ring-2"
                   />
                   <div>
                     <label className="text-sm font-semibold text-gray-700">
@@ -212,14 +212,14 @@ const LeadInquiryModal = ({
                 <button
                   type="button"
                   onClick={() => setShowLeadForm(false)}
-                  className="w-full md:w-1/2 px-6 py-4 border border-gray-300/50 text-gray-700 rounded-xl font-semibold hover:bg-gray-50/50 transition-all duration-200 hover:scale-105"
+                  className="w-full md:w-1/2 px-6 py-4 border border-gray-300/50 text-gray-700 rounded-xs font-semibold hover:bg-gray-50/50 transition-all duration-200 hover:scale-105"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={formLoading}
-                  className="w-full md:w-1/2 px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
+                  className="w-full md:w-1/2 px-6 py-4 bg-gradient-to-r from-[var(--color-accent-600)] to-[var(--color-accent-700)] text-white rounded-xs font-semibold hover:from-[var(--color-accent-700)] hover:to-[var(--color-accent-800)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
                 >
                   {formLoading ? (
                     <div className="flex items-center justify-center space-x-2">

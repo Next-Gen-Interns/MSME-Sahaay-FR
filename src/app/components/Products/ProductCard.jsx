@@ -29,7 +29,7 @@ export default function ProductCard({ listing, className = "" }) {
 
   return (
     <div
-      className={`bg-white rounded-lg border border-gray-200 overflow-hidden transition-all duration-200 hover:shadow-md hover:border-[#e4e5f7] ${className}`}
+      className={`bg-white rounded-xs border border-gray-200 overflow-hidden transition-all duration-200 hover:shadow-md hover:border-[#e4e5f7] ${className}`}
     >
       {/* Image Section */}
       <div className="relative h-32 bg-gradient-to-br from-[#f2f3fb] to-[#e4e5f7]">
@@ -91,7 +91,7 @@ export default function ProductCard({ listing, className = "" }) {
         )}
 
         {/* Stats & CTA */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between rounded rounded-xs">
           {/* <div className="flex items-center gap-3 text-xs text-gray-500">
             <span>{listing.view_count || 0} views</span>
             <span>•</span>
@@ -100,7 +100,7 @@ export default function ProductCard({ listing, className = "" }) {
 
           <Link
             href={`/listings/${listing.listing_id}`}
-            className="flex items-center gap-1 bg-[#3B38A0] hover:bg-[#1A2A80] text-white text-xs px-3 py-1.5 rounded transition-colors duration-200"
+            className="flex items-center gap-1 bg-[#3B38A0] hover:bg-[#1A2A80] text-white text-xs px-3 py-1.5  transition-colors duration-200"
           >
             <Phone className="w-3 h-3" />
             <span>Contact</span>

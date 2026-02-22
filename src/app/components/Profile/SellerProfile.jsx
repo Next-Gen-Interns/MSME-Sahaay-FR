@@ -70,7 +70,7 @@ const SellerProfile = ({
 
       if (newFormData.business_country) {
         const countryObj = Country.getAllCountries().find(
-          (c) => c.name === newFormData.business_country
+          (c) => c.name === newFormData.business_country,
         );
         if (countryObj) {
           setSelectedCountry(countryObj.isoCode);
@@ -97,7 +97,7 @@ const SellerProfile = ({
 
   const loadCities = (countryCode, stateCode) => {
     const stateCities = City.getCitiesOfState(countryCode, stateCode).map(
-      (c) => ({ value: c.name, label: c.name })
+      (c) => ({ value: c.name, label: c.name }),
     );
     setCities(stateCities);
     setSelectedCity("");
@@ -234,7 +234,7 @@ const SellerProfile = ({
       setFormData(newFormData);
       if (newFormData.business_country) {
         const countryObj = Country.getAllCountries().find(
-          (c) => c.name === newFormData.business_country
+          (c) => c.name === newFormData.business_country,
         );
         if (countryObj) {
           setSelectedCountry(countryObj.isoCode);
@@ -251,7 +251,7 @@ const SellerProfile = ({
     <div className="space-y-6">
       {showSuccess && (
         <div
-          className="rounded-md p-3"
+          className="rounded-xs p-3"
           style={{
             background: "var(--color-accent-50)",
             border: "1px solid var(--color-accent-100)",
@@ -273,7 +273,7 @@ const SellerProfile = ({
         {!editMode && sellerData && !isCreating && (
           <button
             onClick={handleEdit}
-            className="px-3 py-1 rounded-md text-sm"
+            className="px-3 py-1 rounded-xs text-sm"
             style={{
               border: "1px solid var(--color-accent-100)",
               color: "var(--color-accent-700)",
@@ -299,7 +299,7 @@ const SellerProfile = ({
                 value={formData.business_name}
                 onChange={handleChange}
                 required
-                className="px-3 py-2 rounded-md border"
+                className="px-3 py-2 rounded-xs border"
                 style={{ borderColor: "var(--color-accent-100)" }}
               />
             </label>
@@ -315,7 +315,7 @@ const SellerProfile = ({
                 name="product_categories"
                 value={formData.product_categories}
                 onChange={handleChange}
-                className="px-3 py-2 rounded-md border"
+                className="px-3 py-2 rounded-xs border"
                 style={{ borderColor: "var(--color-accent-100)" }}
               />
             </label>
@@ -331,7 +331,7 @@ const SellerProfile = ({
                 name="certifications"
                 value={formData.certifications}
                 onChange={handleChange}
-                className="px-3 py-2 rounded-md border"
+                className="px-3 py-2 rounded-xs border"
                 style={{ borderColor: "var(--color-accent-100)" }}
               />
             </label>
@@ -349,7 +349,7 @@ const SellerProfile = ({
                 value={formData.years_in_business}
                 onChange={handleChange}
                 min={0}
-                className="px-3 py-2 rounded-md border"
+                className="px-3 py-2 rounded-xs border"
                 style={{ borderColor: "var(--color-accent-100)" }}
               />
             </label>
@@ -367,7 +367,7 @@ const SellerProfile = ({
               value={formData.business_description}
               onChange={handleChange}
               rows={3}
-              className="px-3 py-2 rounded-md border"
+              className="px-3 py-2 rounded-xs border"
               style={{ borderColor: "var(--color-accent-100)" }}
             />
           </label>
@@ -385,7 +385,7 @@ const SellerProfile = ({
                 <select
                   value={selectedCountry}
                   onChange={handleCountryChange}
-                  className="px-3 py-2 rounded-md border"
+                  className="px-3 py-2 rounded-xs border"
                   style={{ borderColor: "var(--color-accent-100)" }}
                 >
                   <option value="">Select country</option>
@@ -408,7 +408,7 @@ const SellerProfile = ({
                   value={selectedState}
                   onChange={handleStateChange}
                   disabled={!selectedCountry}
-                  className="px-3 py-2 rounded-md border"
+                  className="px-3 py-2 rounded-xs border"
                   style={{
                     borderColor: "var(--color-accent-100)",
                     background: !selectedCountry ? "#fbfbfd" : undefined,
@@ -434,7 +434,7 @@ const SellerProfile = ({
                   value={selectedCity}
                   onChange={handleCityChange}
                   disabled={!selectedState}
-                  className="px-3 py-2 rounded-md border"
+                  className="px-3 py-2 rounded-xs border"
                   style={{
                     borderColor: "var(--color-accent-100)",
                     background: !selectedState ? "#fbfbfd" : undefined,
@@ -462,7 +462,7 @@ const SellerProfile = ({
                   onChange={handleChange}
                   rows={2}
                   required={isCreating}
-                  className="px-3 py-2 rounded-md border"
+                  className="px-3 py-2 rounded-xs border"
                   style={{ borderColor: "var(--color-accent-100)" }}
                 />
               </label>
@@ -535,7 +535,7 @@ const SellerProfile = ({
               <button
                 type="button"
                 onClick={handleCancel}
-                className="px-4 py-2 rounded-md text-sm"
+                className="px-4 py-2 rounded-xs text-sm"
                 style={{
                   border: "1px solid var(--color-accent-100)",
                   color: "var(--color-accent-700)",
@@ -547,7 +547,7 @@ const SellerProfile = ({
             <button
               type="submit"
               disabled={saving}
-              className="px-5 py-2 rounded-md text-sm font-medium"
+              className="px-5 py-2 rounded-xs text-sm font-medium"
               style={{
                 background: "var(--color-accent-800)",
                 color: "white",
@@ -557,8 +557,8 @@ const SellerProfile = ({
               {saving
                 ? "Saving..."
                 : isCreating
-                ? "Create Business Profile"
-                : "Save Business Information"}
+                  ? "Create Business Profile"
+                  : "Save Business Information"}
             </button>
           </div>
         </form>

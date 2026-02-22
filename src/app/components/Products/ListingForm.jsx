@@ -78,7 +78,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
           (c) => ({
             value: c.name,
             label: c.name,
-          })
+          }),
         )
       : [];
 
@@ -106,7 +106,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
 
       try {
         const selectedCategory = categories.find(
-          (cat) => cat.id === parseInt(formData.category_id)
+          (cat) => cat.id === parseInt(formData.category_id),
         );
 
         if (selectedCategory) {
@@ -137,7 +137,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
         const maxLength = Math.max(
           listing.service_countries.length,
           listing.service_states.length,
-          listing.service_cities.length
+          listing.service_cities.length,
         );
 
         for (let i = 0; i < maxLength; i++) {
@@ -186,7 +186,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
       (location) =>
         location.country === selectedCountry.label &&
         location.state === selectedState.label &&
-        location.city === selectedCity.label
+        location.city === selectedCity.label,
     );
 
     if (isDuplicate) {
@@ -216,7 +216,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
     setFormData((prev) => ({
       ...prev,
       service_locations: prev.service_locations.filter(
-        (location) => location.id !== locationId
+        (location) => location.id !== locationId,
       ),
     }));
   };
@@ -319,7 +319,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
       throw new Error(
         `Failed to upload images: ${
           error.response?.data?.message || error.message
-        }`
+        }`,
       );
     }
   };
@@ -359,7 +359,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
 
         if (!listingId) {
           throw new Error(
-            "Failed to create listing - no ID returned from server"
+            "Failed to create listing - no ID returned from server",
           );
         }
         toast.success("Service created");
@@ -398,7 +398,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
     >
       {/* Header */}
       <div
-        className="rounded-2xl p-8 mb-8 shadow-sm border"
+        className="rounded-xs p-8 mb-8 shadow-sm border"
         style={{
           background:
             "linear-gradient(135deg, var(--color-accent-700), var(--color-accent-900))",
@@ -423,7 +423,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
 
       {/* Progress Tabs */}
       <div
-        className="flex space-x-1 mb-8 rounded-2xl p-2"
+        className="flex space-x-1 mb-8 rounded-xs p-2"
         style={{
           background: "var(--color-accent-50)",
           border: "1px solid var(--color-accent-100)",
@@ -435,7 +435,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 py-3 px-4 rounded-xl text-sm font-medium transition-all duration-200 flex items-center justify-center gap-3 ${
+              className={`flex-1 py-3 px-4 rounded-xs text-sm font-medium transition-all duration-200 flex items-center justify-center gap-3 ${
                 activeTab === tab.id
                   ? "shadow-sm"
                   : "hover:shadow-none hover:opacity-90"
@@ -466,7 +466,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
         {activeTab === "basic" && (
           <div className="space-y-6">
             <div
-              className="rounded-2xl p-6 shadow-sm border"
+              className="rounded-xs p-6 shadow-sm border"
               style={{
                 background: "var(--color-primary)",
                 borderColor: "var(--color-accent-100)",
@@ -500,7 +500,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
                     value={formData.title}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 rounded-xs focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
                     style={{
                       border: "1px solid var(--color-accent-200)",
                       background: "var(--color-primary)",
@@ -524,7 +524,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
                     onChange={handleInputChange}
                     required
                     rows={5}
-                    className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 resize-none"
+                    className="w-full px-4 py-3 rounded-xs focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 resize-none"
                     style={{
                       border: "1px solid var(--color-accent-200)",
                       background: "var(--color-primary)",
@@ -548,7 +548,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
                       name="service_type"
                       value={formData.service_type}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
+                      className="w-full px-4 py-3 rounded-xs focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
                       style={{
                         border: "1px solid var(--color-accent-200)",
                         background: "var(--color-primary)",
@@ -575,7 +575,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
                       value={formData.category_id}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
+                      className="w-full px-4 py-3 rounded-xs focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
                       style={{
                         border: "1px solid var(--color-accent-200)",
                         background: "var(--color-primary)",
@@ -605,7 +605,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
                       value={formData.subcategory_id}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
+                      className="w-full px-4 py-3 rounded-xs focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
                       style={{
                         border: "1px solid var(--color-accent-200)",
                         background: "var(--color-primary)",
@@ -631,7 +631,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
         {activeTab === "pricing" && (
           <div className="space-y-6">
             <div
-              className="rounded-2xl p-6 shadow-sm border"
+              className="rounded-xs p-6 shadow-sm border"
               style={{
                 background: "var(--color-primary)",
                 borderColor: "var(--color-accent-100)",
@@ -663,7 +663,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
                     name="pricing_model"
                     value={formData.pricing_model}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 rounded-xs focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
                     style={{
                       border: "1px solid var(--color-accent-200)",
                       background: "var(--color-primary)",
@@ -692,7 +692,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
                       value={formData.min_price}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
+                      className="w-full px-4 py-3 rounded-xs focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
                       style={{
                         border: "1px solid var(--color-accent-200)",
                         background: "var(--color-primary)",
@@ -714,7 +714,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
                       value={formData.max_price}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
+                      className="w-full px-4 py-3 rounded-xs focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
                       style={{
                         border: "1px solid var(--color-accent-200)",
                         background: "var(--color-primary)",
@@ -739,7 +739,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
                     value={formData.estimated_timeline}
                     onChange={handleInputChange}
                     placeholder="e.g., 2-4 weeks, 3-5 days"
-                    className="w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 rounded-xs focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
                     style={{
                       border: "1px solid var(--color-accent-200)",
                       background: "var(--color-primary)",
@@ -756,7 +756,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
         {activeTab === "details" && (
           <div className="space-y-6">
             <div
-              className="rounded-2xl p-6 shadow-sm border"
+              className="rounded-xs p-6 shadow-sm border"
               style={{
                 background: "var(--color-primary)",
                 borderColor: "var(--color-accent-100)",
@@ -831,7 +831,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
                     disabled={
                       !selectedCountry || !selectedState || !selectedCity
                     }
-                    className="w-full px-6 py-3 rounded-xl font-medium transition-colors duration-200 flex items-center justify-center gap-2"
+                    className="w-full px-6 py-3 rounded-xs font-medium transition-colors duration-200 flex items-center justify-center gap-2"
                     style={{
                       background: "var(--color-accent-700)",
                       color: "#fff",
@@ -872,7 +872,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
                       {formData.service_locations.map((location) => (
                         <div
                           key={location.id}
-                          className="flex items-center justify-between p-4 rounded-xl border"
+                          className="flex items-center justify-between p-4 rounded-xs border"
                           style={{
                             background: "var(--color-accent-50)",
                             borderColor: "var(--color-accent-100)",
@@ -940,7 +940,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
                           <button
                             type="button"
                             onClick={() => handleRemoveLocation(location.id)}
-                            className="ml-4 p-2 rounded-lg transition-colors duration-200"
+                            className="ml-4 p-2 rounded-xs transition-colors duration-200"
                             style={{
                               background: "rgba(248,113,113,0.15)",
                               color: "#b91c1c",
@@ -957,7 +957,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
 
                 {formData.service_locations.length === 0 && (
                   <div
-                    className="text-center py-12 border-2 border-dashed rounded-2xl"
+                    className="text-center py-12 border-2 border-dashed rounded-xs"
                     style={{
                       borderColor: "var(--color-accent-200)",
                       background: "var(--color-accent-50)",
@@ -991,7 +991,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
           <div className="space-y-6">
             {/* Tags Section */}
             <div
-              className="rounded-2xl p-6 shadow-sm border"
+              className="rounded-xs p-6 shadow-sm border"
               style={{
                 background: "var(--color-primary)",
                 borderColor: "var(--color-accent-100)",
@@ -1024,7 +1024,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
                       value={currentTag}
                       onChange={(e) => setCurrentTag(e.target.value)}
                       placeholder="Add tag (e.g., Web Development, Design)"
-                      className="flex-1 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
+                      className="flex-1 px-4 py-3 rounded-xs focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
                       style={{
                         border: "1px solid var(--color-accent-200)",
                         background: "var(--color-primary)",
@@ -1034,7 +1034,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
                     <button
                       type="button"
                       onClick={handleTagAdd}
-                      className="px-6 py-3 rounded-xl font-medium transition-colors duration-200 flex items-center gap-2"
+                      className="px-6 py-3 rounded-xs font-medium transition-colors duration-200 flex items-center gap-2"
                       style={{
                         background: "var(--color-accent-700)",
                         color: "#fff",
@@ -1073,7 +1073,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
 
             {/* Media Section */}
             <div
-              className="rounded-2xl p-6 shadow-sm border"
+              className="rounded-xs p-6 shadow-sm border"
               style={{
                 background: "var(--color-primary)",
                 borderColor: "var(--color-accent-100)",
@@ -1101,7 +1101,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
                     Upload Images ({mediaFiles.length}/5)
                   </label>
                   <div
-                    className="border-2 border-dashed rounded-2xl p-8 text-center transition-colors duration-200 hover:border-[var(--color-accent-300)]"
+                    className="border-2 border-dashed rounded-xs p-8 text-center transition-colors duration-200 hover:border-[var(--color-accent-300)]"
                     style={{
                       borderColor: "var(--color-accent-200)",
                       background: "var(--color-accent-50)",
@@ -1153,7 +1153,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
                           <img
                             src={URL.createObjectURL(file)}
                             alt={`Preview ${index + 1}`}
-                            className="w-full h-32 object-cover rounded-xl border"
+                            className="w-full h-32 object-cover rounded-xs border"
                             style={{ borderColor: "var(--color-accent-200)" }}
                           />
                           <button
@@ -1175,7 +1175,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
 
                 {!listing && mediaFiles.length === 0 && (
                   <div
-                    className="rounded-xl border p-4 flex items-start gap-3"
+                    className="rounded-xs border p-4 flex items-start gap-3"
                     style={{
                       background: "rgba(254,242,242,1)",
                       borderColor: "rgba(254,202,202,1)",
@@ -1209,7 +1209,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
             <button
               type="button"
               onClick={onCancel}
-              className="px-6 py-3 rounded-xl font-medium transition-colors duration-200 flex items-center gap-2"
+              className="px-6 py-3 rounded-xs font-medium transition-colors duration-200 flex items-center gap-2"
               style={{
                 border: "1px solid var(--color-accent-200)",
                 background: "var(--color-primary)",
@@ -1225,11 +1225,11 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
                 type="button"
                 onClick={() => {
                   const currentIndex = tabs.findIndex(
-                    (tab) => tab.id === activeTab
+                    (tab) => tab.id === activeTab,
                   );
                   if (currentIndex > 0) setActiveTab(tabs[currentIndex - 1].id);
                 }}
-                className="px-6 py-3 rounded-xl font-medium transition-colors duration-200 flex items-center gap-2"
+                className="px-6 py-3 rounded-xs font-medium transition-colors duration-200 flex items-center gap-2"
                 style={{
                   background: "var(--color-accent-100)",
                   color: "var(--color-accent-800)",
@@ -1247,13 +1247,13 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
                 type="button"
                 onClick={() => {
                   const currentIndex = tabs.findIndex(
-                    (tab) => tab.id === activeTab
+                    (tab) => tab.id === activeTab,
                   );
                   if (currentIndex < tabs.length - 1) {
                     setActiveTab(tabs[currentIndex + 1].id);
                   }
                 }}
-                className="px-6 py-3 rounded-xl font-medium transition-colors duration-200 flex items-center gap-2"
+                className="px-6 py-3 rounded-xs font-medium transition-colors duration-200 flex items-center gap-2"
                 style={{
                   background: "var(--color-accent-700)",
                   color: "#fff",
@@ -1268,7 +1268,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="px-8 py-3 rounded-xl font-medium shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-3"
+                className="px-8 py-3 rounded-xs font-medium shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-3"
                 style={{
                   background:
                     "linear-gradient(135deg, var(--color-accent-700), var(--color-accent-900))",
@@ -1293,7 +1293,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
 
         {errors.submit && (
           <div
-            className="rounded-xl p-4 mt-6"
+            className="rounded-xs p-4 mt-6"
             style={{
               background: "rgba(254,242,242,1)",
               border: "1px solid rgba(254,202,202,1)",

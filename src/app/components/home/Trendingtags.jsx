@@ -182,7 +182,7 @@ export default function ExpandableServices() {
                 key={i}
                 onClick={() => handleClick(c.subcategory_id)}
                 className={`
-                  flex-shrink-0 w-32 h-32 rounded-xl relative overflow-hidden cursor-pointer
+                  flex-shrink-0 w-32 h-32 rounded-xs relative overflow-hidden cursor-pointer
                   transition-all duration-300 hover:scale-105 active:scale-95
                   ${c.color}
                 `}
