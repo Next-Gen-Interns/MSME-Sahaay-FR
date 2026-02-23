@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
+import { useProfileCheck } from "../hooks/useProfileCheck";
 import UserBasicInfo from "../components/Profile/UserBasicInfo";
 import BuyerProfile from "../components/Profile/BuyerProfile";
 import SellerProfile from "../components/Profile/SellerProfile";
@@ -17,17 +18,19 @@ import {
   updateUserProfile,
 } from "../api/profileAPI";
 import {
+  getSubscriptionPlans,
+  createSubscription,
+  cancelSubscription,
+  getUserSubscription,
+  getFreePlanInfo,
+  getUsageAlerts,
+} from "../api/subscriptionApi";
+import {
   setLoading,
   setRoleData,
   setUserData,
 } from "../lib/redux/slices/profileSlice";
-
-/* ══════════════════════════════════════════════════════
-   SETTINGS PAGE — IndiaMART style
-   Profile tab embeds the existing profile components
-   (UserBasicInfo, BuyerProfile, SellerProfile) with
-   full logic from ProfilePage, zero API changes.
-══════════════════════════════════════════════════════ */
+import toast from "react-hot-toast";
 
 const TABS = [
   {
@@ -62,6 +65,727 @@ const TABS = [
   },
 ];
 
+// ─── Billing Icons ───────────────────────────────────────────────────────────
+const Icons = {
+  Check: () => (
+    <svg
+      className="w-4 h-4"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M5 13l4 4L19 7"
+      />
+    </svg>
+  ),
+  Warning: () => (
+    <svg
+      className="w-5 h-5"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z"
+      />
+    </svg>
+  ),
+  Success: () => (
+    <svg
+      className="w-5 h-5"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    </svg>
+  ),
+  Cancel: () => (
+    <svg
+      className="w-4 h-4"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M6 18L18 6M6 6l12 12"
+      />
+    </svg>
+  ),
+  User: () => (
+    <svg
+      className="w-5 h-5"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+      />
+    </svg>
+  ),
+  Star: () => (
+    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    </svg>
+  ),
+  Zap: () => (
+    <svg
+      className="w-5 h-5"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M13 10V3L4 14h7v7l9-11h-7z"
+      />
+    </svg>
+  ),
+  Rocket: () => (
+    <svg
+      className="w-5 h-5"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M13 10V3L4 14h7v7l9-11h-7z"
+      />
+    </svg>
+  ),
+};
+
+// ─── Confirm Toast ────────────────────────────────────────────────────────────
+const confirmToast = (message) =>
+  new Promise((resolve) => {
+    toast.custom((t) => (
+      <div className="bg-white p-4 rounded-xl shadow-lg border w-80 text-gray-900">
+        <p className="whitespace-pre-line text-sm">{message}</p>
+        <div className="flex justify-end gap-3 mt-4">
+          <button
+            className="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 text-sm"
+            onClick={() => {
+              toast.dismiss(t.id);
+              resolve(false);
+            }}
+          >
+            No
+          </button>
+          <button
+            className="px-3 py-1 rounded-lg bg-red-600 text-white hover:bg-red-700 text-sm"
+            onClick={() => {
+              toast.dismiss(t.id);
+              resolve(true);
+            }}
+          >
+            Yes, Cancel
+          </button>
+        </div>
+      </div>
+    ));
+  });
+
+// ─── Plan Card ────────────────────────────────────────────────────────────────
+const PlanCard = ({
+  plan,
+  onSubscribe,
+  subscribing,
+  canSubscribe,
+  featured = false,
+  isCurrentPlan,
+  isFreePlan,
+}) => (
+  <div
+    className={`relative flex flex-col bg-white rounded-2xl border-2 transition-all duration-200 hover:shadow-md ${
+      featured
+        ? "border-[var(--color-accent-500)] shadow-lg"
+        : "border-gray-200"
+    } ${isCurrentPlan ? "ring-1 ring-[var(--color-accent-500)]" : ""}`}
+  >
+    {/* Badge */}
+    {(featured || isCurrentPlan) && (
+      <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+        <span className="bg-gradient-to-r from-[var(--color-accent-500)] to-[var(--color-accent-700)] text-white px-4 py-1 rounded-full text-[10px] font-bold shadow flex items-center gap-1">
+          {isCurrentPlan ? (
+            <>
+              <Icons.Success />
+              {isFreePlan ? "Current Plan" : "Active Plan"}
+            </>
+          ) : (
+            <>
+              <Icons.Star />
+              <span>Most Popular</span>
+            </>
+          )}
+        </span>
+      </div>
+    )}
+
+    <div className="p-5 flex-1 flex flex-col">
+      {/* Header */}
+      <div className="text-center mb-4">
+        <div
+          className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 ${
+            featured
+              ? "bg-blue-50"
+              : isFreePlan
+                ? "bg-gray-100"
+                : "bg-[var(--color-accent-50)]"
+          }`}
+        >
+          {isFreePlan ? (
+            <Icons.User />
+          ) : featured ? (
+            <span className="text-[var(--color-accent-600)]">
+              <Icons.Zap />
+            </span>
+          ) : (
+            <span className="text-[var(--color-accent-600)]">
+              <Icons.Rocket />
+            </span>
+          )}
+        </div>
+        <h3 className="text-base font-bold text-gray-900 mb-1">{plan.name}</h3>
+        <p className="text-[11px] text-gray-500 leading-relaxed">
+          {plan.description}
+        </p>
+      </div>
+
+      {/* Price */}
+      <div className="text-center mb-5">
+        <div className="flex items-baseline justify-center gap-1">
+          <span className="text-3xl font-extrabold text-gray-900">
+            ${plan.price}
+          </span>
+          <span className="text-gray-400 text-sm">/{plan.billing_cycle}</span>
+        </div>
+        {isFreePlan ? (
+          <p className="text-[10px] text-green-600 font-semibold mt-1">
+            Default for all users
+          </p>
+        ) : (
+          <p className="text-[10px] text-gray-400 mt-1">Cancel anytime</p>
+        )}
+      </div>
+
+      {/* Features */}
+      <ul className="flex-1 space-y-2 mb-5">
+        {Object.entries(plan.features)
+          .slice(0, 6)
+          .map(([key, value]) => (
+            <li key={key} className="flex items-start gap-2">
+              <span className="w-4 h-4 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <Icons.Check />
+              </span>
+              <span className="text-[11px] text-gray-600 leading-tight">
+                {value}
+              </span>
+            </li>
+          ))}
+      </ul>
+
+      {/* CTA */}
+      <button
+        onClick={() => !isFreePlan && onSubscribe(plan.plan_id)}
+        disabled={subscribing || isCurrentPlan || !canSubscribe}
+        className={`w-full py-2.5 px-4 rounded-xl text-[12px] font-bold transition-all duration-200 ${
+          isCurrentPlan
+            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+            : featured
+              ? "bg-gradient-to-r from-[var(--color-accent-500)] to-[var(--color-accent-800)] text-white hover:opacity-90 shadow"
+              : isFreePlan
+                ? "bg-gray-900 text-white hover:bg-gray-800"
+                : "bg-gradient-to-r from-[var(--color-accent-700)] to-[var(--color-accent-600)] text-white hover:opacity-90 shadow"
+        } disabled:opacity-50 disabled:cursor-not-allowed`}
+      >
+        {isCurrentPlan ? (
+          <span className="flex items-center justify-center gap-1.5">
+            <Icons.Success />
+            {isFreePlan ? "Current Plan" : "Active Plan"}
+          </span>
+        ) : subscribing ? (
+          <span className="flex items-center justify-center gap-1.5">
+            <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            Processing...
+          </span>
+        ) : isFreePlan ? (
+          "Current Plan"
+        ) : (
+          "Subscribe Now"
+        )}
+      </button>
+    </div>
+  </div>
+);
+
+// ─── Billing Tab Content ──────────────────────────────────────────────────────
+function BillingTab({ userData, checkProfileCompletion }) {
+  const [plans, setPlans] = useState([]);
+  const [userSubscription, setUserSubscription] = useState(null);
+  const [usageAlerts, setUsageAlerts] = useState([]);
+  const [billingLoading, setBillingLoading] = useState(true);
+  const [subscribing, setSubscribing] = useState(false);
+  const [canceling, setCanceling] = useState(false);
+  const [planTab, setPlanTab] = useState("all");
+
+  const isAuthenticated =
+    typeof window !== "undefined" && !!localStorage.getItem("token");
+
+  useEffect(() => {
+    fetchBillingData();
+  }, []);
+
+  useEffect(() => {
+    if (userData?.role) setPlanTab(userData.role);
+  }, [userData]);
+
+  const fetchBillingData = async () => {
+    try {
+      setBillingLoading(true);
+      const [plansRes, freePlanRes] = await Promise.all([
+        getSubscriptionPlans(),
+        getFreePlanInfo(),
+      ]);
+      if (plansRes.data.success) setPlans(plansRes.data.data);
+
+      if (isAuthenticated) {
+        const [subRes, alertsRes] = await Promise.all([
+          getUserSubscription(),
+          getUsageAlerts(),
+        ]);
+        if (subRes.data.success) setUserSubscription(subRes.data.data);
+        if (alertsRes.data.success) setUsageAlerts(alertsRes.data.data);
+      }
+    } catch (e) {
+      console.error("Error fetching billing data:", e);
+    } finally {
+      setBillingLoading(false);
+    }
+  };
+
+  const handleSubscribe = async (planId) => {
+    if (!isAuthenticated) {
+      toast.error("Please login to subscribe");
+      return;
+    }
+    if (!checkProfileCompletion(userData?.role)) return;
+
+    const selectedPlan = plans.find((p) => p.plan_id === planId);
+    if (selectedPlan?.price === 0) return;
+
+    try {
+      setSubscribing(true);
+      const res = await createSubscription({ plan_id: planId });
+      if (res.data.success) {
+        toast.success("Subscription activated!");
+        await fetchBillingData();
+        if (res.data.payment_url) window.location.href = res.data.payment_url;
+      }
+    } catch (error) {
+      const msg =
+        error.response?.data?.error || "Failed to create subscription";
+      toast.error(
+        msg.includes("already has")
+          ? "You already have a subscription. Please cancel your current plan first."
+          : msg,
+      );
+    } finally {
+      setSubscribing(false);
+    }
+  };
+
+  const handleCancelSubscription = async () => {
+    if (!userSubscription?.subscription) {
+      toast.error("No active subscription found");
+      return;
+    }
+    if (userSubscription.subscription.plan.price === 0) {
+      toast.error("Free plan cannot be canceled");
+      return;
+    }
+
+    const confirmed = await confirmToast(
+      "Are you sure you want to cancel your subscription?\n\n⚠️ Cancellations are non-refundable. You'll retain access until the end of your billing period.",
+    );
+    if (!confirmed) return;
+
+    try {
+      setCanceling(true);
+      const res = await cancelSubscription();
+      if (res.data.success) {
+        toast.success("Subscription cancelled");
+        await fetchBillingData();
+      } else throw new Error(res.data.error);
+    } catch (error) {
+      const msg =
+        error.response?.data?.error ||
+        error.message ||
+        "Failed to cancel subscription";
+      if (msg.includes("No active subscription found")) {
+        await fetchBillingData();
+        toast.error("No active subscription found. Please refresh.");
+      } else toast.error(msg);
+    } finally {
+      setCanceling(false);
+    }
+  };
+
+  const isFreePlanUser =
+    !userSubscription?.subscription || userSubscription.isFreePlan;
+  const isPaidActive =
+    userSubscription?.subscription?.status === "active" &&
+    userSubscription.subscription.plan.price > 0;
+  const isPaidCanceled =
+    userSubscription?.subscription?.status === "canceled" &&
+    userSubscription.subscription.plan.price > 0;
+
+  const getFilteredPlans = () => {
+    if (!userData) return plans;
+    if (planTab === "buyer" || planTab === "seller")
+      return plans.filter(
+        (p) => p.plan_type === planTab || p.plan_type === "both",
+      );
+    return plans.filter(
+      (p) => p.plan_type === userData.role || p.plan_type === "both",
+    );
+  };
+
+  const filteredPlans = getFilteredPlans();
+
+  const availableTabs = userData?.role
+    ? [
+        { id: "all", label: "All Plans" },
+        {
+          id: userData.role,
+          label: userData.role === "buyer" ? "For Buyers" : "For Sellers",
+        },
+      ]
+    : [
+        { id: "all", label: "All Plans" },
+        { id: "buyer", label: "For Buyers" },
+        { id: "seller", label: "For Sellers" },
+      ];
+
+  const usageStats = (() => {
+    if (!userSubscription?.usage) return null;
+    return Object.entries(userSubscription.usage)
+      .filter(([, d]) => d.limit > 0 && d.used > 0)
+      .sort((a, b) => b[1].used / b[1].limit - a[1].used / a[1].limit)
+      .slice(0, 3);
+  })();
+
+  if (billingLoading) {
+    return (
+      <div className="flex items-center justify-center py-16">
+        <div className="w-7 h-7 border-2 border-[var(--color-accent-700)] border-t-transparent rounded-full animate-spin" />
+        <span className="ml-3 text-sm text-gray-400">
+          Loading billing info...
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-5 space-y-6">
+      {/* ── Current Subscription Status Card ── */}
+      {isAuthenticated && userSubscription && (
+        <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            {/* Left: Plan info */}
+            <div className="flex items-center gap-3">
+              <div
+                className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                  isPaidActive ? "bg-green-100" : "bg-blue-50"
+                }`}
+              >
+                {isPaidActive ? (
+                  <span className="text-green-600">
+                    <Icons.Success />
+                  </span>
+                ) : (
+                  <span className="text-[var(--color-accent-600)]">
+                    <Icons.User />
+                  </span>
+                )}
+              </div>
+              <div>
+                <p className="text-sm font-bold text-gray-900">
+                  {isPaidActive
+                    ? userSubscription.subscription.plan.name
+                    : "Free Plan"}
+                </p>
+                <p
+                  className={`text-[11px] font-medium ${
+                    isPaidActive
+                      ? "text-green-600"
+                      : isPaidCanceled
+                        ? "text-amber-600"
+                        : "text-[var(--color-accent-600)]"
+                  }`}
+                >
+                  {isPaidActive ? (
+                    <>
+                      Active · Renews{" "}
+                      {new Date(
+                        userSubscription.subscription.current_period_end,
+                      ).toLocaleDateString()}
+                      {userSubscription.subscription.cancel_at_period_end && (
+                        <span className="ml-1 text-amber-600">
+                          (Cancels at period end)
+                        </span>
+                      )}
+                    </>
+                  ) : isPaidCanceled ? (
+                    "Cancelled — reverting to Free Plan"
+                  ) : (
+                    "Free Plan — upgrade for more features"
+                  )}
+                </p>
+              </div>
+            </div>
+
+            {/* Right: Usage bars */}
+            <div className="flex flex-wrap gap-5">
+              {usageStats?.map(([feature, data]) => {
+                const pct = (data.used / data.limit) * 100;
+                return (
+                  <div key={feature} className="text-center">
+                    <p className="text-[10px] font-semibold text-gray-500 capitalize mb-1">
+                      {feature.replace("_", " ")}
+                    </p>
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full rounded-full ${
+                            pct >= 90
+                              ? "bg-red-500"
+                              : pct >= 70
+                                ? "bg-yellow-500"
+                                : "bg-green-500"
+                          }`}
+                          style={{ width: `${Math.min(pct, 100)}%` }}
+                        />
+                      </div>
+                      <span className="text-[10px] text-gray-500">
+                        {data.used}/{data.limit}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Cancel button */}
+            {isPaidActive && (
+              <button
+                onClick={handleCancelSubscription}
+                disabled={canceling}
+                className="flex items-center gap-1.5 px-4 py-2 border border-red-300 text-red-600 bg-white rounded-lg text-[12px] font-semibold hover:bg-red-50 transition-colors disabled:opacity-50 flex-shrink-0"
+              >
+                {canceling ? (
+                  <>
+                    <div className="w-3.5 h-3.5 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
+                    <span>Cancelling...</span>
+                  </>
+                ) : (
+                  <>
+                    <Icons.Cancel />
+                    <span>Cancel Plan</span>
+                  </>
+                )}
+              </button>
+            )}
+          </div>
+
+          {/* Non-refundable notice */}
+          {isPaidActive && (
+            <div className="mt-3 flex items-start gap-2 p-2.5 bg-amber-50 border border-amber-200 rounded-lg">
+              <span className="text-amber-500 flex-shrink-0 mt-0.5">
+                <Icons.Warning />
+              </span>
+              <p className="text-[11px] text-amber-700">
+                <strong>Important:</strong> Cancellations are non-refundable.
+                You'll keep premium access until the end of your billing period.
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ── Usage Alerts ── */}
+      {usageAlerts.length > 0 && (
+        <div className="bg-orange-50 border border-orange-200 rounded-xl p-4">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-orange-500">
+              <Icons.Warning />
+            </span>
+            <p className="text-sm font-bold text-orange-800">
+              Usage Limits Approaching
+            </p>
+          </div>
+          <div className="space-y-2">
+            {usageAlerts.slice(0, 3).map((alert, i) => (
+              <div key={i} className="flex items-center justify-between">
+                <span className="text-[11px] text-orange-700 capitalize">
+                  {alert.feature.replace("_", " ")}
+                </span>
+                <div className="flex items-center gap-2">
+                  <div className="w-20 h-1.5 bg-orange-200 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full rounded-full ${
+                        alert.severity === "error"
+                          ? "bg-red-500"
+                          : alert.severity === "warning"
+                            ? "bg-orange-500"
+                            : "bg-[var(--color-accent-500)]"
+                      }`}
+                      style={{ width: `${Math.min(alert.percentage, 100)}%` }}
+                    />
+                  </div>
+                  <span
+                    className={`text-[10px] font-bold ${
+                      alert.severity === "error"
+                        ? "text-red-600"
+                        : alert.severity === "warning"
+                          ? "text-orange-600"
+                          : "text-[var(--color-accent-600)]"
+                    }`}
+                  >
+                    {alert.percentage}%
+                  </span>
+                </div>
+              </div>
+            ))}
+            {usageAlerts.length > 3 && (
+              <p className="text-[11px] text-orange-600 font-medium">
+                +{usageAlerts.length - 3} more limits approaching
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ── Section title ── */}
+      <div>
+        <p className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">
+          Available Plans
+        </p>
+        <p className="text-sm text-gray-600">
+          {userData?.role === "buyer"
+            ? "Scale your procurement with the right plan"
+            : userData?.role === "seller"
+              ? "Grow your business with the right plan"
+              : "Start free, upgrade as you grow."}
+        </p>
+      </div>
+
+      {/* ── Plan type tabs ── */}
+      {availableTabs.length > 1 && (
+        <div className="flex gap-1 bg-gray-100 rounded-xl p-1 w-fit">
+          {availableTabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setPlanTab(tab.id)}
+              className={`px-4 py-1.5 rounded-lg text-[12px] font-semibold transition-all ${
+                planTab === tab.id
+                  ? "bg-white text-[var(--color-accent-800)] shadow-sm"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* ── Plans Grid ── */}
+      {filteredPlans.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {filteredPlans.map((plan, index) => {
+            const isFreePlan = plan.price === 0;
+            const isCurrentPlan =
+              (isFreePlanUser && isFreePlan) ||
+              userSubscription?.subscription?.plan_id === plan.plan_id;
+            const canSubscribe =
+              isAuthenticated &&
+              (plan.plan_type === userData?.role ||
+                plan.plan_type === "both") &&
+              checkProfileCompletion(userData?.role) &&
+              plan.price > 0;
+
+            return (
+              <PlanCard
+                key={plan.plan_id}
+                plan={plan}
+                onSubscribe={handleSubscribe}
+                subscribing={subscribing}
+                canSubscribe={canSubscribe}
+                featured={index === 1 && filteredPlans.length >= 3}
+                isCurrentPlan={isCurrentPlan}
+                isFreePlan={isFreePlan}
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <div className="text-center py-10 border border-dashed border-gray-200 rounded-xl">
+          <p className="text-sm text-gray-400">
+            No plans available for this category.
+          </p>
+        </div>
+      )}
+
+      {/* ── Profile completion nudge ── */}
+      {isAuthenticated && !checkProfileCompletion(userData?.role) && (
+        <div className="flex items-center gap-3 p-4 bg-blue-50 border border-[var(--color-accent-200)] rounded-xl">
+          <span className="text-[var(--color-accent-500)] flex-shrink-0">
+            <Icons.Warning />
+          </span>
+          <div className="flex-1">
+            <p className="text-sm font-semibold text-[var(--color-accent-800)]">
+              Complete your profile to subscribe
+            </p>
+            <p className="text-[11px] text-[var(--color-accent-600)] mt-0.5">
+              Profile setup is required before activating a paid plan.
+            </p>
+          </div>
+          <button
+            onClick={() => (window.location.href = "/settings")}
+            className="px-3 py-1.5 bg-[var(--color-accent-600)] text-white text-[12px] font-semibold rounded-lg hover:bg-[var(--color-accent-700)] transition-colors flex-shrink-0"
+          >
+            Complete Profile
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Main Settings Page ───────────────────────────────────────────────────────
 export default function SettingsPage() {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -70,14 +794,13 @@ export default function SettingsPage() {
     roleData,
     loading: profileLoading,
   } = useSelector((s) => s.profile);
+  const { checkProfileCompletion } = useProfileCheck();
 
   const [activeTab, setActiveTab] = useState("profile");
-  // profile sub-tab
   const [profileSubTab, setProfileSubTab] = useState("basic");
   const [roleProfileExists, setRoleProfileExists] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  // Non-profile settings state
   const [settings, setSettings] = useState({
     emailNotifications: true,
     pushNotifications: false,
@@ -98,7 +821,6 @@ export default function SettingsPage() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  /* ── Load profile on mount ── */
   useEffect(() => {
     if (!userData) loadProfileData();
   }, []);
@@ -141,7 +863,6 @@ export default function SettingsPage() {
     }
   };
 
-  /* ── Profile save handlers ── */
   const handleUserInfoSave = async (formData) => {
     try {
       setSaving(true);
@@ -208,7 +929,6 @@ export default function SettingsPage() {
     }
   };
 
-  /* ── Non-profile save ── */
   const handleSave = async () => {
     setIsSaving(true);
     await new Promise((r) => setTimeout(r, 1200));
@@ -227,9 +947,7 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-screen bg-[#f5f5f5]">
-      {/* ══════════════════════════════════
-          PAGE HEADER
-      ══════════════════════════════════ */}
+      {/* Header */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-20 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center gap-3">
           <div className="w-1 h-6 rounded-full bg-[var(--color-accent-700)]" />
@@ -243,7 +961,6 @@ export default function SettingsPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-4">
-        {/* Success Toast */}
         {showSuccess && (
           <div className="mb-4 bg-green-50 border border-green-200 rounded-sm px-4 py-3 flex items-center gap-2">
             <svg
@@ -266,7 +983,7 @@ export default function SettingsPage() {
         )}
 
         <div className="flex flex-col lg:flex-row gap-4 items-start">
-          {/* ── Sidebar ── */}
+          {/* Sidebar */}
           <aside className="lg:w-52 flex-shrink-0 w-full">
             <div className="bg-white border border-gray-200 rounded-sm overflow-hidden">
               <div className="px-3 py-2.5 bg-[var(--color-accent-800)]">
@@ -279,7 +996,7 @@ export default function SettingsPage() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-2.5 text-[12px] font-semibold transition-all text-left relative group ${
+                    className={`w-full flex items-center gap-3 px-4 py-2.5 text-[12px] font-semibold transition-all text-left relative ${
                       activeTab === tab.id
                         ? "bg-[var(--color-accent-50)] text-[var(--color-accent-800)] border-r-2 border-[var(--color-accent-700)]"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -299,7 +1016,6 @@ export default function SettingsPage() {
                       />
                     </svg>
                     {tab.label}
-                    {/* Profile completion badge on Profile tab */}
                     {tab.id === "profile" && progressPct < 100 && (
                       <span className="ml-auto text-[9px] font-bold bg-amber-100 text-amber-700 border border-amber-200 px-1.5 py-0.5 rounded">
                         {progressPct}%
@@ -316,15 +1032,12 @@ export default function SettingsPage() {
             </div>
           </aside>
 
-          {/* ── Main Content ── */}
+          {/* Main Content */}
           <div className="flex-1 min-w-0">
             <div className="bg-white border border-gray-200 rounded-sm overflow-hidden">
-              {/* ════════════════════════════
-                  PROFILE TAB
-              ════════════════════════════ */}
+              {/* ── PROFILE TAB ── */}
               {activeTab === "profile" && (
                 <>
-                  {/* Profile Tab Header */}
                   <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between gap-4 flex-wrap">
                     <div>
                       <div className="flex items-center gap-2 mb-0.5">
@@ -337,8 +1050,6 @@ export default function SettingsPage() {
                         Complete your profile to unlock all features
                       </p>
                     </div>
-
-                    {/* Progress pill */}
                     <div className="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded px-4 py-2">
                       <div className="text-right">
                         <div
@@ -367,7 +1078,6 @@ export default function SettingsPage() {
                     </div>
                   </div>
 
-                  {/* Profile Sub-tabs */}
                   <div className="px-5 pt-3 pb-0 border-b border-gray-100 flex gap-0">
                     {[
                       { id: "basic", label: "Personal Info" },
@@ -393,7 +1103,6 @@ export default function SettingsPage() {
                     ))}
                   </div>
 
-                  {/* Profile Content */}
                   <div className="p-5">
                     {profileLoading ? (
                       <div className="flex items-center justify-center py-12">
@@ -441,9 +1150,7 @@ export default function SettingsPage() {
                 </>
               )}
 
-              {/* ════════════════════════════
-                  NOTIFICATIONS TAB
-              ════════════════════════════ */}
+              {/* ── NOTIFICATIONS TAB ── */}
               {activeTab === "notifications" && (
                 <>
                   <SectionHeader
@@ -497,9 +1204,7 @@ export default function SettingsPage() {
                 </>
               )}
 
-              {/* ════════════════════════════
-                  PRIVACY TAB
-              ════════════════════════════ */}
+              {/* ── PRIVACY TAB ── */}
               {activeTab === "privacy" && (
                 <>
                   <SectionHeader
@@ -562,9 +1267,7 @@ export default function SettingsPage() {
                 </>
               )}
 
-              {/* ════════════════════════════
-                  APPEARANCE TAB
-              ════════════════════════════ */}
+              {/* ── APPEARANCE TAB ── */}
               {activeTab === "appearance" && (
                 <>
                   <SectionHeader
@@ -580,11 +1283,7 @@ export default function SettingsPage() {
                             onClick={() =>
                               handleChange("theme", t.toLowerCase())
                             }
-                            className={`px-4 py-1.5 text-[12px] font-semibold rounded border transition-all ${
-                              settings.theme === t.toLowerCase()
-                                ? "bg-[var(--color-accent-700)] text-white border-[var(--color-accent-700)]"
-                                : "border-gray-300 text-gray-600 hover:bg-gray-50"
-                            }`}
+                            className={`px-4 py-1.5 text-[12px] font-semibold rounded border transition-all ${settings.theme === t.toLowerCase() ? "bg-[var(--color-accent-700)] text-white border-[var(--color-accent-700)]" : "border-gray-300 text-gray-600 hover:bg-gray-50"}`}
                           >
                             {t}
                           </button>
@@ -599,11 +1298,7 @@ export default function SettingsPage() {
                             onClick={() =>
                               handleChange("fontSize", s.toLowerCase())
                             }
-                            className={`px-4 py-1.5 text-[12px] font-semibold rounded border transition-all ${
-                              settings.fontSize === s.toLowerCase()
-                                ? "bg-[var(--color-accent-700)] text-white border-[var(--color-accent-700)]"
-                                : "border-gray-300 text-gray-600 hover:bg-gray-50"
-                            }`}
+                            className={`px-4 py-1.5 text-[12px] font-semibold rounded border transition-all ${settings.fontSize === s.toLowerCase() ? "bg-[var(--color-accent-700)] text-white border-[var(--color-accent-700)]" : "border-gray-300 text-gray-600 hover:bg-gray-50"}`}
                           >
                             {s}
                           </button>
@@ -629,9 +1324,7 @@ export default function SettingsPage() {
                 </>
               )}
 
-              {/* ════════════════════════════
-                  SECURITY TAB
-              ════════════════════════════ */}
+              {/* ── SECURITY TAB ── */}
               {activeTab === "security" && (
                 <>
                   <SectionHeader
@@ -714,106 +1407,17 @@ export default function SettingsPage() {
                 </>
               )}
 
-              {/* ════════════════════════════
-                  BILLING TAB
-              ════════════════════════════ */}
+              {/* ── BILLING TAB ── */}
               {activeTab === "billing" && (
                 <>
                   <SectionHeader
                     title="Billing & Subscription"
                     desc="Manage your subscription and payment methods"
                   />
-                  <div className="p-5 space-y-5">
-                    {/* Current Plan */}
-                    <div className="p-4 bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] rounded-sm flex items-center justify-between gap-4">
-                      <div>
-                        <p className="text-[10px] text-[var(--color-accent-600)] font-bold uppercase tracking-wide mb-0.5">
-                          Current Plan
-                        </p>
-                        <p className="text-base font-extrabold text-[var(--color-accent-900)]">
-                          Professional
-                        </p>
-                        <p className="text-[11px] text-[var(--color-accent-700)] mt-0.5">
-                          Next billing: April 15, 2024 · $29.99/month
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <span className="text-[10px] font-bold bg-green-100 text-green-700 border border-green-200 px-2 py-0.5 rounded">
-                          Active
-                        </span>
-                        <button className="px-4 py-2 text-[12px] font-semibold border border-[var(--color-accent-300)] text-[var(--color-accent-700)] hover:bg-[var(--color-accent-100)] bg-white rounded transition-colors">
-                          Change Plan
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Payment Method */}
-                    <div>
-                      <p className="text-[11px] font-bold text-gray-700 uppercase tracking-wide mb-3">
-                        Payment Methods
-                      </p>
-                      <div className="flex items-center justify-between p-4 border border-gray-200 rounded-sm bg-white">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-6 bg-gradient-to-r from-blue-600 to-purple-600 rounded flex-shrink-0" />
-                          <div>
-                            <p className="text-[12px] font-semibold text-gray-800">
-                              Visa ending in 4242
-                            </p>
-                            <p className="text-[10px] text-gray-400">
-                              Expires 12/25
-                            </p>
-                          </div>
-                        </div>
-                        <button className="text-[11px] font-semibold text-[var(--color-accent-700)] hover:underline">
-                          Edit
-                        </button>
-                      </div>
-                      <button className="mt-2 text-[12px] font-semibold text-[var(--color-accent-700)] hover:text-[var(--color-accent-900)] transition-colors">
-                        + Add payment method
-                      </button>
-                    </div>
-
-                    {/* Billing History */}
-                    <div>
-                      <p className="text-[11px] font-bold text-gray-700 uppercase tracking-wide mb-3">
-                        Billing History
-                      </p>
-                      <div className="border border-gray-200 rounded-sm overflow-hidden divide-y divide-gray-100">
-                        {[
-                          {
-                            date: "Mar 15, 2024",
-                            amount: "$29.99",
-                            status: "Paid",
-                          },
-                          {
-                            date: "Feb 15, 2024",
-                            amount: "$29.99",
-                            status: "Paid",
-                          },
-                          {
-                            date: "Jan 15, 2024",
-                            amount: "$29.99",
-                            status: "Paid",
-                          },
-                        ].map((inv, i) => (
-                          <div
-                            key={i}
-                            className="flex items-center justify-between px-4 py-2.5 bg-white hover:bg-gray-50 transition-colors"
-                          >
-                            <span className="text-[12px] text-gray-600">
-                              {inv.date}
-                            </span>
-                            <span className="text-[12px] font-bold text-gray-800">
-                              {inv.amount}
-                            </span>
-                            <span className="text-[10px] font-bold text-green-700 bg-green-50 border border-green-200 px-2 py-0.5 rounded">
-                              {inv.status}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+                  <BillingTab
+                    userData={userData}
+                    checkProfileCompletion={checkProfileCompletion}
+                  />
                 </>
               )}
             </div>
@@ -824,7 +1428,7 @@ export default function SettingsPage() {
   );
 }
 
-/* ── Helper: Section Header ── */
+/* ── Helpers ── */
 function SectionHeader({ title, desc }) {
   return (
     <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-3">
@@ -837,7 +1441,6 @@ function SectionHeader({ title, desc }) {
   );
 }
 
-/* ── Helper: Toggle Row ── */
 function ToggleRow({ label, desc, value, onChange }) {
   return (
     <div className="flex items-center justify-between py-3 border-b border-gray-50 last:border-b-0">
@@ -857,7 +1460,6 @@ function ToggleRow({ label, desc, value, onChange }) {
   );
 }
 
-/* ── Helper: Form Field wrapper ── */
 function FormField({ label, children }) {
   return (
     <div>
@@ -869,7 +1471,6 @@ function FormField({ label, children }) {
   );
 }
 
-/* ── Helper: Settings Footer ── */
 function SettingsFooter({ onCancel, onSave, saving }) {
   return (
     <div className="flex items-center justify-end gap-3 px-5 py-4 border-t border-gray-100 bg-gray-50">

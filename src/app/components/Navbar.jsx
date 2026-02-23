@@ -48,6 +48,7 @@ import {
   CheckCircle,
   Share2,
   Info,
+  Settings2,
 } from "lucide-react";
 import { fetchUserProfile } from "../lib/redux/slices/profileSlice";
 import Image from "next/image";
@@ -440,14 +441,6 @@ export default function Navbar() {
                       </div>
 
                       <div className="p-2 space-y-1">
-                        <Link
-                          href="/settings"
-                          onClick={() => setIsDropdownOpen(false)}
-                          className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs transition-all duration-150"
-                        >
-                          <User size={18} />
-                          <span>Profile</span>
-                        </Link>
                         {/* Logged-in specific menu items */}
                         {/* <Link
                           href="/messages"
@@ -508,7 +501,14 @@ export default function Navbar() {
                             </Link>
                           </>
                         )}
-
+                        <Link
+                          href="/settings"
+                          onClick={() => setIsDropdownOpen(false)}
+                          className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs transition-all duration-150"
+                        >
+                          <Settings2 size={18} />
+                          <span>Settings</span>
+                        </Link>
                         <div className="border-t border-gray-200 my-2"></div>
 
                         <button
