@@ -109,7 +109,7 @@ const SellerDashboard = () => {
   if (!userData) {
     return (
       <div className="min-h-screen bg-[#f5f5f5] flex items-center justify-center px-4">
-        <div className="bg-white border border-gray-200 rounded-sm p-8 max-w-sm w-full text-center">
+        <div className="bg-white border border-gray-200 rounded-xs p-8 max-w-sm w-full text-center">
           <div className="w-12 h-12 bg-yellow-50 border border-yellow-200 rounded flex items-center justify-center mx-auto mb-4">
             <span className="text-xl">🔒</span>
           </div>
@@ -149,7 +149,7 @@ const SellerDashboard = () => {
   ) {
     return (
       <div className="min-h-screen bg-[#f5f5f5] flex items-center justify-center px-4">
-        <div className="bg-white border border-gray-200 rounded-sm p-8 max-w-sm w-full text-center">
+        <div className="bg-white border border-gray-200 rounded-xs p-8 max-w-sm w-full text-center">
           <div className="w-12 h-12 bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] rounded flex items-center justify-center mx-auto mb-4">
             <svg
               className="w-6 h-6 text-[var(--color-accent-500)]"
@@ -184,7 +184,7 @@ const SellerDashboard = () => {
             />
           </div>
           <button
-            onClick={() => (window.location.href = "/profile")}
+            onClick={() => (window.location.href = "/settings")}
             className="w-full py-2.5 bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-900)] text-white text-sm font-bold rounded transition-colors"
           >
             Go to Profile →
@@ -263,7 +263,7 @@ const SellerDashboard = () => {
         {/* ══════════════════════════════════
             STATS ROW
         ══════════════════════════════════ */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-gray-200 border border-gray-200 rounded-sm bg-white mb-4 overflow-hidden">
+        <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-gray-200 border border-gray-200 rounded-xs bg-white mb-4 overflow-hidden">
           {[
             {
               label: "Total Listings",
@@ -297,7 +297,7 @@ const SellerDashboard = () => {
             SELLER PROFILE COMPLETION BAR
         ══════════════════════════════════ */}
         {userData?.profile_completion && (
-          <div className="bg-white border border-gray-200 rounded-sm px-5 py-3 mb-4 flex items-center justify-between gap-4">
+          <div className="bg-white border border-gray-200 rounded-xs px-5 py-3 mb-4 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 flex-1 min-w-0">
               <div className="text-sm font-bold text-gray-700 flex-shrink-0">
                 Profile Strength
@@ -322,7 +322,7 @@ const SellerDashboard = () => {
             </div>
             {userData.profile_completion.total < 92 && (
               <button
-                onClick={() => (window.location.href = "/profile")}
+                onClick={() => (window.location.href = "/settings")}
                 className="flex-shrink-0 text-[11px] font-semibold text-[var(--color-accent-700)] hover:text-[var(--color-accent-900)] border border-[var(--color-accent-300)] hover:border-[var(--color-accent-500)] px-3 py-1.5 rounded transition-all"
               >
                 Complete Profile →
@@ -336,7 +336,7 @@ const SellerDashboard = () => {
         ══════════════════════════════════ */}
         {listings.length === 0 ? (
           /* ── Empty State ── */
-          <div className="bg-white border border-gray-200 rounded-sm overflow-hidden">
+          <div className="bg-white border border-gray-200 rounded-xs overflow-hidden">
             <div className="text-center py-14 border-b border-gray-100 px-6">
               <div className="w-14 h-14 bg-[var(--color-accent-50)] border border-[var(--color-accent-100)] rounded flex items-center justify-center mx-auto mb-4">
                 <svg
@@ -414,7 +414,7 @@ const SellerDashboard = () => {
               return (
                 <div
                   key={listing.listing_id}
-                  className="bg-white border border-gray-200 rounded-sm hover:border-[var(--color-accent-300)] hover:shadow-sm transition-all duration-200 overflow-hidden group"
+                  className="bg-white border border-gray-200 rounded-xs hover:border-[var(--color-accent-300)] hover:shadow-sm transition-all duration-200 overflow-hidden group"
                 >
                   {/* Status top bar */}
                   <div
@@ -635,7 +635,7 @@ const SellerDashboard = () => {
             })}
 
             {/* ── Bottom CTA — create more ── */}
-            <div className="bg-white border border-dashed border-[var(--color-accent-300)] rounded-sm px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="bg-white border border-dashed border-[var(--color-accent-300)] rounded-xs px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
               <div>
                 <p className="text-sm font-bold text-gray-700">
                   Add another listing

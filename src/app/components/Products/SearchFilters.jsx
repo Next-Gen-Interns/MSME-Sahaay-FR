@@ -16,7 +16,7 @@ const useDebounce = (value, delay) => {
     return () => clearTimeout(handler);
   }, [value, delay]);
 
-  return debouncedValue;  
+  return debouncedValue;
 };
 
 const SearchFilters = ({
@@ -96,7 +96,7 @@ const SearchFilters = ({
     (key, value) => {
       onFilterChange({ [key]: value });
     },
-    [onFilterChange]
+    [onFilterChange],
   );
 
   const handleLocalChange = (key, value) => {
@@ -191,7 +191,7 @@ const SearchFilters = ({
             value={localFilters.search}
             onChange={(e) => handleLocalChange("search", e.target.value)}
             placeholder="Service name or keyword"
-            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#3B38A0] focus:border-[#3B38A0] bg-white"
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#3B38A0] focus:border-[#3B38A0] bg-white"
           />
           <Search className="absolute right-2 top-2 w-4 h-4 text-[#7A85C1]" />
         </div>
@@ -230,7 +230,7 @@ const SearchFilters = ({
           value={localFilters.city}
           onChange={(e) => handleLocalChange("city", e.target.value)}
           placeholder="Enter city"
-          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#3B38A0] focus:border-[#3B38A0] bg-white"
+          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#3B38A0] focus:border-[#3B38A0] bg-white"
           disabled={isLocationLoading}
         />
       </div>
@@ -246,14 +246,14 @@ const SearchFilters = ({
             value={localFilters.minPrice}
             onChange={(e) => handleLocalChange("minPrice", e.target.value)}
             placeholder="Min"
-            className="w-full px-2 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#3B38A0] focus:border-[#3B38A0] bg-white"
+            className="w-full px-2 py-2 text-sm border border-gray-300 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#3B38A0] focus:border-[#3B38A0] bg-white"
           />
           <input
             type="number"
             value={localFilters.maxPrice}
             onChange={(e) => handleLocalChange("maxPrice", e.target.value)}
             placeholder="Max"
-            className="w-full px-2 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#3B38A0] focus:border-[#3B38A0] bg-white"
+            className="w-full px-2 py-2 text-sm border border-gray-300 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#3B38A0] focus:border-[#3B38A0] bg-white"
           />
         </div>
       </div>
@@ -266,7 +266,7 @@ const SearchFilters = ({
         <select
           value={localFilters.category}
           onChange={(e) => handleImmediateChange("category", e.target.value)}
-          className="w-full px-2 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#3B38A0] focus:border-[#3B38A0] bg-white"
+          className="w-full px-2 py-2 text-sm border border-gray-300 rounded-xs focus:outline-none focus:ring-1 focus:ring-[#3B38A0] focus:border-[#3B38A0] bg-white"
           disabled={loadingCategories}
         >
           <option value="">All categories</option>

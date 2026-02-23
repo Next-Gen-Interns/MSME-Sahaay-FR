@@ -39,7 +39,7 @@ export default function Footer() {
           onChange={(e) => setEmail(e.target.value)}
           className="
             bg-[var(--color-accent-800)] text-white 
-            px-4 py-3 rounded-l-lg 
+            px-4 py-3 rounded-l-xs 
             focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-500)] 
             flex-1 placeholder-[var(--color-accent-300)]
           "
@@ -54,7 +54,7 @@ export default function Footer() {
             bg-gradient-to-r 
             from-[var(--color-accent-900)] 
             to-[var(--color-accent-700)] 
-            px-6 py-3 rounded-r-lg 
+            px-6 py-3 rounded-r-xs 
             font-semibold 
             hover:shadow-lg 
             hover:shadow-[var(--color-accent-500)]/40 
@@ -75,7 +75,7 @@ export default function Footer() {
           {/* Company Info */}
           <div>
             <div className="flex items-center mb-6">
-              <div className="relative w-18 h-18 rounded-xl overflow-hidden group-hover:shadow-sm transition-all duration-300">
+              <div className="relative w-18 h-18 rounded-xs overflow-hidden group-hover:shadow-sm transition-all duration-300">
                 <Image
                   src="/msmesahhay.png"
                   alt="MSME Guru Logo"
@@ -101,14 +101,14 @@ export default function Footer() {
                     href="#"
                     whileHover={{ scale: 1.1, y: -2 }}
                     className="
-                    bg-[var(--color-accent-800)] p-3 rounded-lg 
+                    bg-[var(--color-accent-800)] p-3 rounded-xs 
                     hover:bg-[var(--color-accent-700)]
                     transition-colors duration-200
                   "
                   >
                     <Icon size={20} />
                   </motion.a>
-                )
+                ),
               )}
             </div>
           </div>
@@ -121,7 +121,7 @@ export default function Footer() {
                 { name: "Listings", href: "/listings" },
                 { name: "My Leads", href: "/my-leads" },
                 { name: "Privacy Policy", href: "/privacy-policy" },
-                { name: "Profile", href: "/profile" },
+                { name: "Profile", href: "/settings" },
                 { name: "Seller Leads", href: "/seller/leads" },
                 { name: "Upgrade Now", href: "/upgrade-now" },
               ].map((item) => (

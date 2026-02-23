@@ -81,14 +81,14 @@ const AboutPage = () => {
       <section className="relative bg-gradient-to-br from-[var(--color-accent-50)] to-white pt-20 pb-16 overflow-hidden">
         {/* Abstract background pattern */}
         <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-[var(--color-accent-100)] rounded-full mix-blend-multiply filter blur-3xl" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl" />
+          <div className="absolute top-20 left-10 w-72 h-72 bg-[var(--color-accent-100)] rounded-xs mix-blend-multiply filter blur-3xl" />
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-indigo-100 rounded-xs mix-blend-multiply filter blur-3xl" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto">
             {/* Badge */}
-            <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium bg-[var(--color-accent-100)] text-[var(--color-accent-700)] mb-6">
+            <span className="inline-flex items-center px-4 py-1.5 rounded-xs text-sm font-medium bg-[var(--color-accent-100)] text-[var(--color-accent-700)] mb-6">
               🇮🇳 India's Premier MSME Network
             </span>
 
@@ -109,13 +109,13 @@ const AboutPage = () => {
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/register"
-                className="px-6 py-3 bg-[var(--color-accent-600)] text-white font-medium rounded-xl hover:bg-[var(--color-accent-700)] transition-colors shadow-lg shadow-[var(--color-accent-200)]"
+                className="px-6 py-3 bg-[var(--color-accent-600)] text-white font-medium rounded-xs hover:bg-[var(--color-accent-700)] transition-colors shadow-lg shadow-[var(--color-accent-200)]"
               >
                 Join as Business
               </Link>
               <Link
                 href="/categories"
-                className="px-6 py-3 bg-white text-gray-700 font-medium rounded-xl border border-gray-300 hover:border-[var(--color-accent-400)] hover:text-[var(--color-accent-600)] transition-colors"
+                className="px-6 py-3 bg-white text-gray-700 font-medium rounded-xs border border-gray-300 hover:border-[var(--color-accent-400)] hover:text-[var(--color-accent-600)] transition-colors"
               >
                 Explore Categories
               </Link>
@@ -160,7 +160,7 @@ const AboutPage = () => {
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-[var(--color-accent-50)] p-6 rounded-2xl">
+              <div className="bg-[var(--color-accent-50)] p-6 rounded-xs">
                 <div className="text-3xl font-bold text-[var(--color-accent-600)] mb-2">
                   50K+
                 </div>
@@ -168,13 +168,13 @@ const AboutPage = () => {
                   Monthly Active Connections
                 </div>
               </div>
-              <div className="bg-indigo-50 p-6 rounded-2xl">
+              <div className="bg-indigo-50 p-6 rounded-xs">
                 <div className="text-3xl font-bold text-indigo-600 mb-2">
                   ₹100Cr+
                 </div>
                 <div className="text-sm text-gray-600">Facilitated Trade</div>
               </div>
-              <div className="bg-[var(--color-accent-50)] p-6 rounded-2xl col-span-2">
+              <div className="bg-[var(--color-accent-50)] p-6 rounded-xs col-span-2">
                 <div className="text-3xl font-bold text-[var(--color-accent-600)] mb-2">
                   45+
                 </div>
@@ -207,9 +207,9 @@ const AboutPage = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="bg-white p-6 rounded-2xl border border-gray-200 hover:border-[var(--color-accent-200)] hover:shadow-lg transition-all"
+                className="bg-white p-6 rounded-xs border border-gray-200 hover:border-[var(--color-accent-200)] hover:shadow-lg transition-all"
               >
-                <div className="w-12 h-12 bg-[var(--color-accent-100)] rounded-xl flex items-center justify-center mb-4">
+                <div className="w-12 h-12 bg-[var(--color-accent-100)] rounded-xs flex items-center justify-center mb-4">
                   <svg
                     className="w-6 h-6 text-[var(--color-accent-600)]"
                     fill="none"
@@ -251,7 +251,7 @@ const AboutPage = () => {
               <Link
                 key={index}
                 href={`/categories/${category.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
-                className="group p-4 bg-white border border-gray-200 rounded-xl hover:border-[var(--color-accent-300)] hover:shadow-md transition-all"
+                className="group p-4 bg-white border border-gray-200 rounded-xs hover:border-[var(--color-accent-300)] hover:shadow-md transition-all"
               >
                 <h3 className="text-sm font-medium text-gray-900 group-hover:text-[var(--color-accent-600)] transition-colors">
                   {category.name}
@@ -302,7 +302,7 @@ const AboutPage = () => {
             {leadership.map((person, index) => (
               <div
                 key={index}
-                className="bg-white p-6 rounded-2xl border border-gray-200 text-center"
+                className="bg-white p-6 rounded-xs border border-gray-200 text-center"
               >
                 <div className="w-20 h-20 bg-[var(--color-accent-100)] rounded-full mx-auto mb-4 flex items-center justify-center">
                   <span className="text-2xl font-bold text-[var(--color-accent-600)]">
@@ -333,13 +333,13 @@ const AboutPage = () => {
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
               href="/list-products"
-              className="px-8 py-4 bg-white text-[var(--color-accent-600)] font-semibold rounded-xl hover:bg-gray-50 transition-colors shadow-lg"
+              className="px-8 py-4 bg-white text-[var(--color-accent-600)] font-semibold rounded-xs hover:bg-gray-50 transition-colors shadow-lg"
             >
               Create Free Listing
             </Link>
             <Link
               href="/contact"
-              className="px-8 py-4 bg-[var(--color-accent-700)] text-white font-semibold rounded-xl hover:bg-[var(--color-accent-800)] transition-colors"
+              className="px-8 py-4 bg-[var(--color-accent-700)] text-white font-semibold rounded-xs hover:bg-[var(--color-accent-800)] transition-colors"
             >
               Contact Team
             </Link>

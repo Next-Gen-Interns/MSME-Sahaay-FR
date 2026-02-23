@@ -68,7 +68,7 @@ export default function PrivacyPolicy() {
             information when you use our platform.
           </p>
 
-          <div className="bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] rounded-2xl p-6 mt-6">
+          <div className="bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] rounded-xs p-6 mt-6">
             <h4 className="font-semibold text-[var(--color-accent-900)] mb-3 flex items-center">
               <Policy className="w-5 h-5 mr-2 text-[var(--color-accent-700)]" />
               Scope of Policy
@@ -111,10 +111,10 @@ export default function PrivacyPolicy() {
                   {text === "Transparency"
                     ? "We clearly communicate how we handle your data"
                     : text === "Security"
-                    ? "We implement strong security practices to protect your information"
-                    : text === "Control"
-                    ? "You have control over your personal information and preferences"
-                    : "We adhere to all applicable data protection regulations"}
+                      ? "We implement strong security practices to protect your information"
+                      : text === "Control"
+                        ? "You have control over your personal information and preferences"
+                        : "We adhere to all applicable data protection regulations"}
                 </span>
               </li>
             ))}
@@ -136,7 +136,7 @@ export default function PrivacyPolicy() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
             {/* Business Info */}
-            <div className="bg-[var(--color-accent-50)] rounded-2xl p-6 border border-[var(--color-accent-200)]">
+            <div className="bg-[var(--color-accent-50)] rounded-xs p-6 border border-[var(--color-accent-200)]">
               <h4 className="font-semibold text-[var(--color-accent-900)] mb-3 flex items-center">
                 <Business className="w-5 h-5 mr-2 text-[var(--color-accent-700)]" />
                 Business Information
@@ -151,7 +151,7 @@ export default function PrivacyPolicy() {
             </div>
 
             {/* Personal Info */}
-            <div className="bg-[var(--color-accent-50)] rounded-2xl p-6 border border-[var(--color-accent-200)]">
+            <div className="bg-[var(--color-accent-50)] rounded-xs p-6 border border-[var(--color-accent-200)]">
               <h4 className="font-semibold text-[var(--color-accent-900)] mb-3 flex items-center">
                 <Group className="w-5 h-5 mr-2 text-[var(--color-accent-700)]" />
                 Personal Information
@@ -167,7 +167,7 @@ export default function PrivacyPolicy() {
           </div>
 
           {/* Automated Collection */}
-          <div className="bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] rounded-2xl p-6 mt-6">
+          <div className="bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] rounded-xs p-6 mt-6">
             <h4 className="font-semibold text-[var(--color-accent-900)] mb-3 flex items-center">
               <DataUsage className="w-5 h-5 mr-2 text-[var(--color-accent-700)]" />
               Automated Data Collection
@@ -214,9 +214,9 @@ export default function PrivacyPolicy() {
             ].map(([title, Icon, description]) => (
               <div
                 key={title}
-                className="flex items-start space-x-4 p-4 bg-white border border-[var(--color-accent-200)] rounded-2xl"
+                className="flex items-start space-x-4 p-4 bg-white border border-[var(--color-accent-200)] rounded-xs"
               >
-                <div className="bg-[var(--color-accent-100)] rounded-lg p-3">
+                <div className="bg-[var(--color-accent-100)] rounded-xs p-3">
                   {Icon === Business && (
                     <Business className="w-6 h-6 text-[var(--color-accent-700)]" />
                   )}
@@ -239,7 +239,7 @@ export default function PrivacyPolicy() {
             ))}
           </div>
 
-          <div className="bg-[var(--color-accent-50)] rounded-2xl p-6 border border-[var(--color-accent-200)] mt-6">
+          <div className="bg-[var(--color-accent-50)] rounded-xs p-6 border border-[var(--color-accent-200)] mt-6">
             <h4 className="font-semibold text-[var(--color-accent-900)] mb-3">
               Legal Basis for Processing
             </h4>
@@ -282,7 +282,7 @@ export default function PrivacyPolicy() {
             ].map(([title, desc]) => (
               <div
                 key={title}
-                className="border border-[var(--color-accent-200)] rounded-2xl overflow-hidden"
+                className="border border-[var(--color-accent-200)] rounded-xs overflow-hidden"
               >
                 <div className="bg-[var(--color-accent-50)] px-6 py-4 border-b border-[var(--color-accent-200)]">
                   <h4 className="font-semibold text-[var(--color-accent-900)]">
@@ -298,7 +298,7 @@ export default function PrivacyPolicy() {
             ))}
           </div>
 
-          <div className="bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] rounded-2xl p-6 mt-6">
+          <div className="bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] rounded-xs p-6 mt-6">
             <h4 className="font-semibold text-[var(--color-accent-900)] mb-2">
               International Transfers
             </h4>
@@ -342,9 +342,9 @@ export default function PrivacyPolicy() {
           ].map(([title, Icon, desc]) => (
             <div
               key={title}
-              className="bg-white border border-[var(--color-accent-200)] rounded-2xl p-4 text-center"
+              className="bg-white border border-[var(--color-accent-200)] rounded-xs p-4 text-center"
             >
-              <div className="bg-[var(--color-accent-100)] rounded-lg p-3 inline-flex mb-3">
+              <div className="bg-[var(--color-accent-100)] rounded-xs p-3 inline-flex mb-3">
                 {Icon === Security && (
                   <Security className="w-6 h-6 text-[var(--color-accent-700)]" />
                 )}
@@ -369,13 +369,13 @@ export default function PrivacyPolicy() {
           Cookie Management
         </h3>
 
-        <div className="bg-[var(--color-accent-50)] rounded-2xl p-6 border border-[var(--color-accent-200)]">
+        <div className="bg-[var(--color-accent-50)] rounded-xs p-6 border border-[var(--color-accent-200)]">
           <p className="text-[var(--color-accent-700)] text-sm mb-4">
             You can manage cookie preferences in your browser settings or use
             our preference center to control non-essential cookies. Note that
             disabling essential cookies may affect platform functionality.
           </p>
-          <button className="bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-900)] text-white px-6 py-3 rounded-xl font-medium transition-colors">
+          <button className="bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-900)] text-white px-6 py-3 rounded-xs font-medium transition-colors">
             Manage Cookie Preferences
           </button>
         </div>
@@ -412,10 +412,10 @@ export default function PrivacyPolicy() {
           ].map(([title, Icon, desc]) => (
             <div
               key={title}
-              className="flex items-center justify-between p-4 bg-white border border-[var(--color-accent-200)] rounded-2xl"
+              className="flex items-center justify-between p-4 bg-white border border-[var(--color-accent-200)] rounded-xs"
             >
               <div className="flex items-center space-x-4">
-                <div className="bg-[var(--color-accent-100)] rounded-lg p-3">
+                <div className="bg-[var(--color-accent-100)] rounded-xs p-3">
                   {Icon === Lock && (
                     <Lock className="w-6 h-6 text-[var(--color-accent-700)]" />
                   )}
@@ -446,7 +446,7 @@ export default function PrivacyPolicy() {
           Incident Response
         </h3>
 
-        <div className="bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] rounded-2xl p-6">
+        <div className="bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] rounded-xs p-6">
           <p className="text-[var(--color-accent-700)] text-sm">
             We maintain a comprehensive incident response plan and will notify
             affected users and regulatory authorities within 72 hours of
@@ -487,7 +487,7 @@ export default function PrivacyPolicy() {
           ].map(([title, Icon, desc]) => (
             <div
               key={title}
-              className="bg-white border border-[var(--color-accent-200)] rounded-2xl p-4"
+              className="bg-white border border-[var(--color-accent-200)] rounded-xs p-4"
             >
               <h4 className="font-semibold text-[var(--color-accent-900)] flex items-center mb-2">
                 {Icon === Visibility && (
@@ -506,7 +506,7 @@ export default function PrivacyPolicy() {
           ))}
         </div>
 
-        <div className="bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] rounded-2xl p-6 mt-6">
+        <div className="bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] rounded-xs p-6 mt-6">
           <h4 className="font-semibold text-[var(--color-accent-900)] mb-2">
             Exercising Your Rights
           </h4>
@@ -546,7 +546,7 @@ export default function PrivacyPolicy() {
         ].map(([title, desc]) => (
           <div
             key={title}
-            className="border border-[var(--color-accent-200)] rounded-2xl overflow-hidden"
+            className="border border-[var(--color-accent-200)] rounded-xs overflow-hidden"
           >
             <div className="bg-[var(--color-accent-50)] px-6 py-4 border-b border-[var(--color-accent-200)]">
               <h4 className="font-semibold text-[var(--color-accent-900)]">
@@ -559,7 +559,7 @@ export default function PrivacyPolicy() {
           </div>
         ))}
 
-        <div className="bg-[var(--color-accent-50)] rounded-2xl p-6 border border-[var(--color-accent-200)]">
+        <div className="bg-[var(--color-accent-50)] rounded-xs p-6 border border-[var(--color-accent-200)]">
           <p className="text-[var(--color-accent-700)] text-sm">
             After the retention period expires, we securely delete or anonymize
             your personal data so it can no longer be associated with you.
@@ -581,7 +581,7 @@ export default function PrivacyPolicy() {
           information.
         </p>
 
-        <div className="bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] rounded-2xl p-6 mt-6">
+        <div className="bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] rounded-xs p-6 mt-6">
           <h4 className="font-semibold text-[var(--color-accent-900)] flex items-center mb-3">
             <Notifications className="w-5 h-5 mr-2 text-[var(--color-accent-700)]" />
             Update Policy Process
@@ -616,7 +616,7 @@ export default function PrivacyPolicy() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           {/* DPO Card */}
-          <div className="bg-white border border-[var(--color-accent-200)] rounded-2xl p-6">
+          <div className="bg-white border border-[var(--color-accent-200)] rounded-xs p-6">
             <h4 className="font-semibold text-[var(--color-accent-900)] mb-4 flex items-center">
               <ContactMail className="w-5 h-5 mr-2 text-[var(--color-accent-700)]" />
               Data Protection Officer
@@ -631,7 +631,7 @@ export default function PrivacyPolicy() {
           </div>
 
           {/* Office Card */}
-          <div className="bg-white border border-[var(--color-accent-200)] rounded-2xl p-6">
+          <div className="bg-white border border-[var(--color-accent-200)] rounded-xs p-6">
             <h4 className="font-semibold text-[var(--color-accent-900)] mb-4 flex items-center">
               <Business className="w-5 h-5 mr-2 text-[var(--color-accent-700)]" />
               Registered Office
@@ -648,7 +648,7 @@ export default function PrivacyPolicy() {
           </div>
         </div>
 
-        <div className="bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] rounded-2xl p-6">
+        <div className="bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] rounded-xs p-6">
           <h4 className="font-semibold text-[var(--color-accent-900)] mb-3">
             Regulatory Authority
           </h4>
@@ -696,7 +696,7 @@ export default function PrivacyPolicy() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center space-x-3">
-              <div className="bg-[var(--color-accent-700)] rounded-lg p-2">
+              <div className="bg-[var(--color-accent-700)] rounded-xs p-2">
                 <Shield className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -709,7 +709,7 @@ export default function PrivacyPolicy() {
               </div>
             </div>
 
-            <div className="bg-[var(--color-accent-50)] px-4 py-2 rounded-lg border border-[var(--color-accent-200)]">
+            <div className="bg-[var(--color-accent-50)] px-4 py-2 rounded-xs border border-[var(--color-accent-200)]">
               <p className="text-[var(--color-accent-700)] text-sm font-medium">
                 MSME Guru Business Platform
               </p>
@@ -723,13 +723,13 @@ export default function PrivacyPolicy() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar Navigation */}
           <div className="lg:col-span-1">
-            <nav className="bg-white rounded-2xl shadow-sm border border-[var(--color-accent-200)] p-6 sticky top-8">
+            <nav className="bg-white rounded-xs shadow-sm border border-[var(--color-accent-200)] p-6 sticky top-8">
               <div className="space-y-2">
                 {sections.map((section) => (
                   <button
                     key={section.id}
                     onClick={() => setActiveSection(section.id)}
-                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-200 ${
+                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xs text-left transition-all duration-200 ${
                       activeSection === section.id
                         ? "bg-[var(--color-accent-50)] border border-[var(--color-accent-300)] text-[var(--color-accent-800)]"
                         : "text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)]"
@@ -756,12 +756,12 @@ export default function PrivacyPolicy() {
                 </h3>
 
                 <div className="space-y-3">
-                  <button className="w-full flex items-center justify-center space-x-2 px-4 py-3 border border-[var(--color-accent-300)] text-[var(--color-accent-800)] rounded-xl hover:border-[var(--color-accent-700)] transition-colors">
+                  <button className="w-full flex items-center justify-center space-x-2 px-4 py-3 border border-[var(--color-accent-300)] text-[var(--color-accent-800)] rounded-xs hover:border-[var(--color-accent-700)] transition-colors">
                     <Download className="w-4 h-4" />
                     <span className="text-sm font-medium">Download PDF</span>
                   </button>
 
-                  <button className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-[var(--color-accent-700)] text-white rounded-xl hover:bg-[var(--color-accent-900)] transition-colors">
+                  <button className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-[var(--color-accent-700)] text-white rounded-xs hover:bg-[var(--color-accent-900)] transition-colors">
                     <ContactMail className="w-4 h-4" />
                     <span className="text-sm font-medium">Contact DPO</span>
                   </button>
@@ -772,11 +772,11 @@ export default function PrivacyPolicy() {
 
           {/* Main Content Container */}
           <div className="lg:col-span-3">
-            <div className="bg-white rounded-2xl shadow-sm border border-[var(--color-accent-200)] overflow-hidden">
+            <div className="bg-white rounded-xs shadow-sm border border-[var(--color-accent-200)] overflow-hidden">
               {/* Content Header */}
               <div className="border-b border-[var(--color-accent-200)] bg-gradient-to-r from-[var(--color-accent-50)] to-[var(--color-accent-100)] px-8 py-6">
                 <div className="flex items-center space-x-4">
-                  <div className="bg-white rounded-lg p-3 shadow-sm border border-[var(--color-accent-200)]">
+                  <div className="bg-white rounded-xs p-3 shadow-sm border border-[var(--color-accent-200)]">
                     {sections.find((s) => s.id === activeSection)?.icon}
                   </div>
                   <div>

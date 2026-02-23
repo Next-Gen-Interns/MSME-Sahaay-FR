@@ -379,7 +379,7 @@ export default function ProductsPage() {
           <aside className="hidden lg:block w-56 flex-shrink-0">
             <div className="sticky top-[76px] space-y-3">
               {/* Filter Panel */}
-              <div className="bg-white border border-gray-200 rounded-sm overflow-hidden">
+              <div className="bg-white border border-gray-200 rounded-xs overflow-hidden">
                 <div className="flex items-center justify-between px-3 py-2.5 bg-[var(--color-accent-800)]">
                   <h3 className="text-[11px] font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
                     <FilterList sx={{ fontSize: 13 }} />
@@ -407,7 +407,7 @@ export default function ProductsPage() {
               </div>
 
               {/* Seller CTA Panel */}
-              <div className="bg-white border border-[var(--color-accent-200)] rounded-sm overflow-hidden">
+              <div className="bg-white border border-[var(--color-accent-200)] rounded-xs overflow-hidden">
                 <div className="px-3 py-2 bg-[var(--color-accent-50)] border-b border-[var(--color-accent-100)]">
                   <p className="text-[11px] font-bold text-[var(--color-accent-800)] flex items-center gap-1.5">
                     <Storefront sx={{ fontSize: 13 }} />
@@ -458,7 +458,7 @@ export default function ProductsPage() {
           <div className="flex-1 min-w-0">
             {/* Active Filters */}
             {hasActiveFilters && (
-              <div className="flex flex-wrap items-center gap-2 mb-3 px-3 py-2.5 bg-white border border-gray-200 rounded-sm">
+              <div className="flex flex-wrap items-center gap-2 mb-3 px-3 py-2.5 bg-white border border-gray-200 rounded-xs">
                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">
                   Filtered by:
                 </span>
@@ -525,7 +525,7 @@ export default function ProductsPage() {
                 {[...Array(3)].map((_, i) => (
                   <div
                     key={i}
-                    className="animate-pulse bg-white rounded-sm border border-gray-200 overflow-hidden"
+                    className="animate-pulse bg-white rounded-xs border border-gray-200 overflow-hidden"
                   >
                     <div className="bg-gray-100 h-40 w-full" />
                     <div className="p-4 space-y-2.5">
@@ -540,7 +540,7 @@ export default function ProductsPage() {
 
             {/* Empty State */}
             {listings.length === 0 && !loading && !error && (
-              <div className="bg-white border border-gray-200 rounded-sm overflow-hidden">
+              <div className="bg-white border border-gray-200 rounded-xs overflow-hidden">
                 <div className="text-center py-10 border-b border-gray-100">
                   <div className="w-12 h-12 bg-[var(--color-accent-50)] border border-[var(--color-accent-100)] rounded flex items-center justify-center mx-auto mb-3">
                     <Search
@@ -587,7 +587,7 @@ export default function ProductsPage() {
 
             {/* Error State */}
             {error && (
-              <div className="text-center py-16 bg-white border border-gray-200 rounded-sm">
+              <div className="text-center py-16 bg-white border border-gray-200 rounded-xs">
                 <div className="w-12 h-12 bg-red-50 border border-red-100 rounded flex items-center justify-center mx-auto mb-3">
                   <span className="text-xl">⚠️</span>
                 </div>
@@ -606,7 +606,7 @@ export default function ProductsPage() {
 
             {/* Inline Seller CTA — between grid and pagination */}
             {listings.length > 0 && !error && (
-              <div className="mt-4 bg-white border border-[var(--color-accent-100)] rounded-sm px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="mt-4 bg-white border border-[var(--color-accent-100)] rounded-xs px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 bg-[var(--color-accent-50)] rounded flex items-center justify-center flex-shrink-0">
                     <Storefront
@@ -635,7 +635,7 @@ export default function ProductsPage() {
 
             {/* Pagination */}
             {pagination && pagination.pages > 1 && !error && (
-              <div className="flex items-center justify-between mt-3 bg-white border border-gray-200 rounded-sm px-4 py-3">
+              <div className="flex items-center justify-between mt-3 bg-white border border-gray-200 rounded-xs px-4 py-3">
                 <p className="text-[11px] text-gray-500">
                   Page{" "}
                   <span className="font-bold text-gray-800">{currentPage}</span>{" "}

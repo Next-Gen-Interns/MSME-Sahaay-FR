@@ -26,13 +26,6 @@ import toast from "react-hot-toast";
 import { getBuyerLeads } from "@/app/api/leadAPI";
 import ChatDrawer from "../components/Leads/ChatDrawer";
 
-/**
- * MyLeadsPage — Fully themed with accent palette (Solid Accent Buttons)
- * - Uses CSS variables like: --color-accent-50 ... --color-accent-900 and --color-primary
- * - Soft panel look: rounded-2xl, subtle borders using accent-50/100
- * - Primary actions use solid accent (accent-500) with hover accent-600
- */
-
 const MyLeadsPage = () => {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -42,16 +35,15 @@ const MyLeadsPage = () => {
   const [sortBy, setSortBy] = useState("newest");
   const [openChatLead, setOpenChatLead] = useState(null);
   const [leadName, setLeadName] = useState("");
+
   useEffect(() => {
     fetchLeads();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchLeads = async () => {
     try {
       setLoading(true);
       const response = await getBuyerLeads();
-
       if (response.data && Array.isArray(response.data.leads)) {
         setLeads(response.data.leads);
       } else {
@@ -79,10 +71,8 @@ const MyLeadsPage = () => {
         lead.project_title?.toLowerCase().includes(q) ||
         lead.listing?.title?.toLowerCase().includes(q) ||
         lead.listing?.seller?.business_name?.toLowerCase().includes(q);
-
       const matchesStatus =
         statusFilter === "all" || lead.status === statusFilter;
-
       return matchesSearch && matchesStatus;
     })
     .sort((a, b) => {
@@ -98,69 +88,66 @@ const MyLeadsPage = () => {
       }
     });
 
-  // Status configuration — using accent palette for all statuses
   const statusConfig = {
     new: {
-      bg: "var(--color-accent-100)",
-      text: "var(--color-accent-700)",
-      border: "var(--color-accent-200)",
-      iconColor: "var(--color-accent-700)",
+      bg: "bg-blue-50",
+      text: "text-blue-700",
+      border: "border-blue-200",
+      dot: "bg-blue-500",
       label: "New",
     },
     contacted: {
-      bg: "var(--color-accent-100)",
-      text: "var(--color-accent-700)",
-      border: "var(--color-accent-200)",
-      iconColor: "var(--color-accent-700)",
+      bg: "bg-purple-50",
+      text: "text-purple-700",
+      border: "border-purple-200",
+      dot: "bg-purple-500",
       label: "Contacted",
     },
     responded: {
-      bg: "var(--color-accent-100)",
-      text: "var(--color-accent-700)",
-      border: "var(--color-accent-200)",
-      iconColor: "var(--color-accent-700)",
+      bg: "bg-[var(--color-accent-50)]",
+      text: "text-[var(--color-accent-700)]",
+      border: "border-[var(--color-accent-200)]",
+      dot: "bg-[var(--color-accent-500)]",
       label: "Responded",
     },
     quoted: {
-      bg: "var(--color-accent-100)",
-      text: "var(--color-accent-700)",
-      border: "var(--color-accent-200)",
-      iconColor: "var(--color-accent-700)",
+      bg: "bg-amber-50",
+      text: "text-amber-700",
+      border: "border-amber-200",
+      dot: "bg-amber-500",
       label: "Quoted",
     },
     closed: {
-      bg: "var(--color-accent-50)",
-      text: "var(--color-accent-700)",
-      border: "var(--color-accent-100)",
-      iconColor: "var(--color-accent-700)",
+      bg: "bg-green-50",
+      text: "text-green-700",
+      border: "border-green-200",
+      dot: "bg-green-500",
       label: "Closed",
     },
     rejected: {
-      bg: "rgba(255,235,238,0.9)",
-      text: "#b91c1c", // keep semantic red for clarity
-      border: "rgba(255,205,210,0.8)",
-      iconColor: "#b91c1c",
+      bg: "bg-red-50",
+      text: "text-red-700",
+      border: "border-red-200",
+      dot: "bg-red-500",
       label: "Rejected",
     },
   };
 
   const budgetLabels = {
     under_1k: "Under ₹1,000",
-    k_1_5: "₹1,000 - ₹5,000",
-    k_5_10: "₹5,000 - ₹10,000",
-    k_10_25: "₹10,000 - ₹25,000",
-    k_25_50: "₹25,000 - ₹50,000",
-    k_50_100: "₹50,000 - ₹100,000",
-    k_100_plus: "₹100,000+",
+    k_1_5: "₹1K–₹5K",
+    k_5_10: "₹5K–₹10K",
+    k_10_25: "₹10K–₹25K",
+    k_25_50: "₹25K–₹50K",
+    k_50_100: "₹50K–₹1L",
+    k_100_plus: "₹1L+",
   };
-
   const timelineLabels = {
     immediately: "Immediately",
     weeks_1_2: "1-2 Weeks",
     month_1: "1 Month",
     flexible: "Flexible",
   };
-
   const contactIcons = {
     email: Mail,
     phone: Phone,
@@ -168,51 +155,36 @@ const MyLeadsPage = () => {
     in_person: MapPin,
   };
 
-  const formatDate = (dateString) => {
-    if (!dateString) return "-";
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
-  const getStatusConfig = (status) => statusConfig[status] || statusConfig.new;
+  const formatDate = (d) =>
+    !d
+      ? "-"
+      : new Date(d).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
 
   const getTimeAgo = (dateString) => {
     if (!dateString) return "-";
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffInHours = Math.floor((now - date) / (1000 * 60 * 60));
-
-    if (diffInHours < 1) return "Just now";
-    if (diffInHours < 24) return `${diffInHours}h ago`;
-    if (diffInHours < 168) return `${Math.floor(diffInHours / 24)}d ago`;
+    const diff = Math.floor(
+      (new Date() - new Date(dateString)) / (1000 * 60 * 60),
+    );
+    if (diff < 1) return "Just now";
+    if (diff < 24) return `${diff}h ago`;
+    if (diff < 168) return `${Math.floor(diff / 24)}d ago`;
     return formatDate(dateString);
   };
 
+  const getStatus = (status) => statusConfig[status] || statusConfig.new;
+
+  /* ── Loading ── */
   if (loading) {
     return (
-      <div
-        className="min-h-screen flex items-center justify-center"
-        style={{ background: "var(--color-accent-50)" }}
-      >
+      <div className="min-h-screen bg-[#f5f5f5] flex items-center justify-center">
         <div className="text-center">
-          <div
-            style={{
-              width: 48,
-              height: 48,
-              borderRadius: 9999,
-              borderBottom: `4px solid var(--color-accent-500)`,
-              margin: "0 auto",
-              marginBottom: 12,
-              animation: "spin 1s linear infinite",
-            }}
-          />
-          <p style={{ color: "var(--color-accent-700)" }}>
-            Loading your leads...
+          <div className="w-10 h-10 border-2 border-[var(--color-accent-700)] border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="mt-3 text-gray-500 text-sm">
+            Loading your inquiries...
           </p>
         </div>
       </div>
@@ -220,734 +192,392 @@ const MyLeadsPage = () => {
   }
 
   return (
-    <div style={{ background: "white", minHeight: "100vh" }}>
-      {/* Header */}
-      <div
-        style={{
-          background: "var(--color-primary)",
-          borderBottom: `1px solid var(--color-accent-200)`,
-        }}
-      >
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+    <div className="min-h-screen bg-[#f5f5f5]">
+      {/* ══════════════════════════════════
+          PAGE HEADER
+      ══════════════════════════════════ */}
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-20 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-1 h-6 rounded-full bg-[var(--color-accent-700)]" />
             <div>
-              <h1
-                style={{
-                  fontSize: "1.75rem",
-                  fontWeight: 700,
-                  color: "var(--color-accent-900)",
-                }}
-              >
-                My Inquiries
-              </h1>
-              <p style={{ color: "var(--color-accent-700)", marginTop: 6 }}>
-                Track and manage all your service inquiries in one place
-              </p>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <button
-                onClick={handleRefresh}
-                disabled={refreshing}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "10px 14px",
-                  borderRadius: 12,
-                  border: `1px solid var(--color-accent-100)`,
-                  background: "var(--color-primary)",
-                  color: "var(--color-accent-700)",
-                }}
-              >
-                <RefreshCw
-                  style={{
-                    width: 16,
-                    height: 16,
-                    transform: refreshing ? "rotate(360deg)" : undefined,
-                    transition: "transform 0.4s",
-                  }}
-                />
-                Refresh
-              </button>
-
-              <div
-                style={{
-                  background: "var(--color-accent-50)",
-                  border: `1px solid var(--color-accent-100)`,
-                  padding: 12,
-                  borderRadius: 8,
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: 22,
-                    fontWeight: 700,
-                    color: "var(--color-accent-700)",
-                  }}
-                >
-                  {leads.length}
-                </div>
-                <div style={{ fontSize: 12, color: "var(--color-accent-700)" }}>
-                  Total Leads
-                </div>
+              <div className="text-[10px] text-gray-400 mb-0.5">
+                Home › My Inquiries
               </div>
+              <h1 className="text-sm font-bold text-gray-900">My Inquiries</h1>
             </div>
+            <span className="text-[10px] text-[var(--color-accent-700)] bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] px-2 py-0.5 rounded font-bold">
+              {leads.length} total
+            </span>
           </div>
+          <button
+            onClick={handleRefresh}
+            disabled={refreshing}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-semibold border border-gray-300 bg-white hover:bg-gray-50 text-gray-600 rounded transition-all disabled:opacity-50"
+          >
+            <RefreshCw
+              className={`w-3.5 h-3.5 ${refreshing ? "animate-spin" : ""}`}
+            />
+            Refresh
+          </button>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <StatCard
-            icon={
-              <FileText
-                style={{
-                  width: 20,
-                  height: 20,
-                  color: "var(--color-accent-600)",
-                }}
-              />
-            }
-            count={leads.filter((l) => l.status === "new").length}
-            label="New Leads"
-          />
-          <StatCard
-            icon={
-              <CheckCircle
-                style={{
-                  width: 20,
-                  height: 20,
-                  color: "var(--color-accent-600)",
-                }}
-              />
-            }
-            count={
-              leads.filter(
-                (l) => l.status === "responded" || l.status === "contacted"
-              ).length
-            }
-            label="Active"
-          />
-          <StatCard
-            icon={
-              <ClockIcon
-                style={{
-                  width: 20,
-                  height: 20,
-                  color: "var(--color-accent-600)",
-                }}
-              />
-            }
-            count={leads.filter((l) => l.is_urgent).length}
-            label="Urgent"
-          />
-          <StatCard
-            icon={
-              <MessageSquare
-                style={{
-                  width: 20,
-                  height: 20,
-                  color: "var(--color-accent-600)",
-                }}
-              />
-            }
-            count={leads.reduce(
-              (t, l) => t + (l._count?.conversations || 0),
-              0
-            )}
-            label="Conversations"
-          />
-        </div>
-
-        {/* Filters and Search */}
-        <div
-          style={{
-            background: "var(--color-accent-50)",
-            border: `1px solid var(--color-accent-100)`,
-            borderRadius: 8,
-            padding: 20,
-            marginBottom: 24,
-          }}
-        >
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            <div style={{ flex: 1, maxWidth: 560 }}>
-              <div style={{ position: "relative" }}>
-                <Search
-                  style={{
-                    position: "absolute",
-                    left: 12,
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    color: "var(--color-accent-500)",
-                  }}
-                />
-                <input
-                  type="text"
-                  placeholder="Search by project, listing, or business..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  style={{
-                    width: "100%",
-                    padding: "12px 16px 12px 40px",
-                    borderRadius: 12,
-                    border: `1px solid var(--color-accent-100)`,
-                    outline: "none",
-                    color: "var(--color-accent-800)",
-                    background: "var(--color-primary)",
-                  }}
-                />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        {/* ══════════════════════════════════
+            STATS ROW
+        ══════════════════════════════════ */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-gray-200 border border-gray-200 rounded-sm bg-white mb-4 overflow-hidden">
+          {[
+            {
+              label: "New Leads",
+              value: leads.filter((l) => l.status === "new").length,
+              icon: <FileText className="w-4 h-4" />,
+            },
+            {
+              label: "Active",
+              value: leads.filter(
+                (l) => l.status === "responded" || l.status === "contacted",
+              ).length,
+              icon: <CheckCircle className="w-4 h-4" />,
+            },
+            {
+              label: "Urgent",
+              value: leads.filter((l) => l.is_urgent).length,
+              icon: <AlertCircle className="w-4 h-4" />,
+            },
+            {
+              label: "Conversations",
+              value: leads.reduce(
+                (t, l) => t + (l._count?.conversations || 0),
+                0,
+              ),
+              icon: <MessageSquare className="w-4 h-4" />,
+            },
+          ].map((stat) => (
+            <div
+              key={stat.label}
+              className="group flex items-center gap-4 px-5 py-4 hover:bg-[var(--color-accent-50)] transition-colors cursor-default relative"
+            >
+              <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-[var(--color-accent-700)] scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center" />
+              <div className="w-8 h-8 rounded bg-[var(--color-accent-50)] border border-[var(--color-accent-100)] flex items-center justify-center text-[var(--color-accent-600)] flex-shrink-0">
+                {stat.icon}
+              </div>
+              <div>
+                <div className="text-2xl font-extrabold text-gray-900 leading-none">
+                  {stat.value}
+                </div>
+                <div className="text-[11px] text-gray-400 font-semibold uppercase tracking-wide mt-1">
+                  {stat.label}
+                </div>
               </div>
             </div>
+          ))}
+        </div>
 
-            <div className="flex flex-wrap gap-3">
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-                style={{
-                  padding: "10px 14px",
-                  borderRadius: 12,
-                  border: `1px solid var(--color-accent-100)`,
-                  background: "var(--color-primary)",
-                  color: "var(--color-accent-800)",
-                }}
-              >
-                <option value="all">All Status</option>
-                <option value="new">New</option>
-                <option value="contacted">Contacted</option>
-                <option value="responded">Responded</option>
-                <option value="quoted">Quoted</option>
-                <option value="closed">Closed</option>
-                <option value="rejected">Rejected</option>
-              </select>
-
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                style={{
-                  padding: "10px 14px",
-                  borderRadius: 12,
-                  border: `1px solid var(--color-accent-100)`,
-                  background: "var(--color-primary)",
-                  color: "var(--color-accent-800)",
-                }}
-              >
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-                <option value="urgent">Urgent First</option>
-              </select>
+        {/* ══════════════════════════════════
+            SEARCH + FILTERS BAR
+        ══════════════════════════════════ */}
+        <div className="bg-white border border-gray-200 rounded-sm px-4 py-3 mb-4">
+          <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+            {/* Search */}
+            <div className="relative flex-1 min-w-0">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search by project, listing, or business..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-9 pr-4 py-2 text-[11px] border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] bg-white text-gray-700 placeholder-gray-400"
+              />
             </div>
+
+            {/* Status filter */}
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="text-[11px] font-semibold border border-gray-300 rounded px-2.5 py-2 bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-[var(--color-accent-500)]"
+            >
+              <option value="all">All Status</option>
+              <option value="new">New</option>
+              <option value="contacted">Contacted</option>
+              <option value="responded">Responded</option>
+              <option value="quoted">Quoted</option>
+              <option value="closed">Closed</option>
+              <option value="rejected">Rejected</option>
+            </select>
+
+            {/* Sort */}
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="text-[11px] font-semibold border border-gray-300 rounded px-2.5 py-2 bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-[var(--color-accent-500)]"
+            >
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+              <option value="urgent">Urgent First</option>
+            </select>
+
+            {/* Results count */}
+            {(searchTerm || statusFilter !== "all") && (
+              <span className="text-[10px] text-gray-400 font-semibold flex-shrink-0">
+                {filteredLeads.length} result
+                {filteredLeads.length !== 1 ? "s" : ""}
+              </span>
+            )}
           </div>
         </div>
 
-        {/* Leads List */}
-        <div className="space-y-6">
-          {filteredLeads.length === 0 ? (
-            <div
-              style={{
-                background: "var(--color-primary)",
-                border: `1px solid var(--color-accent-50)`,
-                borderRadius: 16,
-                padding: 48,
-                textAlign: "center",
-              }}
-            >
-              <div
-                style={{
-                  width: 96,
-                  height: 96,
-                  borderRadius: 9999,
-                  background: "var(--color-accent-50)",
-                  margin: "0 auto",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: 18,
-                }}
-              >
-                <FileText
-                  style={{
-                    width: 44,
-                    height: 44,
-                    color: "var(--color-accent-400)",
-                  }}
-                />
+        {/* ══════════════════════════════════
+            LEADS LIST
+        ══════════════════════════════════ */}
+        {filteredLeads.length === 0 ? (
+          /* ── Empty State ── */
+          <div className="bg-white border border-gray-200 rounded-sm overflow-hidden">
+            <div className="text-center py-14 px-6 border-b border-gray-100">
+              <div className="w-12 h-12 bg-[var(--color-accent-50)] border border-[var(--color-accent-100)] rounded flex items-center justify-center mx-auto mb-4">
+                <FileText className="w-6 h-6 text-[var(--color-accent-400)]" />
               </div>
-              <h3
-                style={{
-                  fontSize: 20,
-                  fontWeight: 700,
-                  color: "var(--color-accent-900)",
-                }}
-              >
+              <h3 className="text-base font-bold text-gray-800 mb-1">
                 {searchTerm || statusFilter !== "all"
-                  ? "No matching leads found"
-                  : "No leads yet"}
+                  ? "No matching inquiries"
+                  : "No inquiries yet"}
               </h3>
-              <p
-                style={{
-                  color: "var(--color-accent-700)",
-                  marginTop: 8,
-                  marginBottom: 18,
-                }}
-              >
+              <p className="text-gray-400 text-sm mb-5">
                 {searchTerm || statusFilter !== "all"
-                  ? "Try adjusting your search or filter criteria"
-                  : "Start by sending inquiries to service providers for your projects"}
+                  ? "Try adjusting your search or filter"
+                  : "Start by sending inquiries to service providers"}
               </p>
               {!searchTerm && statusFilter === "all" && (
                 <Link
                   href="/listings"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 10,
-                    padding: "10px 18px",
-                    borderRadius: 12,
-                    background: "var(--color-accent-700)",
-                    hover: "bg-var(--color-accent-900)",
-                    color: "#fff",
-                    fontWeight: 600,
-                  }}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-900)] text-white text-sm font-bold rounded transition-colors"
                 >
-                  Browse Services
+                  Browse Services →
                 </Link>
               )}
             </div>
-          ) : (
-            filteredLeads.map((lead) => {
-              const StatusIcon = getStatusConfig(lead.status).icon || ClockIcon;
+            <div className="px-6 py-4 bg-[var(--color-accent-50)] flex items-center justify-between gap-3">
+              <p className="text-xs text-[var(--color-accent-700)] font-medium">
+                💡 Send inquiries to sellers and track all responses here in one
+                place.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {filteredLeads.map((lead) => {
               const ContactIcon = contactIcons[lead.contact_preference] || Mail;
               const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "";
-              const sCfg = getStatusConfig(lead.status);
+              const sCfg = getStatus(lead.status);
+              const hasMessages = lead._count?.conversations > 0;
 
               return (
                 <article
                   key={lead.lead_id}
-                  style={{
-                    background: "var(--color-accent-50)",
-                    border: `1px solid var(--color-accent-100)`,
-                    borderRadius: 8,
-                    padding: 20,
-                  }}
+                  className="bg-white border border-gray-200 rounded-sm hover:border-[var(--color-accent-300)] hover:shadow-sm transition-all duration-200 overflow-hidden group"
                 >
-                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
-                    <div style={{ flex: 1 }}>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "flex-start",
-                          gap: 12,
-                        }}
-                      >
-                        <div>
-                          <h3
-                            style={{
-                              fontSize: 18,
-                              fontWeight: 700,
-                              color: "var(--color-accent-900)",
-                              marginBottom: 8,
-                            }}
-                          >
+                  {/* Status top bar */}
+                  <div
+                    className={`h-0.5 w-full ${
+                      lead.status === "closed"
+                        ? "bg-green-500"
+                        : lead.status === "rejected"
+                          ? "bg-red-400"
+                          : lead.status === "quoted"
+                            ? "bg-amber-400"
+                            : lead.status === "new"
+                              ? "bg-blue-500"
+                              : "bg-[var(--color-accent-500)]"
+                    }`}
+                  />
+
+                  <div className="p-4">
+                    <div className="flex flex-col lg:flex-row gap-5">
+                      {/* ── LEFT: Lead info ── */}
+                      <div className="flex-1 min-w-0">
+                        {/* Title + status + urgent + time */}
+                        <div className="flex flex-wrap items-center gap-2 mb-2">
+                          <h3 className="text-sm font-bold text-gray-900 group-hover:text-[var(--color-accent-700)] transition-colors">
                             {lead.project_title}
                           </h3>
 
-                          <div
-                            style={{
-                              display: "flex",
-                              gap: 8,
-                              alignItems: "center",
-                              flexWrap: "wrap",
-                            }}
+                          {/* Status badge */}
+                          <span
+                            className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded border uppercase tracking-wide ${sCfg.bg} ${sCfg.text} ${sCfg.border}`}
                           >
                             <span
-                              style={{
-                                display: "inline-flex",
-                                alignItems: "center",
-                                gap: 6,
-                                padding: "6px 10px",
-                                borderRadius: 9999,
-                                fontSize: 13,
-                                border: `1px solid ${sCfg.border}`,
-                                background: sCfg.bg,
-                                color: sCfg.text,
-                              }}
-                            >
-                              <ClockIcon
-                                style={{
-                                  width: 12,
-                                  height: 12,
-                                  color: sCfg.iconColor,
-                                }}
-                              />
-                              {sCfg.label}
-                            </span>
+                              className={`w-1.5 h-1.5 rounded-full ${sCfg.dot}`}
+                            />
+                            {sCfg.label}
+                          </span>
 
-                            {lead.is_urgent && (
-                              <span
-                                style={{
-                                  display: "inline-flex",
-                                  alignItems: "center",
-                                  gap: 6,
-                                  padding: "6px 10px",
-                                  borderRadius: 9999,
-                                  fontSize: 13,
-                                  border: `1px solid var(--color-accent-200)`,
-                                  background: "var(--color-accent-300)",
-                                  color: "var(--color-accent-900)",
-                                }}
-                              >
-                                <AlertCircle
-                                  style={{
-                                    width: 12,
-                                    height: 12,
-                                    color: "var(--color-accent-700)",
-                                  }}
-                                />
-                                Urgent
+                          {/* Urgent badge */}
+                          {lead.is_urgent && (
+                            <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded border uppercase bg-red-50 text-red-700 border-red-200">
+                              <AlertCircle className="w-3 h-3" />
+                              Urgent
+                            </span>
+                          )}
+
+                          {/* Time */}
+                          <span className="text-[10px] text-gray-400 font-medium ml-auto">
+                            {getTimeAgo(lead.created_at)}
+                          </span>
+                        </div>
+
+                        {/* Description */}
+                        <p className="text-[11px] text-gray-500 line-clamp-2 leading-relaxed mb-3">
+                          {lead.project_description}
+                        </p>
+
+                        {/* Meta chips */}
+                        <div className="flex flex-wrap gap-2 items-center mb-3">
+                          <span className="flex items-center gap-1 text-[10px] text-gray-600 font-semibold bg-gray-50 border border-gray-200 px-2 py-1 rounded">
+                            <DollarSign className="w-3 h-3 text-gray-400" />
+                            {budgetLabels[lead.budget_range] ||
+                              lead.budget_range}
+                          </span>
+                          <span className="flex items-center gap-1 text-[10px] text-gray-600 font-semibold bg-gray-50 border border-gray-200 px-2 py-1 rounded">
+                            <ClockIcon className="w-3 h-3 text-gray-400" />
+                            {timelineLabels[lead.timeline] || lead.timeline}
+                          </span>
+                          <span className="flex items-center gap-1 text-[10px] text-gray-600 font-semibold bg-gray-50 border border-gray-200 px-2 py-1 rounded">
+                            <ContactIcon className="w-3 h-3 text-gray-400" />
+                            {lead.contact_preference?.replace("_", " ")}
+                          </span>
+                          {hasMessages && (
+                            <span className="flex items-center gap-1 text-[10px] text-[var(--color-accent-700)] font-bold bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] px-2 py-1 rounded">
+                              <MessageSquare className="w-3 h-3" />
+                              {lead._count.conversations} message
+                              {lead._count.conversations !== 1 ? "s" : ""}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Custom requirements */}
+                        {lead.custom_requirements && (
+                          <div className="bg-gray-50 border border-gray-100 rounded px-3 py-2">
+                            <p className="text-[11px] text-gray-500 leading-relaxed">
+                              <span className="font-bold text-gray-600">
+                                Note:{" "}
                               </span>
-                            )}
-
-                            <span
-                              style={{
-                                fontSize: 13,
-                                color: "var(--color-accent-700)",
-                              }}
-                            >
-                              {getTimeAgo(lead.created_at)}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <p
-                        style={{
-                          color: "var(--color-accent-700)",
-                          marginTop: 12,
-                          marginBottom: 12,
-                        }}
-                        className="line-clamp-2"
-                      >
-                        {lead.project_description}
-                      </p>
-
-                      {/* Quick Info */}
-                      <div
-                        style={{
-                          display: "grid",
-                          gridTemplateColumns: "repeat(1, minmax(0, 1fr))",
-                          gap: 10,
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: 16,
-                            flexWrap: "wrap",
-                            color: "var(--color-accent-700)",
-                          }}
-                        >
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 8,
-                            }}
-                          >
-                            <DollarSign
-                              style={{
-                                width: 16,
-                                height: 16,
-                                color: "var(--color-accent-600)",
-                              }}
-                            />
-                            <span style={{ fontWeight: 600 }}>
-                              Budget: {budgetLabels[lead.budget_range]}
-                            </span>
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 8,
-                            }}
-                          >
-                            <Clock
-                              style={{
-                                width: 16,
-                                height: 16,
-                                color: "var(--color-accent-600)",
-                              }}
-                            />
-                            <span style={{ fontWeight: 600 }}>
-                              Timeline: {timelineLabels[lead.timeline]}
-                            </span>
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 8,
-                            }}
-                          >
-                            <ContactIcon
-                              style={{
-                                width: 16,
-                                height: 16,
-                                color: "var(--color-accent-600)",
-                              }}
-                            />
-                            <span
-                              style={{
-                                fontWeight: 600,
-                                textTransform: "capitalize",
-                              }}
-                            >
-                              Contact:{" "}
-                              {lead.contact_preference?.replace("_", " ")}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {lead.custom_requirements && (
-                        <div
-                          style={{
-                            background: "var(--color-accent-50)",
-                            padding: 12,
-                            borderRadius: 10,
-                            marginTop: 12,
-                          }}
-                        >
-                          <div style={{ color: "var(--color-accent-700)" }}>
-                            <strong>Additional Requirements:</strong>{" "}
-                            {lead.custom_requirements}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Listing + actions */}
-                    <div
-                      style={{
-                        minWidth: 260,
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 12,
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          gap: 12,
-                          alignItems: "center",
-                        }}
-                      >
-                        {lead.listing?.listing_media?.[0] && (
-                          <div
-                            style={{
-                              width: 76,
-                              height: 76,
-                              borderRadius: 14,
-                              overflow: "hidden",
-                              border: `1px solid var(--color-accent-50)`,
-                            }}
-                          >
-                            <img
-                              src={`${baseUrl}${lead.listing.listing_media[0].file_path}`}
-                              alt={lead.listing?.title}
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover",
-                              }}
-                              onError={(e) =>
-                                (e.target.src = "/placeholder-image.jpg")
-                              }
-                            />
+                              {lead.custom_requirements}
+                            </p>
                           </div>
                         )}
+                      </div>
 
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 8,
-                            }}
-                          >
-                            <h4
-                              style={{
-                                fontWeight: 700,
-                                fontSize: 16,
-                                color: "var(--color-accent-900)",
-                                whiteSpace: "nowrap",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                              }}
-                            >
-                              {lead.listing?.title}
-                            </h4>
+                      {/* ── RIGHT: Listing card + actions ── */}
+                      <div className="lg:w-64 flex-shrink-0 flex flex-col gap-3">
+                        {/* Listing info box */}
+                        <div className="bg-gray-50 border border-gray-200 rounded-sm p-3 flex gap-3">
+                          {/* Thumbnail */}
+                          <div className="w-14 h-14 rounded border border-gray-200 overflow-hidden bg-white flex-shrink-0">
+                            {lead.listing?.listing_media?.[0] ? (
+                              <img
+                                src={`${baseUrl}${lead.listing.listing_media[0].file_path}`}
+                                alt={lead.listing?.title}
+                                className="w-full h-full object-cover"
+                                onError={(e) =>
+                                  (e.target.src = "/placeholder-image.jpg")
+                                }
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center text-gray-300">
+                                <FileText className="w-5 h-5" />
+                              </div>
+                            )}
                           </div>
 
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 8,
-                              marginTop: 8,
-                              color: "var(--color-accent-700)",
-                            }}
-                          >
-                            <User style={{ width: 14, height: 14 }} />
-                            <span style={{ fontWeight: 600 }}>
-                              {lead.listing?.seller?.business_name}
-                            </span>
-                            {lead.listing?.seller?.overall_rating > 0 && (
-                              <>
-                                <Star
-                                  style={{
-                                    width: 14,
-                                    height: 14,
-                                    color: "var(--color-accent-300)",
-                                  }}
-                                />
-                                <span>
+                          {/* Listing text */}
+                          <div className="flex-1 min-w-0">
+                            <p className="text-[11px] font-bold text-gray-800 line-clamp-1 leading-tight">
+                              {lead.listing?.title}
+                            </p>
+                            <div className="flex items-center gap-1 mt-0.5">
+                              <User className="w-3 h-3 text-gray-400" />
+                              <p className="text-[10px] text-gray-500 font-semibold truncate">
+                                {lead.listing?.seller?.business_name}
+                              </p>
+                              {lead.listing?.seller?.overall_rating > 0 && (
+                                <span className="flex items-center gap-0.5 text-[10px] text-amber-600 font-bold ml-1">
+                                  <Star className="w-3 h-3 fill-amber-400 stroke-amber-400" />
                                   {lead.listing.seller.overall_rating}
                                 </span>
-                              </>
-                            )}
-                          </div>
-
-                          <div
-                            style={{
-                              display: "flex",
-                              gap: 6,
-                              marginTop: 8,
-                              flexWrap: "wrap",
-                            }}
-                          >
-                            <Badge
-                              label={lead.listing?.service_type?.replace(
-                                "_",
-                                " "
                               )}
-                            />
-                            <Badge
-                              label={lead.listing?.pricing_model?.replace(
-                                "_",
-                                " "
-                              )}
-                            />
-                            <Badge
-                              label={`₹${lead.listing?.min_price?.toLocaleString()} - ₹${lead.listing?.max_price?.toLocaleString()}`}
-                            />
+                            </div>
+                            <div className="flex flex-wrap gap-1 mt-1.5">
+                              {[
+                                lead.listing?.service_type?.replace("_", " "),
+                                `₹${lead.listing?.min_price?.toLocaleString()}–₹${lead.listing?.max_price?.toLocaleString()}`,
+                              ]
+                                .filter(Boolean)
+                                .map((tag) => (
+                                  <span
+                                    key={tag}
+                                    className="text-[9px] px-1.5 py-0.5 bg-[var(--color-accent-50)] text-[var(--color-accent-700)] border border-[var(--color-accent-100)] rounded font-semibold"
+                                  >
+                                    {tag}
+                                  </span>
+                                ))}
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: 10,
-                        }}
-                      >
-                        {lead._count?.conversations > 0 ? (
+                        {/* Action buttons */}
+                        <div className="flex flex-col gap-2">
+                          {/* Chat / Messages */}
                           <button
                             onClick={() => {
                               setLeadName(lead.project_title);
                               setOpenChatLead(lead);
                             }}
-                            style={{
-                              display: "inline-flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              gap: 8,
-                              padding: "10px 14px",
-                              borderRadius: 12,
-                              background: "var(--color-accent-700)",
-                              color: "#fff",
-                              fontWeight: 600,
-                              border: "none",
-                              cursor: "pointer",
-                            }}
+                            className={`flex items-center justify-center gap-1.5 px-3 py-2 text-[11px] font-bold rounded transition-all ${
+                              hasMessages
+                                ? "bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-900)] text-white"
+                                : "border border-[var(--color-accent-300)] text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] bg-white"
+                            }`}
                           >
-                            <MessageSquare style={{ width: 16, height: 16 }} />
-                            View Messages ({lead._count.conversations})
+                            <MessageSquare className="w-3.5 h-3.5" />
+                            {hasMessages
+                              ? `View Messages (${lead._count.conversations})`
+                              : "Start Chat"}
                           </button>
-                        ) : (
-                          <button
-                            onClick={() => {
-                              setLeadName(lead.project_title);
-                              setOpenChatLead(lead);
-                            }}
-                            style={{
-                              display: "inline-flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              gap: 8,
-                              padding: "10px 14px",
-                              borderRadius: 12,
-                              background: "transparent",
-                              color: "var(--color-accent-700)",
-                              fontWeight: 600,
-                              border: `1px solid var(--color-accent-100)`,
-                              cursor: "pointer",
-                            }}
-                          >
-                            <MessageSquare style={{ width: 16, height: 16 }} />
-                            Start Chat
-                          </button>
-                        )}
 
-                        <Link
-                          href={`/listings/${lead.listing_id}`}
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            gap: 8,
-                            padding: "10px 14px",
-                            borderRadius: 12,
-                            background: "transparent",
-                            color: "var(--color-accent-700)",
-                            fontWeight: 600,
-                            border: `1px solid var(--color-accent-500)`,
-                            textDecoration: "none",
-                          }}
-                        >
-                          <Eye style={{ width: 16, height: 16 }} />
-                          View Listing
-                        </Link>
+                          {/* View Listing */}
+                          <Link
+                            href={`/listings/${lead.listing_id}`}
+                            className="flex items-center justify-center gap-1.5 px-3 py-2 text-[11px] font-semibold border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 rounded transition-all"
+                          >
+                            <Eye className="w-3.5 h-3.5" />
+                            View Listing
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </article>
               );
-            })
-          )}
-        </div>
+            })}
 
-        {/* Pagination Info */}
-        {filteredLeads.length > 0 && (
-          <div
-            style={{ marginTop: 28, display: "flex", justifyContent: "center" }}
-          >
-            <div
-              style={{
-                background: "var(--color-primary)",
-                border: `1px solid var(--color-accent-50)`,
-                borderRadius: 16,
-                padding: "12px 20px",
-              }}
-            >
-              <p style={{ color: "var(--color-accent-700)" }}>
-                Showing {filteredLeads.length} of {leads.length} leads
+            {/* Results summary */}
+            <div className="bg-white border border-gray-200 rounded-sm px-4 py-3 flex items-center justify-between">
+              <p className="text-[11px] text-gray-500">
+                Showing{" "}
+                <span className="font-bold text-gray-800">
+                  {filteredLeads.length}
+                </span>{" "}
+                of{" "}
+                <span className="font-bold text-gray-800">{leads.length}</span>{" "}
+                inquiries
               </p>
+              <Link
+                href="/listings"
+                className="text-[11px] font-semibold text-[var(--color-accent-700)] hover:text-[var(--color-accent-900)] hover:underline transition-colors"
+              >
+                Browse more services →
+              </Link>
             </div>
           </div>
         )}
@@ -967,75 +597,3 @@ const MyLeadsPage = () => {
 };
 
 export default MyLeadsPage;
-
-/* ------------------ Helper subcomponents ------------------ */
-
-function StatCard({ icon, count, label }) {
-  return (
-    <div
-      style={{
-        background: "var(--color-accent-50)",
-        borderRadius: 8,
-        padding: 20,
-        border: `1px solid var(--color-accent-100)`,
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <div
-          style={{
-            padding: 12,
-            borderRadius: 12,
-            background: "var(--color-accent-50)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {icon}
-        </div>
-        <div>
-          <div
-            style={{
-              fontSize: 20,
-              fontWeight: 700,
-              color: "var(--color-accent-900)",
-            }}
-          >
-            {count}
-          </div>
-          <div style={{ color: "var(--color-accent-700)" }}>{label}</div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Badge({ label }) {
-  return (
-    <span
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        padding: "6px 10px",
-        borderRadius: 9999,
-        fontSize: 12,
-        background: "var(--color-accent-100)",
-        color: "var(--color-accent-700)",
-      }}
-    >
-      {label}
-    </span>
-  );
-}
-
-/* Simple keyframes for spinner (if your project has global CSS, you can move it there) */
-const styleEl =
-  typeof document !== "undefined"
-    ? document.getElementById("myleads-spinner-style")
-    : null;
-if (typeof document !== "undefined" && !styleEl) {
-  const el = document.createElement("style");
-  el.id = "myleads-spinner-style";
-  el.innerHTML = `@keyframes spin { to { transform: rotate(1turn); } }`;
-  document.head.appendChild(el);
-}

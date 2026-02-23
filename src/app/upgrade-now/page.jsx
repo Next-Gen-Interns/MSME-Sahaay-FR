@@ -344,7 +344,7 @@ const SubscriptionPlans = () => {
       ) {
         // If user already has a subscription (even canceled), we need to handle upgrade
         toast.error(
-          "You already have a subscription. Please cancel your current plan first or contact support."
+          "You already have a subscription. Please cancel your current plan first or contact support.",
         );
       } else {
         toast.error(errorMessage);
@@ -363,14 +363,14 @@ const SubscriptionPlans = () => {
     // Prevent canceling free plan
     if (userSubscription.subscription.plan.price === 0) {
       toast.error(
-        "Free plan cannot be canceled as it's the default plan for all users"
+        "Free plan cannot be canceled as it's the default plan for all users",
       );
       return;
     }
 
     // 👉 Show custom confirmation toast instead of window.confirm
     const userConfirmed = await confirmToast(
-      "Are you sure you want to cancel your subscription?\n\n⚠️ Important: Subscription cancellations are non-refundable. You'll lose access to premium features at the end of your billing period."
+      "Are you sure you want to cancel your subscription?\n\n⚠️ Important: Subscription cancellations are non-refundable. You'll lose access to premium features at the end of your billing period.",
     );
 
     if (!userConfirmed) return;
@@ -415,12 +415,12 @@ const SubscriptionPlans = () => {
 
     if (activeTab === "buyer" || activeTab === "seller") {
       return plans.filter(
-        (plan) => plan.plan_type === activeTab || plan.plan_type === "both"
+        (plan) => plan.plan_type === activeTab || plan.plan_type === "both",
       );
     }
 
     return plans.filter(
-      (plan) => plan.plan_type === userData.role || plan.plan_type === "both"
+      (plan) => plan.plan_type === userData.role || plan.plan_type === "both",
     );
   };
 
@@ -521,15 +521,15 @@ const SubscriptionPlans = () => {
                           isPaidSubscriptionActive
                             ? "text-green-600"
                             : isPaidSubscriptionCanceled
-                            ? "text-amber-600"
-                            : "text-blue-600"
+                              ? "text-amber-600"
+                              : "text-blue-600"
                         }`}
                       >
                         {isPaidSubscriptionActive ? (
                           <>
                             Active • Renews{" "}
                             {new Date(
-                              userSubscription.subscription.current_period_end
+                              userSubscription.subscription.current_period_end,
                             ).toLocaleDateString()}
                             {userSubscription.subscription
                               .cancel_at_period_end && (
@@ -564,8 +564,8 @@ const SubscriptionPlans = () => {
                                     percentage >= 90
                                       ? "bg-red-500"
                                       : percentage >= 70
-                                      ? "bg-yellow-500"
-                                      : "bg-green-500"
+                                        ? "bg-yellow-500"
+                                        : "bg-green-500"
                                   }`}
                                   style={{
                                     width: `${Math.min(percentage, 100)}%`,
@@ -661,8 +661,8 @@ const SubscriptionPlans = () => {
                                 alert.severity === "error"
                                   ? "bg-red-500"
                                   : alert.severity === "warning"
-                                  ? "bg-orange-500"
-                                  : "bg-blue-500"
+                                    ? "bg-orange-500"
+                                    : "bg-blue-500"
                               }`}
                               style={{
                                 width: `${Math.min(alert.percentage, 100)}%`,
@@ -674,8 +674,8 @@ const SubscriptionPlans = () => {
                               alert.severity === "error"
                                 ? "text-red-600"
                                 : alert.severity === "warning"
-                                ? "text-orange-600"
-                                : "text-blue-600"
+                                  ? "text-orange-600"
+                                  : "text-blue-600"
                             }`}
                           >
                             {alert.percentage}%
@@ -833,7 +833,7 @@ const SubscriptionPlans = () => {
                   </p>
                 </div>
                 <button
-                  onClick={() => (window.location.href = "/profile")}
+                  onClick={() => (window.location.href = "/settings")}
                   className="px-6 py-2 bg-[var(--color-accent-700)] text-white rounded-xl font-medium hover:bg-[var(--color-accent-900)] transition-colors duration-200 whitespace-nowrap"
                 >
                   Complete Profile
@@ -903,8 +903,8 @@ const PlanCard = ({
               featured
                 ? "bg-gradient-to-r from-blue-100 to-purple-100"
                 : isFreePlan
-                ? "bg-gray-100"
-                : "bg-gradient-to-r from-[var(--color-accent-100)] to-blue-100"
+                  ? "bg-gray-100"
+                  : "bg-gradient-to-r from-[var(--color-accent-100)] to-blue-100"
             }`}
           >
             {isFreePlan ? (
@@ -973,10 +973,10 @@ const PlanCard = ({
             isCurrentPlan
               ? "bg-gray-100 text-gray-500 cursor-not-allowed"
               : featured
-              ? "bg-gradient-to-r from-blue-500 to-[var(--color-accent-800)] text-white hover:from-blue-600 hover:to-[var(--color-accent-700)] shadow-lg hover:shadow-xl"
-              : isFreePlan
-              ? "bg-gray-900 text-white hover:bg-gray-800 shadow-lg hover:shadow-xl"
-              : "bg-gradient-to-r from-[var(--color-accent-800)] to-blue-600 text-white hover:from-[var(--color-accent-800)] hover:to-blue-700 shadow-lg hover:shadow-xl"
+                ? "bg-gradient-to-r from-blue-500 to-[var(--color-accent-800)] text-white hover:from-blue-600 hover:to-[var(--color-accent-700)] shadow-lg hover:shadow-xl"
+                : isFreePlan
+                  ? "bg-gray-900 text-white hover:bg-gray-800 shadow-lg hover:shadow-xl"
+                  : "bg-gradient-to-r from-[var(--color-accent-800)] to-blue-600 text-white hover:from-[var(--color-accent-800)] hover:to-blue-700 shadow-lg hover:shadow-xl"
           } disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-lg`}
         >
           {!isAuthenticated && "Sign Up to Subscribe"}

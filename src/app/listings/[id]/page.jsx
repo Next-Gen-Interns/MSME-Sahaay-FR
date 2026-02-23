@@ -90,7 +90,7 @@ export default function ListingDetailsPage() {
         // Safely handle listing_media
         const listingMedia = data.listing_media || [];
         const sortedImages = listingMedia.sort(
-          (a, b) => (a.sort_order || 0) - (b.sort_order || 0)
+          (a, b) => (a.sort_order || 0) - (b.sort_order || 0),
         );
         setImages(sortedImages);
       } catch (error) {
@@ -108,7 +108,7 @@ export default function ListingDetailsPage() {
 
     const slider = setInterval(() => {
       setCurrentImageIndex((prev) =>
-        prev === images.length - 1 ? 0 : prev + 1
+        prev === images.length - 1 ? 0 : prev + 1,
       );
     }, 3000);
 
@@ -255,7 +255,7 @@ export default function ListingDetailsPage() {
                 <img
                   src={zoomImage}
                   alt="Zoomed view"
-                  className="max-w-[95%] max-h-[90%] rounded-lg shadow-lg object-contain"
+                  className="max-w-[95%] max-h-[90%] rounded-xs shadow-lg object-contain"
                   onClick={(e) => e.stopPropagation()}
                 />
               </div>
@@ -265,11 +265,11 @@ export default function ListingDetailsPage() {
               {/* ⭐ MAIN IMAGE */}
               <div className="lg:col-span-2 relative">
                 <div
-                  className="relative h-80 sm:h-96 rounded-lg overflow-hidden bg-gradient-to-br from-[#f2f3fb] to-[#e4e5f7] cursor-zoom-in"
+                  className="relative h-80 sm:h-96 rounded-xs overflow-hidden bg-gradient-to-br from-[#f2f3fb] to-[#e4e5f7] cursor-zoom-in"
                   onClick={() => {
                     if (images[currentImageIndex]?.file_path) {
                       setZoomImage(
-                        `${baseUrl}${images[currentImageIndex].file_path}`
+                        `${baseUrl}${images[currentImageIndex].file_path}`,
                       );
                     }
                   }}
@@ -330,7 +330,7 @@ export default function ListingDetailsPage() {
                           downloadImage(images[currentImageIndex].file_path);
                         }
                       }}
-                      className="bg-white/90 p-2.5 rounded-md shadow hover:bg-white transition-all border border-gray-200 hover:scale-105"
+                      className="bg-white/90 p-2.5 rounded-xs shadow hover:bg-white transition-all border border-gray-200 hover:scale-105"
                       title="Download image"
                     >
                       <Download className="w-4 h-4" />
@@ -341,7 +341,7 @@ export default function ListingDetailsPage() {
                         e.stopPropagation();
                         shareListing();
                       }}
-                      className="bg-white/90 p-2.5 rounded-md shadow hover:bg-white transition-all border border-gray-200 hover:scale-105"
+                      className="bg-white/90 p-2.5 rounded-xs shadow hover:bg-white transition-all border border-gray-200 hover:scale-105"
                       title="Share listing"
                     >
                       <Share2 className="w-4 h-4" />
@@ -363,7 +363,7 @@ export default function ListingDetailsPage() {
                       <button
                         key={image.listing_media_id || index}
                         onClick={() => setCurrentImageIndex(index)}
-                        className={`aspect-square rounded-lg overflow-hidden border-2 transition-all duration-200 relative ${
+                        className={`aspect-square rounded-xs overflow-hidden border-2 transition-all duration-200 relative ${
                           currentImageIndex === index
                             ? "border-[#3B38A0] ring-2 ring-[#e4e5f7] shadow-md"
                             : "border-gray-300 hover:border-gray-400"
@@ -419,7 +419,7 @@ export default function ListingDetailsPage() {
                     <button
                       key={image.listing_media_id || index}
                       onClick={() => setCurrentImageIndex(index)}
-                      className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
+                      className={`flex-shrink-0 w-20 h-20 rounded-xs overflow-hidden border-2 transition-all ${
                         currentImageIndex === index
                           ? "border-[#3B38A0] ring-1 ring-[#e4e5f7] shadow-sm"
                           : "border-gray-300 hover:border-gray-400"
@@ -447,7 +447,7 @@ export default function ListingDetailsPage() {
               </h1>
 
               <div className="flex items-center gap-3 mb-4">
-                <div className="flex items-center bg-[#f2f3fb] text-[#1A2A80] px-3 py-1 rounded-md text-sm font-semibold border border-[#e4e5f7]">
+                <div className="flex items-center bg-[#f2f3fb] text-[#1A2A80] px-3 py-1 rounded-xs text-sm font-semibold border border-[#e4e5f7]">
                   <Star className="w-4 h-4 fill-current mr-1" />
                   {listing.seller?.overall_rating || 0}
                   <span className="text-[#585ea9] mx-2">•</span>
@@ -457,7 +457,7 @@ export default function ListingDetailsPage() {
                 </div>
 
                 {listing.featured && (
-                  <span className="bg-[#f2f3fb] text-[#1A2A80] px-2 py-1 rounded-md text-sm font-medium border border-[#e4e5f7]">
+                  <span className="bg-[#f2f3fb] text-[#1A2A80] px-2 py-1 rounded-xs text-sm font-medium border border-[#e4e5f7]">
                     ⭐ Featured
                   </span>
                 )}
@@ -520,7 +520,7 @@ export default function ListingDetailsPage() {
           <div className="flex flex-wrap gap-3 mt-6 pt-6 border-t border-gray-200">
             <button
               onClick={() => setShowLeadForm(true)}
-              className="bg-[#3B38A0] hover:bg-[#1A2A80] text-white px-6 py-3 rounded-md font-semibold flex items-center transition-all shadow-sm hover:shadow-md"
+              className="bg-[#3B38A0] hover:bg-[#1A2A80] text-white px-6 py-3 rounded-xs font-semibold flex items-center transition-all shadow-sm hover:shadow-md"
             >
               <Mail className="w-4 h-4 mr-2" />
               Send Inquiry
@@ -563,7 +563,7 @@ export default function ListingDetailsPage() {
                   </p>
 
                   {/* Seller Info */}
-                  <div className="mt-6 p-4 bg-[#f2f3fb] rounded-md border border-[#e4e5f7]">
+                  <div className="mt-6 p-4 bg-[#f2f3fb] rounded-xs border border-[#e4e5f7]">
                     <h4 className="font-semibold text-gray-900 mb-2">
                       About {listing.seller?.business_name || "the seller"}
                     </h4>
@@ -636,7 +636,7 @@ export default function ListingDetailsPage() {
                         {listing.tags.map((tag, idx) => (
                           <span
                             key={idx}
-                            className="bg-[#f2f3fb] text-[#3B38A0] px-3 py-1 rounded-md text-sm font-medium border border-[#e4e5f7]"
+                            className="bg-[#f2f3fb] text-[#3B38A0] px-3 py-1 rounded-xs text-sm font-medium border border-[#e4e5f7]"
                           >
                             #{tag}
                           </span>
@@ -655,24 +655,26 @@ export default function ListingDetailsPage() {
                   <h3 className="text-xl font-semibold text-gray-900 mb-4">
                     Service Locations
                   </h3>
-                  <div className="p-4 bg-[#f2f3fb] rounded-md border border-[#e4e5f7]">
+                  <div className="p-4 bg-[#f2f3fb] rounded-xs border border-[#e4e5f7]">
                     <div className="space-y-2">
                       {listing.service_countries?.length > 0 && (
                         <div className="text-gray-700">
                           <strong>Country:</strong>{" "}
-                          {listing.service_countries.join(", ")}
+                          {[...new Set(listing.service_countries)].join(", ")}
                         </div>
                       )}
+
                       {listing.service_states?.length > 0 && (
                         <div className="text-gray-700">
                           <strong>State:</strong>{" "}
-                          {listing.service_states.join(", ")}
+                          {[...new Set(listing.service_states)].join(", ")}
                         </div>
                       )}
+
                       {listing.service_cities?.length > 0 && (
                         <div className="text-gray-700">
                           <strong>City:</strong>{" "}
-                          {listing.service_cities.join(", ")}
+                          {[...new Set(listing.service_cities)].join(", ")}
                         </div>
                       )}
                     </div>
@@ -690,7 +692,7 @@ export default function ListingDetailsPage() {
               </h3>
               <div className="space-y-4">
                 {/* Main Service */}
-                <div className="p-4 border border-gray-200 rounded-md hover:shadow-sm transition-shadow bg-white">
+                <div className="p-4 border border-gray-200 rounded-xs hover:shadow-sm transition-shadow bg-white">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <h4 className="font-semibold text-gray-900 mb-2">
@@ -700,7 +702,7 @@ export default function ListingDetailsPage() {
                         {listing.description || "No description available."}
                       </p>
                       <div className="mt-3 flex items-center gap-3 text-sm text-gray-600">
-                        <span className="bg-[#f2f3fb] text-[#3B38A0] px-2 py-1 rounded-md font-medium">
+                        <span className="bg-[#f2f3fb] text-[#3B38A0] px-2 py-1 rounded-xs font-medium">
                           {listing.service_type?.replace("_", " ") || "Service"}
                         </span>
                         <span className="font-semibold text-[#1A2A80]">
@@ -717,21 +719,21 @@ export default function ListingDetailsPage() {
                     Key Features
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div className="flex items-center p-3 bg-white border border-gray-200 rounded-md">
+                    <div className="flex items-center p-3 bg-white border border-gray-200 rounded-xs">
                       <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
                       <span className="text-gray-700">Quality Assurance</span>
                     </div>
-                    <div className="flex items-center p-3 bg-white border border-gray-200 rounded-md">
+                    <div className="flex items-center p-3 bg-white border border-gray-200 rounded-xs">
                       <Clock className="w-4 h-4 text-[#3B38A0] mr-2" />
                       <span className="text-gray-700">On-time Delivery</span>
                     </div>
-                    <div className="flex items-center p-3 bg-white border border-gray-200 rounded-md">
+                    <div className="flex items-center p-3 bg-white border border-gray-200 rounded-xs">
                       <Award className="w-4 h-4 text-yellow-500 mr-2" />
                       <span className="text-gray-700">
                         Professional Service
                       </span>
                     </div>
-                    <div className="flex items-center p-3 bg-white border border-gray-200 rounded-md">
+                    <div className="flex items-center p-3 bg-white border border-gray-200 rounded-xs">
                       <Shield className="w-4 h-4 text-purple-500 mr-2" />
                       <span className="text-gray-700">Secure & Reliable</span>
                     </div>
@@ -749,7 +751,7 @@ export default function ListingDetailsPage() {
               </h3>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <div className="p-4 bg-[#f2f3fb] rounded-md border border-[#e4e5f7]">
+                  <div className="p-4 bg-[#f2f3fb] rounded-xs border border-[#e4e5f7]">
                     <h4 className="font-semibold text-gray-900 mb-2">
                       Business Information
                     </h4>
@@ -769,7 +771,7 @@ export default function ListingDetailsPage() {
                     </div>
                   </div>
 
-                  <div className="p-4 bg-[#f2f3fb] rounded-md border border-[#e4e5f7]">
+                  <div className="p-4 bg-[#f2f3fb] rounded-xs border border-[#e4e5f7]">
                     <h4 className="font-semibold text-gray-900 mb-2">
                       Service Information
                     </h4>
@@ -792,7 +794,7 @@ export default function ListingDetailsPage() {
                 </div>
 
                 <div className="space-y-4">
-                  <div className="p-4 bg-[#f2f3fb] rounded-md border border-[#e4e5f7]">
+                  <div className="p-4 bg-[#f2f3fb] rounded-xs border border-[#e4e5f7]">
                     <h4 className="font-semibold text-gray-900 mb-2">
                       Company Details
                     </h4>
@@ -815,7 +817,7 @@ export default function ListingDetailsPage() {
                     </div>
                   </div>
 
-                  <div className="p-4 bg-[#f2f3fb] rounded-md border border-[#e4e5f7]">
+                  <div className="p-4 bg-[#f2f3fb] rounded-xs border border-[#e4e5f7]">
                     <h4 className="font-semibold text-gray-900 mb-2">
                       Performance Metrics
                     </h4>
@@ -847,7 +849,7 @@ export default function ListingDetailsPage() {
               </h3>
 
               {/* Rating Summary */}
-              <div className="bg-[#f2f3fb] rounded-md border border-[#e4e5f7] p-4 mb-6">
+              <div className="bg-[#f2f3fb] rounded-xs border border-[#e4e5f7] p-4 mb-6">
                 <div className="flex items-center justify-between">
                   <div className="text-center">
                     <div className="text-3xl font-bold text-gray-900">
@@ -879,7 +881,7 @@ export default function ListingDetailsPage() {
                 <p className="text-gray-500 mb-4">
                   Be the first to share your experience with this service!
                 </p>
-                <button className="bg-[#3B38A0] hover:bg-[#1A2A80] text-white px-6 py-2 rounded-md font-semibold transition-colors">
+                <button className="bg-[#3B38A0] hover:bg-[#1A2A80] text-white px-6 py-2 rounded-xs font-semibold transition-colors">
                   Write a Review
                 </button>
               </div>

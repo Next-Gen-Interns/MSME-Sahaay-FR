@@ -71,7 +71,9 @@ export default function Navbar() {
   // Common menu items for all users
   const commonMenuItems = [
     { name: "Home", icon: Grid, route: "/" },
+    { name: "Ship with MSME Sahaay", icon: Truck, route: "/listings" },
     { name: "View All Categories", icon: Package, route: "/categories" },
+    { name: "Become a Seller for Free", icon: Users, route: "/auth/signup" },
   ];
 
   // Menu items for logged-in users only
@@ -81,16 +83,14 @@ export default function Navbar() {
       icon: ShoppingCart,
       route: "/list-products",
     },
-    { name: "Messages", icon: MessageCircle, route: "/seller/leads" },
+    // { name: "Messages", icon: MessageCircle, route: "/seller/leads" },
     { name: "My Inquiries", icon: BarChart, route: "/my-leads" },
     { name: "My Favourites", icon: Heart, route: "/favorites" },
   ];
 
   // Business-related items for all
   const businessMenuItems = [
-    { name: "Ship with MSME Sahaay", icon: Truck, route: "/listings" },
     { name: "Verified Experts", icon: CheckCircle, route: "/verified-experts" },
-    { name: "Become a Seller for Free", icon: Users, route: "/auth/signup" },
   ];
 
   // Additional items for all users
@@ -112,8 +112,6 @@ export default function Navbar() {
 
   // Navigation tabs - conditionally shown based on user role
   const navTabs = [
-    // Common tabs for all
-    { name: "Privacy Policy", route: "/privacy-policy" },
     // Role-specific tabs
     ...(isLoggedIn && userData?.role === "seller"
       ? [{ name: "Lead Hub", route: "/seller/leads" }]
@@ -443,23 +441,22 @@ export default function Navbar() {
 
                       <div className="p-2 space-y-1">
                         <Link
-                          href="/profile"
+                          href="/settings"
                           onClick={() => setIsDropdownOpen(false)}
                           className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs transition-all duration-150"
                         >
                           <User size={18} />
-                          <span>My Profile</span>
+                          <span>Profile</span>
                         </Link>
-
                         {/* Logged-in specific menu items */}
-                        <Link
+                        {/* <Link
                           href="/messages"
                           onClick={() => setIsDropdownOpen(false)}
                           className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs transition-all duration-150"
                         >
                           <MessageCircle size={18} />
                           <span>Messages</span>
-                        </Link>
+                        </Link> */}
 
                         {/* <Link
                           href="/orders"
@@ -498,7 +495,7 @@ export default function Navbar() {
                               className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs"
                             >
                               <Briefcase size={18} />
-                              <span>List Products</span>
+                              <span>List Your Services</span>
                             </Link>
 
                             <Link
@@ -507,7 +504,7 @@ export default function Navbar() {
                               className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs"
                             >
                               <Users size={18} />
-                              <span>Lead Management</span>
+                              <span>Manage Your Leads</span>
                             </Link>
                           </>
                         )}
@@ -636,7 +633,7 @@ export default function Navbar() {
                   Account
                 </h3>
                 <Link
-                  href="/profile"
+                  href="/settings"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="flex items-center space-x-4 px-4 py-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs font-medium"
                 >

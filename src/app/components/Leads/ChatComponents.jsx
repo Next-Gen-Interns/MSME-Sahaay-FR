@@ -97,7 +97,7 @@ export const StatusFilterBar = ({
           <button
             key={key}
             onClick={() => onFilterChange(key)}
-            className={`px-3 md:px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap flex items-center space-x-2 ${
+            className={`px-3 md:px-4 py-2 rounded-xs text-sm font-medium transition-all duration-200 whitespace-nowrap flex items-center space-x-2 ${
               activeFilter === key
                 ? "bg-white text-[#0C2B4E] shadow-sm border border-gray-300"
                 : "text-white hover:bg-[#1a3a5f]"
@@ -125,7 +125,7 @@ const LeadListItem = ({ lead, isActive, onClick, currentUserId }) => {
   const getUnreadCount = (lead) => {
     if (!lead.conversations) return 0;
     return lead.conversations.filter(
-      (msg) => msg.participant_id === lead.buyer.user.user_id && !msg.is_read
+      (msg) => msg.participant_id === lead.buyer.user.user_id && !msg.is_read,
     ).length;
   };
 
@@ -203,7 +203,7 @@ const LeadListItem = ({ lead, isActive, onClick, currentUserId }) => {
             {lead.buyer?.full_name || "Unknown Buyer"}
           </p>
           {unreadCount > 0 && (
-            <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-lg font-medium">
+            <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-xs font-medium">
               {unreadCount} New
             </span>
           )}
@@ -241,7 +241,7 @@ export const LeadList = ({
         return leads.filter((lead) => lead.status === "new");
       case "in_progress":
         return leads.filter((lead) =>
-          IN_PROGRESS_STATUSES.includes(lead.status)
+          IN_PROGRESS_STATUSES.includes(lead.status),
         );
       case "archived":
         return leads.filter((lead) => ARCHIVED_STATUSES.includes(lead.status));
@@ -367,7 +367,7 @@ export const LeadDetails = ({
           {isMobile && (
             <button
               onClick={onBack}
-              className="p-2 text-white hover:bg-[#1a3a5f] rounded-lg"
+              className="p-2 text-white hover:bg-[#1a3a5f] rounded-xs"
             >
               <svg
                 className="w-5 h-5"
@@ -405,7 +405,7 @@ export const LeadDetails = ({
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto custom-scrollbar">
         {/* Profile Section */}
-        <div className="bg-white p-4 md:p-6 border-b border-gray-200 rounded-xl shadow-sm relative flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <div className="bg-white p-4 md:p-6 border-b border-gray-200 rounded-xs shadow-sm relative flex flex-col sm:flex-row sm:items-center sm:justify-between">
           {/* LEFT SIDE — Avatar + Buyer Info */}
           <div className="flex items-center gap-4 sm:gap-6">
             <div className="w-16 h-16 md:w-20 md:h-20 bg-[#0C2B4E] rounded-full overflow-hidden flex items-center justify-center text-white font-semibold text-xl md:text-2xl aspect-square">
@@ -439,7 +439,7 @@ export const LeadDetails = ({
         </div>
 
         {/* Status + View Chat Row */}
-        <div className="bg-white p-4 md:p-6 border-b border-gray-200 rounded-xl shadow-sm mt-2 flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6">
+        <div className="bg-white p-4 md:p-6 border-b border-gray-200 rounded-xs shadow-sm mt-2 flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6">
           {/* Update Status */}
           <div className="flex-1 sm:flex-none sm:w-1/3 lg:w-1/4">
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -448,7 +448,7 @@ export const LeadDetails = ({
             <select
               value={selectedStatus}
               onChange={handleStatusChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0C2B4E] focus:border-[#0C2B4E] transition-all text-sm"
+              className="w-full px-3 py-2 border border-gray-300 rounded-xs focus:outline-none focus:ring-2 focus:ring-[#0C2B4E] focus:border-[#0C2B4E] transition-all text-sm"
             >
               {Object.entries(STATUS_CONFIG).map(([value, config]) => (
                 <option key={value} value={value}>
@@ -461,7 +461,7 @@ export const LeadDetails = ({
           {/* View Chat Button */}
           <button
             onClick={() => onStartChat(lead)}
-            className="px-4 md:px-6 py-2 bg-[#0C2B4E] text-white rounded-lg transition-colors duration-200 font-medium flex-shrink-0 text-sm md:text-base self-start sm:self-end"
+            className="px-4 md:px-6 py-2 bg-[#0C2B4E] text-white rounded-xs transition-colors duration-200 font-medium flex-shrink-0 text-sm md:text-base self-start sm:self-end"
           >
             View Chat
           </button>
@@ -640,7 +640,7 @@ const MessageBubble = ({ message, isCurrentUser }) => {
       className={`flex mb-4 ${isCurrentUser ? "justify-end" : "justify-start"}`}
     >
       <div
-        className={`max-w-xs md:max-w-md lg:max-w-lg rounded-2xl px-3 py-2 md:px-4 md:py-3 ${
+        className={`max-w-xs md:max-w-md lg:max-w-lg rounded-xs px-3 py-2 md:px-4 md:py-3 ${
           isCurrentUser
             ? "bg-[#0C2B4E] text-white rounded-br-none"
             : "bg-white text-gray-900 rounded-bl-none shadow-sm border border-gray-200"
@@ -824,7 +824,7 @@ export const ChatWindow = ({
             {isMobile && (
               <button
                 onClick={onBack}
-                className="p-2 text-white hover:bg-[#1a3a5f] rounded-lg mr-2"
+                className="p-2 text-white hover:bg-[#1a3a5f] rounded-xs mr-2"
               >
                 <svg
                   className="w-5 h-5"
@@ -888,7 +888,7 @@ export const ChatWindow = ({
           {isMobile && (
             <button
               onClick={onBack}
-              className="p-2 text-white hover:bg-[#1a3a5f] rounded-lg flex-shrink-0"
+              className="p-2 text-white hover:bg-[#1a3a5f] rounded-xs flex-shrink-0"
             >
               <svg
                 className="w-5 h-5"
@@ -984,7 +984,7 @@ export const ChatWindow = ({
             <select
               value={messageType}
               onChange={(e) => setMessageType(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0C2B4E] focus:border-[#0C2B4E] text-sm"
+              className="w-full px-3 py-2 border border-gray-300 rounded-xs focus:ring-2 focus:ring-[#0C2B4E] focus:border-[#0C2B4E] text-sm"
             >
               {MESSAGE_TYPES.map((type) => (
                 <option key={type.value} value={type.value}>
@@ -1005,13 +1005,13 @@ export const ChatWindow = ({
                 socketConnected ? "Type a message..." : "Connecting..."
               }
               disabled={sending || !socketConnected}
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0C2B4E] focus:border-[#0C2B4E] disabled:opacity-50 text-sm"
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-xs focus:ring-2 focus:ring-[#0C2B4E] focus:border-[#0C2B4E] disabled:opacity-50 text-sm"
             />
 
             <button
               onClick={handleSendMessage}
               disabled={!message.trim() || sending || !socketConnected}
-              className="p-3 bg-[#0C2B4E] text-white rounded-xl hover:bg-[#1a3a5f] disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center flex-shrink-0"
+              className="p-3 bg-[#0C2B4E] text-white rounded-xs hover:bg-[#1a3a5f] disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center flex-shrink-0"
             >
               {sending ? (
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
