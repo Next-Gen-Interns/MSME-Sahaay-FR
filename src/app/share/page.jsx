@@ -253,9 +253,9 @@ export default function ShareAppPage() {
                   <div className="absolute top-3 w-8 h-2 bg-white/20 rounded-full" />
                   <div className="mt-4 flex flex-col items-center gap-1">
                     {/* Logo mark */}
-                    <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-1 border border-white/20">
+                    <div className="w-10 h-10 rounded-xs bg-white/10 flex items-center justify-center mb-1 border border-white/20">
                       <span className="text-white font-display font-bold text-lg">
-                        M
+                        MS
                       </span>
                     </div>
                     <span className="text-white/80 text-[9px] font-semibold tracking-wider">
@@ -288,17 +288,17 @@ export default function ShareAppPage() {
             style={{ animationDelay: "0.2s" }}
           >
             {/* Referral link box */}
-            <div className="link-box rounded-2xl p-5">
+            <div className="link-box rounded-xs p-5">
               <p className="text-xs text-[var(--color-accent-300)] uppercase tracking-widest font-semibold mb-3">
                 Invite Link
               </p>
               <div className="flex items-center gap-2">
-                <div className="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white text-sm font-mono truncate">
+                <div className="flex-1 bg-white/10 border border-white/20 rounded-xs px-4 py-3 text-white text-sm font-mono truncate">
                   {referralLink}
                 </div>
                 <button
                   onClick={handleCopy}
-                  className="shrink-0 px-4 py-3 rounded-lg bg-[var(--color-accent-500)] hover:bg-[var(--color-accent-400)] text-white text-sm font-semibold transition-all"
+                  className="shrink-0 px-4 py-3 rounded-xs bg-[var(--color-accent-500)] hover:bg-[var(--color-accent-400)] text-white text-sm font-semibold transition-all"
                 >
                   {copied ? "✓ Copied!" : "Copy"}
                 </button>
@@ -306,7 +306,7 @@ export default function ShareAppPage() {
             </div>
 
             {/* Share via */}
-            <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+            <div className="bg-white rounded-xs p-5 shadow-sm border border-gray-100">
               <p className="text-xs text-gray-400 uppercase tracking-widest font-semibold mb-4">
                 Share Via
               </p>
@@ -317,7 +317,7 @@ export default function ShareAppPage() {
                     onClick={() => handleShare(ch.name)}
                     onMouseEnter={() => setHoveredChannel(ch.name)}
                     onMouseLeave={() => setHoveredChannel(null)}
-                    className="card-hover flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-100 cursor-pointer"
+                    className="card-hover flex flex-col items-center gap-2 p-4 rounded-xs border border-gray-100 cursor-pointer"
                     style={{
                       background:
                         hoveredChannel === ch.name ? ch.bg : "#fafafa",
@@ -335,7 +335,7 @@ export default function ShareAppPage() {
             {/* Big invite button */}
             <button
               onClick={() => handleShare("WhatsApp")}
-              className="invite-btn w-full py-4 rounded-2xl text-white font-display font-bold text-lg tracking-wide shadow-lg"
+              className="invite-btn w-full py-4 rounded-xs text-white font-display font-bold text-lg tracking-wide shadow-lg"
             >
               INVITE FRIENDS NOW
             </button>
@@ -372,13 +372,13 @@ export default function ShareAppPage() {
             ].map((item) => (
               <div
                 key={item.step}
-                className="card-hover bg-white rounded-2xl p-6 shadow-sm border border-gray-100 relative overflow-hidden"
+                className="card-hover bg-white rounded-xs p-6 shadow-sm border border-gray-100 relative overflow-hidden"
               >
                 <span className="font-display text-6xl font-bold text-gray-50 absolute -top-2 -right-1 select-none">
                   {item.step}
                 </span>
                 <div className="relative z-10">
-                  <div className="w-8 h-8 rounded-lg bg-[var(--color-accent-100)] flex items-center justify-center mb-3">
+                  <div className="w-8 h-8 rounded-xs bg-[var(--color-accent-100)] flex items-center justify-center mb-3">
                     <span className="text-[var(--color-accent-600)] text-xs font-bold font-display">
                       {item.step}
                     </span>

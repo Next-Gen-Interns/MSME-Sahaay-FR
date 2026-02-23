@@ -330,7 +330,7 @@ const UserForm = ({ showModal, onClose, onSubmit, user, submitting }) => {
       />
 
       {/* Modal */}
-      <div className="relative bg-white/95 backdrop-blur-md rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/20 shadow-2xl transform transition-all duration-300 scale-100">
+      <div className="relative bg-white/95 backdrop-blur-md rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/20 shadow-2xl transition-all duration-300 scale-100">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -684,7 +684,7 @@ const UserForm = ({ showModal, onClose, onSubmit, user, submitting }) => {
                       handleNestedFormChange(
                         "buyerprofile",
                         "full_name",
-                        e.target.value
+                        e.target.value,
                       )
                     }
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300"
@@ -703,7 +703,7 @@ const UserForm = ({ showModal, onClose, onSubmit, user, submitting }) => {
                         handleNestedFormChange(
                           "buyerprofile",
                           "company_name",
-                          e.target.value
+                          e.target.value,
                         )
                       }
                       className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300"
@@ -721,7 +721,7 @@ const UserForm = ({ showModal, onClose, onSubmit, user, submitting }) => {
                         handleNestedFormChange(
                           "buyerprofile",
                           "location",
-                          e.target.value
+                          e.target.value,
                         )
                       }
                       className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300"
@@ -751,7 +751,7 @@ const UserForm = ({ showModal, onClose, onSubmit, user, submitting }) => {
                       handleNestedFormChange(
                         "sellerprofile",
                         "business_name",
-                        e.target.value
+                        e.target.value,
                       )
                     }
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300"
@@ -768,7 +768,7 @@ const UserForm = ({ showModal, onClose, onSubmit, user, submitting }) => {
                       handleNestedFormChange(
                         "sellerprofile",
                         "business_description",
-                        e.target.value
+                        e.target.value,
                       )
                     }
                     rows="3"
@@ -788,7 +788,7 @@ const UserForm = ({ showModal, onClose, onSubmit, user, submitting }) => {
                         handleNestedFormChange(
                           "sellerprofile",
                           "product_categories",
-                          e.target.value
+                          e.target.value,
                         )
                       }
                       className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300"
@@ -806,7 +806,7 @@ const UserForm = ({ showModal, onClose, onSubmit, user, submitting }) => {
                         handleNestedFormChange(
                           "sellerprofile",
                           "certifications",
-                          e.target.value
+                          e.target.value,
                         )
                       }
                       className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300"
@@ -825,7 +825,7 @@ const UserForm = ({ showModal, onClose, onSubmit, user, submitting }) => {
                         handleNestedFormChange(
                           "sellerprofile",
                           "verification_status",
-                          e.target.value
+                          e.target.value,
                         )
                       }
                       className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300 bg-white"
@@ -845,7 +845,7 @@ const UserForm = ({ showModal, onClose, onSubmit, user, submitting }) => {
                         handleNestedFormChange(
                           "sellerprofile",
                           "subscription_plan",
-                          e.target.value
+                          e.target.value,
                         )
                       }
                       className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300 bg-white"
@@ -872,7 +872,7 @@ const UserForm = ({ showModal, onClose, onSubmit, user, submitting }) => {
             <button
               type="submit"
               disabled={submitting}
-              className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-xl hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105 disabled:hover:scale-100 shadow-lg"
+              className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-xl hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105 disabled:hover:scale-100 shadow-lg"
             >
               {submitting ? (
                 <span className="flex items-center">
@@ -989,8 +989,8 @@ const UserManagement = () => {
 
       setUsers(
         users.map((user) =>
-          user.user_id === userId ? { ...user, status: newStatus } : user
-        )
+          user.user_id === userId ? { ...user, status: newStatus } : user,
+        ),
       );
     } catch (error) {
       console.error("Error updating user status:", error);
@@ -1061,7 +1061,7 @@ const UserManagement = () => {
         // Show confirmation for bulk delete
         if (
           confirm(
-            `Are you sure you want to delete ${selectedUsers.length} users?`
+            `Are you sure you want to delete ${selectedUsers.length} users?`,
           )
         ) {
           await Promise.all(selectedUsers.map((userId) => deleteUser(userId)));
@@ -1074,8 +1074,8 @@ const UserManagement = () => {
         // Handle bulk status updates
         await Promise.all(
           selectedUsers.map((userId) =>
-            updateUserStatus(userId, { status: bulkAction })
-          )
+            updateUserStatus(userId, { status: bulkAction }),
+          ),
         );
         setSelectedUsers([]);
         fetchUsers();
@@ -1092,7 +1092,7 @@ const UserManagement = () => {
     setSelectedUsers((prev) =>
       prev.includes(userId)
         ? prev.filter((id) => id !== userId)
-        : [...prev, userId]
+        : [...prev, userId],
     );
   };
 
@@ -1100,7 +1100,7 @@ const UserManagement = () => {
     setSelectedUsers(
       selectedUsers.length === filteredUsers.length
         ? []
-        : filteredUsers.map((user) => user.user_id)
+        : filteredUsers.map((user) => user.user_id),
     );
   };
 
@@ -1487,10 +1487,10 @@ const UserManagement = () => {
                         user.status === "active"
                           ? "bg-green-50 text-green-800"
                           : user.status === "inactive"
-                          ? "bg-gray-50 text-gray-800"
-                          : user.status === "suspended"
-                          ? "bg-red-50 text-red-800"
-                          : "bg-yellow-50 text-yellow-800"
+                            ? "bg-gray-50 text-gray-800"
+                            : user.status === "suspended"
+                              ? "bg-red-50 text-red-800"
+                              : "bg-yellow-50 text-yellow-800"
                       }`}
                     >
                       <option value="active">Active</option>
