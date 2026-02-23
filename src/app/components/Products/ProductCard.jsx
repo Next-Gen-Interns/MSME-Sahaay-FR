@@ -4,8 +4,15 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Star, MapPin, Phone } from "lucide-react";
 
-export default function ProductCard({ listing, className = "" }) {
+export default function ProductCard({
+  listing,
+  favourites = [],
+  setFavourites,
+  className = "",
+}) {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const listingId = Number(listing.listing_id);
+  const isSaved = favourites.includes(listingId);
 
   const getFirstImage = () => {
     if (!listing.listing_media || listing.listing_media.length === 0)
@@ -38,6 +45,67 @@ export default function ProductCard({ listing, className = "" }) {
             {!imageLoaded && (
               <div className="absolute inset-0 bg-gradient-to-r from-[#e4e5f7] to-[#cdd0ef] animate-pulse" />
             )}
+            <button
+              onClick={async (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const token = localStorage.getItem("token");
+                if (!token) {
+                  alert("Please login to save favourites");
+                  return;
+                }
+
+                try {
+                  if (isSaved) {
+                    await fetch(
+                      `${process.env.NEXT_PUBLIC_API_URL}/favourites/${listingId}`,
+                      {
+                        method: "DELETE",
+                        headers: {
+                          Authorization: `Bearer ${token}`,
+                        },
+                      },
+                    );
+
+                    setFavourites((prev) =>
+                      prev.filter((id) => id !== listingId),
+                    );
+                  } else {
+                    await fetch(
+                      `${process.env.NEXT_PUBLIC_API_URL}/favourites/${listingId}`,
+                      {
+                        method: "POST",
+                        headers: {
+                          Authorization: `Bearer ${token}`,
+                        },
+                      },
+                    );
+
+                    setFavourites((prev) => [...prev, listingId]);
+                  }
+                } catch (error) {
+                  console.error("Favourite error:", error);
+                }
+              }}
+              className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm p-1.5 rounded-full shadow hover:scale-110 transition z-10"
+            >
+              <svg
+                className={`w-4 h-4 ${
+                  isSaved ? "text-red-500" : "text-gray-400"
+                }`}
+                fill={isSaved ? "currentColor" : "none"}
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4.318 6.318a4 4 0 015.657 0L12 8.343l2.025-2.025a4 4 0 015.657 5.657L12 20.657 4.318 11.975a4 4 0 010-5.657z"
+                />
+              </svg>
+            </button>
             <img
               src={bannerImageUrl}
               alt={listing.title}

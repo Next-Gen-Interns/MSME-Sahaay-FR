@@ -1566,6 +1566,7 @@ function ListingsGrid({
   const scrollRef = useRef(null);
   const animationRef = useRef(null);
   const isPaused = useRef(false);
+  const [favourites, setFavourites] = useState([]);
 
   /* ===============================
      SORT + LIMIT
@@ -1582,6 +1583,34 @@ function ListingsGrid({
   /* ===============================
      AUTO INFINITE SCROLL
   =============================== */
+  useEffect(() => {
+    const fetchFavourites = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/favourites/my`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        const data = await res.json();
+
+        if (res.ok) {
+          const favIds = data.map((fav) => Number(fav.listing_id));
+          setFavourites(favIds);
+        }
+      } catch (error) {
+        console.error("Error fetching favourites:", error);
+      }
+    };
+
+    fetchFavourites();
+  }, []);
   useEffect(() => {
     const container = scrollRef.current;
 
@@ -1697,10 +1726,15 @@ function ListingsGrid({
               onTouchEnd={() => (isPaused.current = false)}
               className="flex gap-3 overflow-hidden pb-2 cursor-pointer select-none"
             >
-              {infiniteListings.map((listing, index) => (
-                <div
-                  key={index}
-                  className="
+              {infiniteListings.map((listing, index) => {
+                const listingId = Number(listing.id);
+                const isSaved = favourites.includes(listingId);
+                
+
+                return (
+                  <div
+                    key={`${listingId}-${index}`}
+                    className="
                 flex-shrink-0
                 w-[85%]
                 sm:w-[46%]
@@ -1714,84 +1748,146 @@ function ListingsGrid({
                 overflow-hidden
                 group
               "
-                >
-                  {/* ── Image ── */}
-                  <div className="relative h-40 overflow-hidden bg-gray-100">
-                    <Image
-                      src={listing.image}
-                      alt={listing.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+                  >
+                    {/* ── Image ── */}
+                    <div className="relative h-40 overflow-hidden bg-gray-100">
+                      <Image
+                        src={listing.image}
+                        alt={listing.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <button
+                        onClick={async (e) => {
+                          e.stopPropagation();
 
-                    {/* Views Badge */}
-                    <span className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm border border-gray-200 text-gray-600 px-2 py-0.5 rounded text-[10px] font-semibold flex items-center gap-1 shadow-sm">
-                      <svg
-                        className="w-3 h-3"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+                          const token = localStorage.getItem("token");
+
+                          if (!token) {
+                            alert("Please login to save favourites");
+                            return;
+                          }
+
+                          try {
+                            if (isSaved) {
+                              await fetch(
+                                `${process.env.NEXT_PUBLIC_API_URL}/favourites/${listingId}`,
+                                {
+                                  method: "DELETE",
+                                  headers: {
+                                    Authorization: `Bearer ${token}`,
+                                  },
+                                },
+                              );
+
+                              setFavourites((prev) =>
+                                prev.filter((id) => id !== listingId),
+                              );
+                            } else {
+                              await fetch(
+                                `${process.env.NEXT_PUBLIC_API_URL}/favourites/${listingId}`,
+                                {
+                                  method: "POST",
+                                  headers: {
+                                    Authorization: `Bearer ${token}`,
+                                  },
+                                },
+                              );
+
+                              setFavourites((prev) => [...prev, listingId]);
+                            }
+                          } catch (error) {
+                            console.error("Favourite error:", error);
+                          }
+                        }}
+                        className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm p-1.5 rounded-full shadow hover:scale-110 transition"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                        />
-                      </svg>
-                      {listing.view || listing.views || 0} views
-                    </span>
-                  </div>
+                        <svg
+                          className={`w-4 h-4 ${
+                            isSaved ? "text-red-500" : "text-gray-400"
+                          }`}
+                          fill={isSaved ? "currentColor" : "none"}
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M4.318 6.318a4 4 0 015.657 0L12 8.343l2.025-2.025a4 4 0 015.657 5.657L12 20.657 4.318 11.975a4 4 0 010-5.657z"
+                          />
+                        </svg>
+                      </button>
 
-                  {/* ── Content ── */}
-                  <div className="p-3">
-                    {/* Title */}
-                    <h3 className="font-bold text-sm text-gray-900 line-clamp-1 mb-0.5 group-hover:text-[var(--color-accent-700)] transition-colors">
-                      {listing.title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-[11px] text-gray-500 line-clamp-2 leading-relaxed mb-2">
-                      {listing.description || "Premium business opportunity"}
-                    </p>
-
-                    {/* Location */}
-                    <div className="flex items-center gap-1 text-[11px] text-gray-400 mb-3">
-                      <LocationOn sx={{ fontSize: 13 }} />
-                      <span className="truncate">
-                        {Array.isArray(listing.location)
-                          ? listing.location.join(", ")
-                          : listing.location || "Remote"}
+                      {/* Views Badge */}
+                      <span className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm border border-gray-200 text-gray-600 px-2 py-0.5 rounded text-[10px] font-semibold flex items-center gap-1 shadow-sm">
+                        <svg
+                          className="w-3 h-3"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                          />
+                        </svg>
+                        {listing.view || listing.views || 0} views
                       </span>
                     </div>
 
-                    {/* ── Footer ── */}
-                    <div className="flex items-center justify-between pt-2.5 border-t border-gray-100">
-                      <div>
-                        <p className="text-[10px] text-gray-400 leading-none mb-0.5">
-                          Starting from
-                        </p>
-                        <p className="font-bold text-sm text-gray-900">
-                          {listing.price}
-                        </p>
+                    {/* ── Content ── */}
+                    <div className="p-3">
+                      {/* Title */}
+                      <h3 className="font-bold text-sm text-gray-900 line-clamp-1 mb-0.5 group-hover:text-[var(--color-accent-700)] transition-colors">
+                        {listing.title}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="text-[11px] text-gray-500 line-clamp-2 leading-relaxed mb-2">
+                        {listing.description || "Premium business opportunity"}
+                      </p>
+
+                      {/* Location */}
+                      <div className="flex items-center gap-1 text-[11px] text-gray-400 mb-3">
+                        <LocationOn sx={{ fontSize: 13 }} />
+                        <span className="truncate">
+                          {Array.isArray(listing.location)
+                            ? listing.location.join(", ")
+                            : listing.location || "Remote"}
+                        </span>
                       </div>
 
-                      <button
-                        onClick={() => onInquiryClick(listing)}
-                        className="text-xs font-semibold text-[var(--color-accent-700)] hover:text-white border border-[var(--color-accent-400)] hover:bg-[var(--color-accent-700)] hover:border-[var(--color-accent-700)] px-3 py-1.5 rounded transition-all duration-150"
-                      >
-                        View Details
-                      </button>
+                      {/* ── Footer ── */}
+                      <div className="flex items-center justify-between pt-2.5 border-t border-gray-100">
+                        <div>
+                          <p className="text-[10px] text-gray-400 leading-none mb-0.5">
+                            Starting from
+                          </p>
+                          <p className="font-bold text-sm text-gray-900">
+                            {listing.price}
+                          </p>
+                        </div>
+
+                        <button
+                          onClick={() => onInquiryClick(listing)}
+                          className="text-xs font-semibold text-[var(--color-accent-700)] hover:text-white border border-[var(--color-accent-400)] hover:bg-[var(--color-accent-700)] hover:border-[var(--color-accent-700)] px-3 py-1.5 rounded transition-all duration-150"
+                        >
+                          View Details
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* ── Load More ── */}

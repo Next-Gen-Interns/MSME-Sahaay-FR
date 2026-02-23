@@ -28,6 +28,7 @@ export default function ProductsPage() {
   const [currentCity, setCurrentCity] = useState(null);
   const [locationLoading, setLocationLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [favourites, setFavourites] = useState([]);
 
   const [filters, setFilters] = useState({
     search: "",
@@ -55,6 +56,35 @@ export default function ProductsPage() {
     if (filterObj.sortBy) apiParams.sort_by = filterObj.sortBy;
     return apiParams;
   };
+
+  useEffect(() => {
+    const fetchFavourites = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/favourites/my`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        const data = await res.json();
+
+        if (res.ok) {
+          const favIds = data.map((fav) => Number(fav.listing_id));
+          setFavourites(favIds);
+        }
+      } catch (error) {
+        console.error("Failed to fetch favourites:", error);
+      }
+    };
+
+    fetchFavourites();
+  }, []);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -481,6 +511,8 @@ export default function ProductsPage() {
                   <ProductCard
                     key={listing.listing_id}
                     listing={listing}
+                    favourites={favourites}
+                    setFavourites={setFavourites}
                     className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white rounded-sm"
                   />
                 ))}
