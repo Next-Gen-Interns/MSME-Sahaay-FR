@@ -184,7 +184,7 @@ const SellerDashboard = () => {
             />
           </div>
           <button
-            onClick={() => (window.location.href = "/profile")}
+            onClick={() => (window.location.href = "/settings")}
             className="w-full py-2.5 bg-[var(--color-accent-700)] hover:bg-[var(--color-accent-900)] text-white text-sm font-bold rounded transition-colors"
           >
             Go to Profile →
@@ -322,7 +322,7 @@ const SellerDashboard = () => {
             </div>
             {userData.profile_completion.total < 92 && (
               <button
-                onClick={() => (window.location.href = "/profile")}
+                onClick={() => (window.location.href = "/settings")}
                 className="flex-shrink-0 text-[11px] font-semibold text-[var(--color-accent-700)] hover:text-[var(--color-accent-900)] border border-[var(--color-accent-300)] hover:border-[var(--color-accent-500)] px-3 py-1.5 rounded transition-all"
               >
                 Complete Profile →

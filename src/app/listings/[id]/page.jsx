@@ -660,19 +660,21 @@ export default function ListingDetailsPage() {
                       {listing.service_countries?.length > 0 && (
                         <div className="text-gray-700">
                           <strong>Country:</strong>{" "}
-                          {listing.service_countries.join(", ")}
+                          {[...new Set(listing.service_countries)].join(", ")}
                         </div>
                       )}
+
                       {listing.service_states?.length > 0 && (
                         <div className="text-gray-700">
                           <strong>State:</strong>{" "}
-                          {listing.service_states.join(", ")}
+                          {[...new Set(listing.service_states)].join(", ")}
                         </div>
                       )}
+
                       {listing.service_cities?.length > 0 && (
                         <div className="text-gray-700">
                           <strong>City:</strong>{" "}
-                          {listing.service_cities.join(", ")}
+                          {[...new Set(listing.service_cities)].join(", ")}
                         </div>
                       )}
                     </div>

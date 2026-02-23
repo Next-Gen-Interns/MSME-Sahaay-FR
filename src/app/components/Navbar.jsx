@@ -622,7 +622,7 @@ export default function Navbar() {
                   Account
                 </h3>
                 <Link
-                  href="/profile"
+                  href="/settings"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="flex items-center space-x-4 px-4 py-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs font-medium"
                 >

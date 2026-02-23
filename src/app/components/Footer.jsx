@@ -121,7 +121,7 @@ export default function Footer() {
                 { name: "Listings", href: "/listings" },
                 { name: "My Leads", href: "/my-leads" },
                 { name: "Privacy Policy", href: "/privacy-policy" },
-                { name: "Profile", href: "/profile" },
+                { name: "Profile", href: "/settings" },
                 { name: "Seller Leads", href: "/seller/leads" },
                 { name: "Upgrade Now", href: "/upgrade-now" },
               ].map((item) => (
