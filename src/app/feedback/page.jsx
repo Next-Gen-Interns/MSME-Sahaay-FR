@@ -95,17 +95,46 @@ const FeedbackPage = () => {
     setFormData((prev) => ({ ...prev, rating }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+  try {
+    const token = localStorage.getItem("token");
 
-    setIsSubmitting(false);
+    if (!token) {
+      alert("You must be logged in to submit feedback.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    const form = new FormData();
+
+    Object.keys(formData).forEach((key) => {
+      if (formData[key] !== null) {
+        form.append(key, formData[key]);
+      }
+    });
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/feedback`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: form,
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Submission failed");
+    }
+
     setSubmitSuccess(true);
 
-    // Reset form after 3 seconds
     setTimeout(() => {
       setSubmitSuccess(false);
       setFormData({
@@ -122,7 +151,14 @@ const FeedbackPage = () => {
       });
       setCurrentStep(1);
     }, 3000);
-  };
+
+  } catch (error) {
+    console.error("Feedback error:", error);
+    alert(error.message);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const nextStep = () => {
     setCurrentStep((prev) => prev + 1);

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 import {
   User,
   ChevronDown,
@@ -53,6 +54,8 @@ import { fetchUserProfile } from "../lib/redux/slices/profileSlice";
 import Image from "next/image";
 
 export default function Navbar() {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useDispatch();
   const { userData, loading } = useSelector((state) => state.profile);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -204,6 +207,11 @@ export default function Navbar() {
   const toggleMegaMenu = () => {
     setIsMegaMenuOpen(!isMegaMenuOpen);
   };
+  const handleSearch = (e) => {
+    if (e.key === "Enter" && searchQuery.trim()) {
+      router.push(`/search?q=${searchQuery}`);
+    }
+  };
 
   if (isInitializing || loading) {
     return (
@@ -260,6 +268,9 @@ export default function Navbar() {
                 />
                 <input
                   type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={handleSearch}
                   placeholder="Search products, sellers, or categories..."
                   className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xs focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-transparent"
                 />
