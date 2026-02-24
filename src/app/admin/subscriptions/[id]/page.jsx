@@ -97,7 +97,8 @@ export default function SubscriptionDetails() {
         label: "Incomplete",
       },
       trialing: {
-        color: "bg-blue-100 text-blue-800 border border-blue-200",
+        color:
+          "bg-[var(--color-accent-100)] text-[var(--color-accent-800)] border border-[var(--color-accent-200)]",
         label: "Trialing",
       },
     };
@@ -165,7 +166,7 @@ export default function SubscriptionDetails() {
           <p className="text-gray-600 mb-6">{error}</p>
           <button
             onClick={() => router.push("/admin/subscriptions")}
-            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
+            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 text-white font-medium rounded-xl hover:from-[var(--color-accent-700)] hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
           >
             Back to Subscriptions
           </button>
@@ -186,7 +187,7 @@ export default function SubscriptionDetails() {
           </p>
           <button
             onClick={() => router.push("/admin/subscriptions")}
-            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
+            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 text-white font-medium rounded-xl hover:from-[var(--color-accent-700)] hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
           >
             Back to Subscriptions
           </button>
@@ -202,7 +203,7 @@ export default function SubscriptionDetails() {
         <div>
           <button
             onClick={() => router.push("/admin/subscriptions")}
-            className="flex items-center text-blue-600 hover:text-blue-800 mb-4 transition-colors duration-200"
+            className="flex items-center text-[var(--color-accent-600)] hover:text-[var(--color-accent-800)] mb-4 transition-colors duration-200"
           >
             <svg
               className="w-4 h-4 mr-2"
@@ -379,7 +380,7 @@ export default function SubscriptionDetails() {
                           {value}
                         </span>
                       </div>
-                    )
+                    ),
                   )}
                 </div>
               </div>
@@ -479,10 +480,10 @@ export default function SubscriptionDetails() {
               <button
                 onClick={() =>
                   router.push(
-                    `/admin/subscriptions/edit/${subscription.subscription_id}`
+                    `/admin/subscriptions/edit/${subscription.subscription_id}`,
                   )
                 }
-                className="w-full flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                className="w-full flex items-center justify-center px-4 py-2 bg-[var(--color-accent-600)] text-white rounded-lg hover:bg-[var(--color-accent-700)] transition-colors duration-200"
               >
                 <svg
                   className="w-4 h-4 mr-2"

@@ -297,7 +297,7 @@ const SubscriptionPlans = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
       <div className="text-center">
         <div className="relative">
-          <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto"></div>
+          <div className="w-16 h-16 border-4 border-[var(--color-accent-200)] border-t-[var(--color-accent-600)] rounded-full animate-spin mx-auto"></div>
         </div>
         <p className="mt-4 text-gray-600 font-medium">Loading Plans...</p>
       </div>
@@ -486,7 +486,7 @@ const SubscriptionPlans = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-teal-50/30">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-[var(--color-accent-50)]/30 to-teal-50/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header Section */}
         <div className="text-center mb-16">
@@ -501,13 +501,13 @@ const SubscriptionPlans = () => {
                       className={`w-12 h-12 rounded-xl flex items-center justify-center ${
                         isPaidSubscriptionActive
                           ? "bg-green-100"
-                          : "bg-blue-100"
+                          : "bg-[var(--color-accent-100)]"
                       }`}
                     >
                       {isPaidSubscriptionActive ? (
                         <Icons.Success className="w-6 h-6 text-green-600" />
                       ) : (
-                        <Icons.User className="w-6 h-6 text-blue-600" />
+                        <Icons.User className="w-6 h-6 text-[var(--color-accent-600)]" />
                       )}
                     </div>
                     <div>
@@ -522,7 +522,7 @@ const SubscriptionPlans = () => {
                             ? "text-green-600"
                             : isPaidSubscriptionCanceled
                               ? "text-amber-600"
-                              : "text-blue-600"
+                              : "text-[var(--color-accent-600)]"
                         }`}
                       >
                         {isPaidSubscriptionActive ? (
@@ -662,7 +662,7 @@ const SubscriptionPlans = () => {
                                   ? "bg-red-500"
                                   : alert.severity === "warning"
                                     ? "bg-orange-500"
-                                    : "bg-blue-500"
+                                    : "bg-[var(--color-accent-500)]"
                               }`}
                               style={{
                                 width: `${Math.min(alert.percentage, 100)}%`,
@@ -675,7 +675,7 @@ const SubscriptionPlans = () => {
                                 ? "text-red-600"
                                 : alert.severity === "warning"
                                   ? "text-orange-600"
-                                  : "text-blue-600"
+                                  : "text-[var(--color-accent-600)]"
                             }`}
                           >
                             {alert.percentage}%
@@ -706,7 +706,7 @@ const SubscriptionPlans = () => {
                     onClick={() => setActiveTab(tab.id)}
                     className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center space-x-2 ${
                       activeTab === tab.id
-                        ? "bg-gradient-to-r from-blue-500 to-[var(--color-accent-900)] text-white shadow-sm"
+                        ? "bg-gradient-to-r from-[var(--color-accent-500)] to-[var(--color-accent-900)] text-white shadow-sm"
                         : "text-gray-600 hover:text-gray-900 hover:bg-gray-50/50"
                     }`}
                   >
@@ -723,7 +723,7 @@ const SubscriptionPlans = () => {
         {isAuthenticated && userData && (
           <div className="text-center mb-10">
             <div className="inline-flex items-center px-6 py-3 rounded-2xl bg-white/80 backdrop-blur-sm border border-[var(--color-accent-200)] shadow-sm">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-[var(--color-accent-900)] rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
+              <div className="w-8 h-8 bg-gradient-to-r from-[var(--color-accent-500)] to-[var(--color-accent-900)] rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
                 <Icons.User className="w-4 h-4" />
               </div>
               <span className="text-[var(--color-accent-900)] font-medium">
@@ -787,7 +787,7 @@ const SubscriptionPlans = () => {
         {!isAuthenticated && (
           <div className="max-w-2xl mx-auto mt-16">
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200 text-center">
-              <div className="w-20 h-20 bg-gradient-to-r from-blue-100 to-[var(--color-accent-200)] rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-20 h-20 bg-gradient-to-r from-[var(--color-accent-100)] to-[var(--color-accent-200)] rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <Icons.Lock className="w-8 h-8 text-[var(--color-accent-900)]" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-3">
@@ -800,7 +800,7 @@ const SubscriptionPlans = () => {
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <button
                   onClick={() => (window.location.href = "/auth/register")}
-                  className="px-8 py-4 bg-gradient-to-r from-blue-500 to-[var(--color-accent-900)] text-white rounded-2xl font-semibold hover:from-blue-600 hover:[var(--color-accent-900)] transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+                  className="px-8 py-4 bg-gradient-to-r from-[var(--color-accent-500)] to-[var(--color-accent-900)] text-white rounded-2xl font-semibold hover:from-[var(--color-accent-600)] hover:[var(--color-accent-900)] transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
                 >
                   Start Free Trial
                 </button>
@@ -818,7 +818,7 @@ const SubscriptionPlans = () => {
         {/* Profile Completion Warning */}
         {isAuthenticated && !checkProfileCompletion(userData?.role) && (
           <div className="max-w-2xl mx-auto mt-8">
-            <div className="bg-gradient-to-r from-blue-50 to-[var(--color-accent-50)] border border-[var(--color-accent-400)] rounded-2xl p-6">
+            <div className="bg-gradient-to-r from-[var(--color-accent-50)] to-[var(--color-accent-50)] border border-[var(--color-accent-400)] rounded-2xl p-6">
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 bg-[var(--color-accent-200)] rounded-xl flex items-center justify-center flex-shrink-0">
                   <Icons.Edit className="w-6 h-6 text-[var(--color-accent-800)]" />
@@ -871,14 +871,14 @@ const PlanCard = ({
     <div
       className={`relative flex flex-col h-full bg-white rounded-3xl shadow-lg border-2 transition-all duration-300 hover:shadow-xl ${
         featured
-          ? "border-blue-500 shadow-2xl transform scale-105"
+          ? "border-[var(--color-accent-500)] shadow-2xl transform scale-105"
           : "border-gray-200"
       } ${isCurrentPlan ? "ring-1 ring-[var(--color-accent-500)]" : ""}`}
     >
       {/* Popular Badge */}
       {featured && (
         <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-          <span className="bg-gradient-to-r from-blue-500 to-[var(--color-accent-700)] text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg flex items-center space-x-2">
+          <span className="bg-gradient-to-r from-[var(--color-accent-500)] to-[var(--color-accent-700)] text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg flex items-center space-x-2">
             <Icons.Star className="w-4 h-4" />
             <span>Most Popular</span>
           </span>
@@ -888,7 +888,7 @@ const PlanCard = ({
       {/* Current Plan Badge */}
       {isCurrentPlan && (
         <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-          <span className="bg-gradient-to-r from-blue-500 to-[var(--color-accent-700)] text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg flex items-center space-x-2">
+          <span className="bg-gradient-to-r from-[var(--color-accent-500)] to-[var(--color-accent-700)] text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg flex items-center space-x-2">
             <Icons.Success className="w-4 h-4" />
             <span>{isFreePlan ? "Current Plan" : "Active Plan"}</span>
           </span>
@@ -901,16 +901,16 @@ const PlanCard = ({
           <div
             className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 ${
               featured
-                ? "bg-gradient-to-r from-blue-100 to-purple-100"
+                ? "bg-gradient-to-r from-[var(--color-accent-100)] to-purple-100"
                 : isFreePlan
                   ? "bg-gray-100"
-                  : "bg-gradient-to-r from-[var(--color-accent-100)] to-blue-100"
+                  : "bg-gradient-to-r from-[var(--color-accent-100)] to-[var(--color-accent-100)]"
             }`}
           >
             {isFreePlan ? (
               <Icons.User className="w-6 h-6 text-gray-600" />
             ) : featured ? (
-              <Icons.Zap className="w-6 h-6 text-blue-600" />
+              <Icons.Zap className="w-6 h-6 text-[var(--color-accent-600)]" />
             ) : (
               <Icons.Rocket className="w-6 h-6 text-[var(--color-accent-400)]" />
             )}
@@ -973,10 +973,10 @@ const PlanCard = ({
             isCurrentPlan
               ? "bg-gray-100 text-gray-500 cursor-not-allowed"
               : featured
-                ? "bg-gradient-to-r from-blue-500 to-[var(--color-accent-800)] text-white hover:from-blue-600 hover:to-[var(--color-accent-700)] shadow-lg hover:shadow-xl"
+                ? "bg-gradient-to-r from-[var(--color-accent-500)] to-[var(--color-accent-800)] text-white hover:from-[var(--color-accent-600)] hover:to-[var(--color-accent-700)] shadow-lg hover:shadow-xl"
                 : isFreePlan
                   ? "bg-gray-900 text-white hover:bg-gray-800 shadow-lg hover:shadow-xl"
-                  : "bg-gradient-to-r from-[var(--color-accent-800)] to-blue-600 text-white hover:from-[var(--color-accent-800)] hover:to-blue-700 shadow-lg hover:shadow-xl"
+                  : "bg-gradient-to-r from-[var(--color-accent-800)] to-[var(--color-accent-600)] text-white hover:from-[var(--color-accent-800)] hover:to-[var(--color-accent-700)] shadow-lg hover:shadow-xl"
           } disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-lg`}
         >
           {!isAuthenticated && "Sign Up to Subscribe"}

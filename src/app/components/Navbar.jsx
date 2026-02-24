@@ -321,14 +321,14 @@ export default function Navbar() {
                     <div className="p-3">
                       {/* Show login message if not logged in */}
                       {/* {!isLoggedIn && (
-                        <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
-                          <p className="text-sm text-blue-800 font-medium">
+                        <div className="mb-4 p-3 bg-[var(--color-accent-50)] rounded-lg border border-[var(--color-accent-100)]">
+                          <p className="text-sm text-[var(--color-accent-800)] font-medium">
                             Log in to access more features!
                           </p>
                           <Link
                             href="/auth/login"
                             onClick={handleMenuItemClick}
-                            className="mt-2 block w-full text-center px-3 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+                            className="mt-2 block w-full text-center px-3 py-2 bg-[var(--color-accent-600)] text-white rounded-lg text-sm font-medium hover:bg-[var(--color-accent-700)] transition-colors"
                           >
                             Sign In
                           </Link>

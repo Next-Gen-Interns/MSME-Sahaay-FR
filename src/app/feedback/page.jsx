@@ -95,70 +95,69 @@ const FeedbackPage = () => {
     setFormData((prev) => ({ ...prev, rating }));
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsSubmitting(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
 
-  try {
-    const token = localStorage.getItem("token");
+    try {
+      const token = localStorage.getItem("token");
 
-    if (!token) {
-      alert("You must be logged in to submit feedback.");
-      setIsSubmitting(false);
-      return;
-    }
-
-    const form = new FormData();
-
-    Object.keys(formData).forEach((key) => {
-      if (formData[key] !== null) {
-        form.append(key, formData[key]);
+      if (!token) {
+        alert("You must be logged in to submit feedback.");
+        setIsSubmitting(false);
+        return;
       }
-    });
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/feedback`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: form,
-      }
-    );
+      const form = new FormData();
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || "Submission failed");
-    }
-
-    setSubmitSuccess(true);
-
-    setTimeout(() => {
-      setSubmitSuccess(false);
-      setFormData({
-        name: "",
-        email: "",
-        company: "",
-        userType: "business",
-        feedbackType: "suggestion",
-        rating: 0,
-        subject: "",
-        message: "",
-        attachFile: null,
-        consent: false,
+      Object.keys(formData).forEach((key) => {
+        if (formData[key] !== null) {
+          form.append(key, formData[key]);
+        }
       });
-      setCurrentStep(1);
-    }, 3000);
 
-  } catch (error) {
-    console.error("Feedback error:", error);
-    alert(error.message);
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/feedback`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: form,
+        },
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Submission failed");
+      }
+
+      setSubmitSuccess(true);
+
+      setTimeout(() => {
+        setSubmitSuccess(false);
+        setFormData({
+          name: "",
+          email: "",
+          company: "",
+          userType: "business",
+          feedbackType: "suggestion",
+          rating: 0,
+          subject: "",
+          message: "",
+          attachFile: null,
+          consent: false,
+        });
+        setCurrentStep(1);
+      }, 3000);
+    } catch (error) {
+      console.error("Feedback error:", error);
+      alert(error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const nextStep = () => {
     setCurrentStep((prev) => prev + 1);
@@ -171,7 +170,7 @@ const FeedbackPage = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-50 to-white pt-16 pb-12">
+      <section className="bg-gradient-to-br from-[var(--color-accent-50)] to-white pt-16 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto">
             {/* Breadcrumb */}
@@ -270,7 +269,7 @@ const FeedbackPage = () => {
                             currentStep === step
                               ? "bg-[var(--color-accent-600)] text-white"
                               : currentStep > step
-                                ? "bg-blue-100 text-[var(--color-accent-600)]"
+                                ? "bg-[var(--color-accent-100)] text-[var(--color-accent-600)]"
                                 : "bg-gray-100 text-gray-400"
                           }
                         `}
@@ -335,8 +334,8 @@ const FeedbackPage = () => {
                                 p-4 border rounded-xs text-left transition-all
                                 ${
                                   formData.feedbackType === type.id
-                                    ? "border-[var(--color-accent-600)] bg-blue-50 ring-1 ring-[var(--color-accent-600)]"
-                                    : "border-gray-200 hover:border-blue-200 hover:bg-blue-50/50"
+                                    ? "border-[var(--color-accent-600)] bg-[var(--color-accent-50)] ring-1 ring-[var(--color-accent-600)]"
+                                    : "border-gray-200 hover:border-[var(--color-accent-200)] hover:bg-[var(--color-accent-50)]/50"
                                 }
                               `}
                             >
@@ -537,7 +536,7 @@ const FeedbackPage = () => {
                       </div>
 
                       {/* Feedback Summary */}
-                      <div className="bg-blue-50 rounded-xs p-4">
+                      <div className="bg-[var(--color-accent-50)] rounded-xs p-4">
                         <h4 className="text-sm font-medium text-[var(--color-accent-800)] mb-2">
                           Feedback Summary
                         </h4>
@@ -675,7 +674,7 @@ const FeedbackPage = () => {
                 </p>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-blue-100 rounded-xs flex items-center justify-center">
+                    <div className="w-8 h-8 bg-[var(--color-accent-100)] rounded-xs flex items-center justify-center">
                       <svg
                         className="w-4 h-4 text-[var(--color-accent-600)]"
                         fill="none"
@@ -695,7 +694,7 @@ const FeedbackPage = () => {
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-blue-100 rounded-xs flex items-center justify-center">
+                    <div className="w-8 h-8 bg-[var(--color-accent-100)] rounded-xs flex items-center justify-center">
                       <svg
                         className="w-4 h-4 text-[var(--color-accent-600)]"
                         fill="none"
@@ -810,7 +809,7 @@ const FeedbackPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-[var(--color-accent-600)] rounded-xs p-8 text-center">
             <h3 className="text-2xl font-bold text-white mb-2">Quick Poll</h3>
-            <p className="text-blue-100 mb-6">
+            <p className="text-[var(--color-accent-100)] mb-6">
               How likely are you to recommend MSME Sahaay to other businesses?
             </p>
             <div className="flex flex-wrap gap-2 justify-center">

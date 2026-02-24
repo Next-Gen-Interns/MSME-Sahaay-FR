@@ -128,11 +128,11 @@ const CreateSubscriptionForm = ({
 
     // Clean up empty feature strings
     const cleanedFeatures = Object.fromEntries(
-      Object.entries(formData.features).filter(([_, value]) => value !== "")
+      Object.entries(formData.features).filter(([_, value]) => value !== ""),
     );
 
     const cleanedLimits = Object.fromEntries(
-      Object.entries(formData.limits).filter(([_, value]) => value !== 0)
+      Object.entries(formData.limits).filter(([_, value]) => value !== 0),
     );
 
     onSubmit({
@@ -185,7 +185,7 @@ const CreateSubscriptionForm = ({
 
       <div className="relative bg-white/95 backdrop-blur-md rounded-2xl p-6 max-w-2xl w-full border border-white/20 shadow-2xl transform transition-all duration-300 scale-100 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <h3 className="text-xl font-bold bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 bg-clip-text text-transparent">
             Create Subscription Plan
           </h3>
           <button
@@ -220,7 +220,7 @@ const CreateSubscriptionForm = ({
                   type="text"
                   value={formData.name}
                   onChange={(e) => handleFormChange("name", e.target.value)}
-                  className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${
+                  className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 ${
                     formErrors.name
                       ? "border-red-500 bg-red-50"
                       : "border-gray-200 hover:border-gray-300"
@@ -255,7 +255,7 @@ const CreateSubscriptionForm = ({
                     handleFormChange("description", e.target.value)
                   }
                   rows="3"
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300 resize-none"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 hover:border-gray-300 resize-none"
                   placeholder="Enter plan description"
                 />
               </div>
@@ -269,7 +269,7 @@ const CreateSubscriptionForm = ({
                   onChange={(e) =>
                     handleFormChange("plan_type", e.target.value)
                   }
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300 bg-white"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 hover:border-gray-300 bg-white"
                 >
                   <option value="buyer">Buyer Plan</option>
                   <option value="seller">Seller Plan</option>
@@ -291,7 +291,7 @@ const CreateSubscriptionForm = ({
                     onChange={(e) =>
                       handleFormChange("price", parseFloat(e.target.value) || 0)
                     }
-                    className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${
+                    className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 ${
                       formErrors.price
                         ? "border-red-500 bg-red-50"
                         : "border-gray-200 hover:border-gray-300"
@@ -313,7 +313,7 @@ const CreateSubscriptionForm = ({
                     onChange={(e) =>
                       handleFormChange("billing_cycle", e.target.value)
                     }
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300 bg-white"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 hover:border-gray-300 bg-white"
                   >
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
@@ -333,11 +333,11 @@ const CreateSubscriptionForm = ({
                     onChange={(e) =>
                       handleFormChange(
                         "sort_order",
-                        parseInt(e.target.value) || 0
+                        parseInt(e.target.value) || 0,
                       )
                     }
                     min="0"
-                    className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${
+                    className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 ${
                       formErrors.sort_order
                         ? "border-red-500 bg-red-50"
                         : "border-gray-200 hover:border-gray-300"
@@ -357,7 +357,7 @@ const CreateSubscriptionForm = ({
                     onChange={(e) =>
                       handleFormChange("is_active", e.target.checked)
                     }
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 h-5 w-5"
+                    className="rounded border-gray-300 text-[var(--color-accent-600)] focus:ring-[var(--color-accent-500)] h-5 w-5"
                   />
                   <label className="ml-3 text-sm font-medium text-gray-700">
                     Active Plan
@@ -381,7 +381,7 @@ const CreateSubscriptionForm = ({
                   onChange={(e) =>
                     handleNestedChange("features", key, e.target.value)
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)]"
                   placeholder={`Enter ${key.replace("_", " ")} feature`}
                 />
               ))}
@@ -406,11 +406,11 @@ const CreateSubscriptionForm = ({
                       handleNestedChange(
                         "limits",
                         key,
-                        parseInt(e.target.value) || 0
+                        parseInt(e.target.value) || 0,
                       )
                     }
                     min="0"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)]"
                   />
                 </div>
               ))}
@@ -428,7 +428,7 @@ const CreateSubscriptionForm = ({
             <button
               type="submit"
               disabled={submitting}
-              className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-xl hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105 disabled:hover:scale-100 shadow-lg"
+              className="px-6 py-2.5 bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 text-white font-medium rounded-xl hover:from-[var(--color-accent-700)] hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105 disabled:hover:scale-100 shadow-lg"
             >
               {submitting ? "Creating..." : "Create Plan"}
             </button>
@@ -534,7 +534,7 @@ const EditSubscriptionForm = ({
 
       <div className="relative bg-white/95 backdrop-blur-md rounded-2xl p-6 max-w-2xl w-full border border-white/20 shadow-2xl transform transition-all duration-300 scale-100 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <h3 className="text-xl font-bold bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 bg-clip-text text-transparent">
             Edit Subscription Plan
           </h3>
           <button
@@ -569,7 +569,7 @@ const EditSubscriptionForm = ({
                   type="text"
                   value={formData.name}
                   onChange={(e) => handleFormChange("name", e.target.value)}
-                  className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${
+                  className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 ${
                     formErrors.name
                       ? "border-red-500 bg-red-50"
                       : "border-gray-200 hover:border-gray-300"
@@ -590,7 +590,7 @@ const EditSubscriptionForm = ({
                     handleFormChange("description", e.target.value)
                   }
                   rows="3"
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300 resize-none"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 hover:border-gray-300 resize-none"
                 />
               </div>
 
@@ -603,7 +603,7 @@ const EditSubscriptionForm = ({
                   onChange={(e) =>
                     handleFormChange("plan_type", e.target.value)
                   }
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300 bg-white"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 hover:border-gray-300 bg-white"
                 >
                   <option value="buyer">Buyer Plan</option>
                   <option value="seller">Seller Plan</option>
@@ -625,7 +625,7 @@ const EditSubscriptionForm = ({
                     onChange={(e) =>
                       handleFormChange("price", parseFloat(e.target.value) || 0)
                     }
-                    className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${
+                    className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 ${
                       formErrors.price
                         ? "border-red-500 bg-red-50"
                         : "border-gray-200 hover:border-gray-300"
@@ -647,7 +647,7 @@ const EditSubscriptionForm = ({
                     onChange={(e) =>
                       handleFormChange("billing_cycle", e.target.value)
                     }
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300 bg-white"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 hover:border-gray-300 bg-white"
                   >
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
@@ -667,11 +667,11 @@ const EditSubscriptionForm = ({
                     onChange={(e) =>
                       handleFormChange(
                         "sort_order",
-                        parseInt(e.target.value) || 0
+                        parseInt(e.target.value) || 0,
                       )
                     }
                     min="0"
-                    className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${
+                    className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 ${
                       formErrors.sort_order
                         ? "border-red-500 bg-red-50"
                         : "border-gray-200 hover:border-gray-300"
@@ -691,7 +691,7 @@ const EditSubscriptionForm = ({
                     onChange={(e) =>
                       handleFormChange("is_active", e.target.checked)
                     }
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 h-5 w-5"
+                    className="rounded border-gray-300 text-[var(--color-accent-600)] focus:ring-[var(--color-accent-500)] h-5 w-5"
                   />
                   <label className="ml-3 text-sm font-medium text-gray-700">
                     Active Plan
@@ -715,7 +715,7 @@ const EditSubscriptionForm = ({
                   onChange={(e) =>
                     handleNestedChange("features", key, e.target.value)
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)]"
                 />
               ))}
             </div>
@@ -739,11 +739,11 @@ const EditSubscriptionForm = ({
                       handleNestedChange(
                         "limits",
                         key,
-                        parseInt(e.target.value) || 0
+                        parseInt(e.target.value) || 0,
                       )
                     }
                     min="0"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)]"
                   />
                 </div>
               ))}
@@ -761,7 +761,7 @@ const EditSubscriptionForm = ({
             <button
               type="submit"
               disabled={submitting}
-              className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-xl hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105 disabled:hover:scale-100 shadow-lg"
+              className="px-6 py-2.5 bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 text-white font-medium rounded-xl hover:from-[var(--color-accent-700)] hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105 disabled:hover:scale-100 shadow-lg"
             >
               {submitting ? "Updating..." : "Update Plan"}
             </button>
@@ -861,7 +861,7 @@ const SubscriptionManagement = () => {
 
   const getPlanTypeBadge = (planType) => {
     return planType === "buyer" ? (
-      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[var(--color-accent-100)] text-[var(--color-accent-800)]">
         Buyer
       </span>
     ) : (
@@ -925,7 +925,7 @@ const SubscriptionManagement = () => {
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="mt-4 sm:mt-0 inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
+          className="mt-4 sm:mt-0 inline-flex items-center px-6 py-3 bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 text-white font-medium rounded-xl hover:from-[var(--color-accent-700)] hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
         >
           <svg
             className="w-5 h-5 mr-2"
@@ -952,9 +952,9 @@ const SubscriptionManagement = () => {
               <p className="text-sm font-medium text-gray-600">Total Plans</p>
               <p className="text-2xl font-bold text-gray-900">{plans.length}</p>
             </div>
-            <div className="p-3 bg-blue-50 rounded-xl">
+            <div className="p-3 bg-[var(--color-accent-50)] rounded-xl">
               <svg
-                className="w-6 h-6 text-blue-600"
+                className="w-6 h-6 text-[var(--color-accent-600)]"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -1056,7 +1056,7 @@ const SubscriptionManagement = () => {
             <select
               value={planTypeFilter}
               onChange={(e) => setPlanTypeFilter(e.target.value)}
-              className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300"
+              className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 hover:border-gray-300"
             >
               <option value="all">All Types</option>
               <option value="buyer">Buyer Plans</option>
@@ -1066,7 +1066,7 @@ const SubscriptionManagement = () => {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300"
+              className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 hover:border-gray-300"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
@@ -1155,7 +1155,7 @@ const SubscriptionManagement = () => {
                     <div className="flex items-center space-x-3">
                       <button
                         onClick={() => openEditModal(plan)}
-                        className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200"
+                        className="text-[var(--color-accent-600)] hover:text-[var(--color-accent-800)] font-medium transition-colors duration-200"
                       >
                         Edit
                       </button>
@@ -1205,7 +1205,7 @@ const SubscriptionManagement = () => {
             </p>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="mt-4 inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="mt-4 inline-flex items-center px-4 py-2 bg-[var(--color-accent-600)] text-white rounded-lg hover:bg-[var(--color-accent-700)] transition-colors"
             >
               Create Plan
             </button>

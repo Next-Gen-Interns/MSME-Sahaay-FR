@@ -107,7 +107,7 @@ const CreateCategoryForm = ({
       <div className="relative bg-white/95 backdrop-blur-md rounded-2xl p-6 max-w-md w-full border border-white/20 shadow-2xl  transition-all duration-300 scale-100">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <h3 className="text-xl font-bold bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 bg-clip-text text-transparent">
             Create New Category
           </h3>
           <button
@@ -143,7 +143,7 @@ const CreateCategoryForm = ({
               onChange={(e) =>
                 handleFormChange("category_name", e.target.value)
               }
-              className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${
+              className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 ${
                 formErrors.category_name
                   ? "border-red-500 bg-red-50"
                   : "border-gray-200 hover:border-gray-300"
@@ -220,7 +220,7 @@ const CreateCategoryForm = ({
                   </button>
                 </div>
               ) : (
-                <label className="flex flex-col items-center justify-center w-full p-6 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-all duration-200">
+                <label className="flex flex-col items-center justify-center w-full p-6 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-[var(--color-accent-400)] hover:bg-[var(--color-accent-50)] transition-all duration-200">
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
                     <svg
                       className="w-10 h-10 mb-3 text-gray-400"
@@ -263,7 +263,7 @@ const CreateCategoryForm = ({
               value={formData.description}
               onChange={(e) => handleFormChange("description", e.target.value)}
               rows="3"
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300 resize-none"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 hover:border-gray-300 resize-none"
               placeholder="Enter category description (optional)"
             />
           </div>
@@ -281,7 +281,7 @@ const CreateCategoryForm = ({
                   e.target.value ? parseInt(e.target.value) : null,
                 )
               }
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300 bg-white"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 hover:border-gray-300 bg-white"
             >
               <option value="">None (Main Category)</option>
               {categories
@@ -314,7 +314,7 @@ const CreateCategoryForm = ({
             <button
               type="submit"
               disabled={submitting}
-              className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-xl hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105 disabled:hover:scale-100 shadow-lg"
+              className="px-6 py-2.5 bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 text-white font-medium rounded-xl hover:from-[var(--color-accent-700)] hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105 disabled:hover:scale-100 shadow-lg"
             >
               {submitting ? (
                 <span className="flex items-center">

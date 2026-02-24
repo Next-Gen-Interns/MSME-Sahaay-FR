@@ -4,7 +4,10 @@ import React, { useState, useRef, useCallback, useEffect } from "react";
 // Status configuration
 const STATUS_CONFIG = {
   new: { color: "bg-green-500 text-white", label: "New" },
-  contacted: { color: "bg-blue-500 text-white", label: "Contacted" },
+  contacted: {
+    color: "bg-[var(--color-accent-500)] text-white",
+    label: "Contacted",
+  },
   qualified: { color: "bg-purple-500 text-white", label: "Qualified" },
   proposal_sent: { color: "bg-yellow-500 text-white", label: "Proposal Sent" },
   negotiation: { color: "bg-orange-500 text-white", label: "Negotiation" },
@@ -203,7 +206,7 @@ const LeadListItem = ({ lead, isActive, onClick, currentUserId }) => {
             {lead.buyer?.full_name || "Unknown Buyer"}
           </p>
           {unreadCount > 0 && (
-            <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-xs font-medium">
+            <span className="text-xs bg-[var(--color-accent-100)] text-[var(--color-accent-700)] px-2 py-1 rounded-xs font-medium">
               {unreadCount} New
             </span>
           )}
@@ -392,7 +395,7 @@ export const LeadDetails = ({
         {/* Right Side: Project Name + Status */}
         <div className="flex items-center space-x-3 flex-wrap justify-end text-right">
           <div className="flex items-center space-x-2">
-            <span className="text-xs md:text-sm text-blue-100 font-medium hidden sm:inline">
+            <span className="text-xs md:text-sm text-[var(--color-accent-100)] font-medium hidden sm:inline">
               Status:
             </span>
             <span className="text-xs md:text-sm text-white font-medium px-2 py-1 bg-[#1a3a5f] rounded">
@@ -667,7 +670,7 @@ const MessageBubble = ({ message, isCurrentUser }) => {
         {/* Message footer */}
         <div
           className={`flex items-center justify-between mt-1 md:mt-2 text-xs ${
-            isCurrentUser ? "text-blue-100" : "text-gray-500"
+            isCurrentUser ? "text-[var(--color-accent-100)]" : "text-gray-500"
           }`}
         >
           <span>{getMessageTime(message.created_at)}</span>
@@ -944,7 +947,7 @@ export const ChatWindow = ({
             <h2 className="text-base md:text-lg font-semibold text-white truncate">
               {lead.buyer?.full_name}
             </h2>
-            <p className="text-blue-100 text-xs md:text-sm truncate">
+            <p className="text-[var(--color-accent-100)] text-xs md:text-sm truncate">
               {socketConnected ? "Connected" : "connecting..."}
             </p>
           </div>

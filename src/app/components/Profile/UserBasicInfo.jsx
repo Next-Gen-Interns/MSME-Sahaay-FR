@@ -56,7 +56,7 @@ const UserBasicInfo = ({ userData, onSave, saving }) => {
       const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL || "";
       const avatarPath = userData.avatar_url
         ? `${backendURL}${userData.avatar_url}`
-        : "/uploads/default-avatar.png";
+        : "/api/uploads/default-avatar.png";
       setAvatarPreview(avatarPath);
 
       if (userData.country) {
@@ -71,7 +71,7 @@ const UserBasicInfo = ({ userData, onSave, saving }) => {
       if (userData.state) setSelectedState(userData.state);
       if (userData.city) setSelectedCity(userData.city);
     } else {
-      setAvatarPreview("/uploads/default-avatar.png");
+      setAvatarPreview("/api/uploads/default-avatar.png");
     }
   }, [userData]);
 
@@ -253,7 +253,7 @@ const UserBasicInfo = ({ userData, onSave, saving }) => {
       <div className="flex items-center gap-6">
         <div>
           <img
-            src={avatarPreview || "/uploads/default-avatar.png"}
+            src={avatarPreview || "/api/uploads/default-avatar.png"}
             alt="avatar"
             className="h-20 w-20 rounded-full object-cover"
           />

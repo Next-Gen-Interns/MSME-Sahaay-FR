@@ -511,6 +511,8 @@ export default function ProductsPage() {
                   <ProductCard
                     key={listing.listing_id}
                     listing={listing}
+                    favourites={favourites}
+                    setFavourites={setFavourites}
                     className="hover:shadow-md transition-all duration-200 border border-gray-200 bg-white rounded-sm"
                   />
                 ))}

@@ -75,7 +75,7 @@ const AdminHeader = ({ onMenuClick }) => {
               <input
                 type="text"
                 placeholder="Search..."
-                className="pl-10 pr-4 py-2 w-64 border border-gray-300 rounded-xl bg-gray-50 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="pl-10 pr-4 py-2 w-64 border border-gray-300 rounded-xl bg-gray-50 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-transparent transition-all"
               />
             </div>
           </div>
@@ -117,7 +117,7 @@ const AdminHeader = ({ onMenuClick }) => {
                   d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
                 />
               </svg>
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 text-white text-xs rounded-full flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-[var(--color-accent-500)] text-white text-xs rounded-full flex items-center justify-center">
                 5
               </span>
             </button> */}
@@ -128,7 +128,7 @@ const AdminHeader = ({ onMenuClick }) => {
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
                 className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors"
               >
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-gradient-to-r from-[var(--color-accent-500)] to-purple-600 rounded-full flex items-center justify-center">
                   <span className="text-white font-medium text-sm">AD</span>
                 </div>
                 <div className="hidden md:block text-left">

@@ -188,7 +188,7 @@ const LeadInquiryModal = ({
                 </div>
 
                 {/* Urgent Project */}
-                <div className="flex items-center space-x-3 p-4 bg-blue-50/50 rounded-xs border border-[var(--color-accent-200)]/30">
+                <div className="flex items-center space-x-3 p-4 bg-[var(--color-accent-50)]/50 rounded-xs border border-[var(--color-accent-200)]/30">
                   <input
                     type="checkbox"
                     name="is_urgent"

@@ -90,10 +90,10 @@ const MyLeadsPage = () => {
 
   const statusConfig = {
     new: {
-      bg: "bg-blue-50",
-      text: "text-blue-700",
-      border: "border-blue-200",
-      dot: "bg-blue-500",
+      bg: "bg-[var(--color-accent-50)]",
+      text: "text-[var(--color-accent-700)]",
+      border: "border-[var(--color-accent-200)]",
+      dot: "bg-[var(--color-accent-500)]",
       label: "New",
     },
     contacted: {
@@ -387,7 +387,7 @@ const MyLeadsPage = () => {
                           : lead.status === "quoted"
                             ? "bg-amber-400"
                             : lead.status === "new"
-                              ? "bg-blue-500"
+                              ? "bg-[var(--color-accent-500)]"
                               : "bg-[var(--color-accent-500)]"
                     }`}
                   />

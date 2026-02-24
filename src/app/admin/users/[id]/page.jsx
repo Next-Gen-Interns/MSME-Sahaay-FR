@@ -120,7 +120,8 @@ export default function UserDetails() {
         label: "Seller",
       },
       buyer: {
-        color: "bg-blue-100 text-blue-800 border border-blue-200",
+        color:
+          "bg-[var(--color-accent-100)] text-[var(--color-accent-800)] border border-[var(--color-accent-200)]",
         label: "Buyer",
       },
       admin: {
@@ -175,7 +176,7 @@ export default function UserDetails() {
           </p>
           <button
             onClick={() => router.push("/admin/users")}
-            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
+            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 text-white font-medium rounded-xl hover:from-[var(--color-accent-700)] hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
           >
             Back to Users
           </button>
@@ -191,7 +192,7 @@ export default function UserDetails() {
         <div>
           <button
             onClick={() => router.push("/admin/users")}
-            className="flex items-center text-blue-600 hover:text-blue-800 mb-4 transition-colors duration-200"
+            className="flex items-center text-[var(--color-accent-600)] hover:text-[var(--color-accent-800)] mb-4 transition-colors duration-200"
           >
             <svg
               className="w-4 h-4 mr-2"
@@ -216,7 +217,7 @@ export default function UserDetails() {
                 className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-md"
               />
             ) : (
-              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-xl shadow-md">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-[var(--color-accent-500)] to-purple-600 flex items-center justify-center text-white font-bold text-xl shadow-md">
                 {user.fullname?.charAt(0) || "U"}
               </div>
             )}
@@ -366,8 +367,8 @@ export default function UserDetails() {
                       user.sellerprofile.verification_status === "verified"
                         ? "bg-green-100 text-green-800"
                         : user.sellerprofile.verification_status === "pending"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : "bg-red-100 text-red-800"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : "bg-red-100 text-red-800"
                     }`}
                   >
                     {user.sellerprofile.verification_status || "pending"}
@@ -491,7 +492,7 @@ export default function UserDetails() {
             <div className="space-y-3">
               <button
                 onClick={() => router.push(`/admin/users/edit/${user.user_id}`)}
-                className="w-full flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                className="w-full flex items-center justify-center px-4 py-2 bg-[var(--color-accent-600)] text-white rounded-lg hover:bg-[var(--color-accent-700)] transition-colors duration-200"
               >
                 <svg
                   className="w-4 h-4 mr-2"

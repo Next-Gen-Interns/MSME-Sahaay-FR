@@ -101,8 +101,8 @@ export default function Products() {
         prevListings.map((listing) =>
           listing.listing_id === id
             ? { ...listing, status: newStatus }
-            : listing
-        )
+            : listing,
+        ),
       );
 
       // Also update stats immediately
@@ -144,13 +144,13 @@ export default function Products() {
 
     const total = listingsArray.length;
     const active = listingsArray.filter(
-      (item) => item.status === "active"
+      (item) => item.status === "active",
     ).length;
     const inactive = listingsArray.filter(
-      (item) => item.status === "inactive"
+      (item) => item.status === "inactive",
     ).length;
     const pending = listingsArray.filter(
-      (item) => item.status === "pending"
+      (item) => item.status === "pending",
     ).length;
 
     setStats({ total, active, inactive, pending });
@@ -162,10 +162,10 @@ export default function Products() {
     const matchesSearch =
       (listing.title?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
       (listing.description?.toLowerCase() || "").includes(
-        searchTerm.toLowerCase()
+        searchTerm.toLowerCase(),
       ) ||
       (listing.seller?.business_name?.toLowerCase() || "").includes(
-        searchTerm.toLowerCase()
+        searchTerm.toLowerCase(),
       );
 
     const matchesStatus =
@@ -219,8 +219,10 @@ export default function Products() {
   // Safely get categories
   const categories = Array.from(
     new Set(
-      listings.map((listing) => listing.category?.category_name).filter(Boolean)
-    )
+      listings
+        .map((listing) => listing.category?.category_name)
+        .filter(Boolean),
+    ),
   );
 
   // Show loading screen when loading
@@ -255,9 +257,9 @@ export default function Products() {
                 All listings on platform
               </p>
             </div>
-            <div className="p-3 bg-blue-50 rounded-xl">
+            <div className="p-3 bg-[var(--color-accent-50)] rounded-xl">
               <svg
-                className="w-6 h-6 text-blue-600"
+                className="w-6 h-6 text-[var(--color-accent-600)]"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -357,7 +359,7 @@ export default function Products() {
                 placeholder="Search by title, description, or seller..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300"
+                className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 hover:border-gray-300"
               />
             </div>
           </div>
@@ -370,7 +372,7 @@ export default function Products() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 hover:border-gray-300"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
@@ -387,7 +389,7 @@ export default function Products() {
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 hover:border-gray-300"
             >
               <option value="all">All Categories</option>
               {categories.map((category) => (
@@ -470,10 +472,10 @@ export default function Products() {
                           listing.status === "active"
                             ? "bg-green-50 text-green-800"
                             : listing.status === "inactive"
-                            ? "bg-gray-50 text-gray-800"
-                            : listing.status === "draft"
-                            ? "bg-red-50 text-red-800"
-                            : "bg-yellow-50 text-yellow-800"
+                              ? "bg-gray-50 text-gray-800"
+                              : listing.status === "draft"
+                                ? "bg-red-50 text-red-800"
+                                : "bg-yellow-50 text-yellow-800"
                         }`}
                     >
                       <option value="active">Active</option>

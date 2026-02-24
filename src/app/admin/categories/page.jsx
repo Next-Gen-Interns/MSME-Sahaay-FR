@@ -229,7 +229,7 @@ const CategoriesManagement = () => {
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="mt-4 sm:mt-0 inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 hover:scale-105 shadow-lg"
+          className="mt-4 sm:mt-0 inline-flex items-center px-6 py-3 bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 text-white font-medium rounded-xl hover:from-[var(--color-accent-700)] hover:to-purple-700 transition-all duration-200 hover:scale-105 shadow-lg"
         >
           <svg
             className="w-5 h-5 mr-2"
@@ -260,9 +260,9 @@ const CategoriesManagement = () => {
                 {categories.length}
               </p>
             </div>
-            <div className="p-3 bg-blue-50 rounded-xl">
+            <div className="p-3 bg-[var(--color-accent-50)] rounded-xl">
               <svg
-                className="w-6 h-6 text-blue-600"
+                className="w-6 h-6 text-[var(--color-accent-600)]"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -364,7 +364,7 @@ const CategoriesManagement = () => {
                   placeholder="Search parent categories..."
                   value={parentSearchTerm}
                   onChange={(e) => setParentSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300"
+                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] transition-all duration-200 hover:border-gray-300"
                 />
               </div>
             </div>
@@ -391,7 +391,7 @@ const CategoriesManagement = () => {
                   {getStatusBadge(parentCategory.is_active)}
                   <button
                     onClick={() => handleViewChildCategories(parentCategory)}
-                    className="px-3 py-1 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="px-3 py-1 text-sm bg-[var(--color-accent-600)] text-white rounded-lg hover:bg-[var(--color-accent-700)] transition-colors"
                   >
                     View Categories
                   </button>
@@ -466,7 +466,7 @@ const CategoriesManagement = () => {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl 
-                             focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                             focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-[var(--color-accent-500)] 
                              transition-all duration-200 hover:border-gray-300"
                 />
               </div>
@@ -539,7 +539,7 @@ const CategoriesManagement = () => {
                       <div className="flex items-center space-x-3">
                         <button
                           onClick={() => openEditModal(category)}
-                          className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200"
+                          className="text-[var(--color-accent-600)] hover:text-[var(--color-accent-800)] font-medium transition-colors duration-200"
                         >
                           Edit
                         </button>
@@ -584,7 +584,7 @@ const CategoriesManagement = () => {
             {viewMode === "all" && (
               <button
                 onClick={() => setShowCreateModal(true)}
-                className="mt-4 inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="mt-4 inline-flex items-center px-4 py-2 bg-[var(--color-accent-600)] text-white rounded-lg hover:bg-[var(--color-accent-700)] transition-colors"
               >
                 Create Category
               </button>

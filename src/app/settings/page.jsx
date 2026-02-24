@@ -251,7 +251,7 @@ const PlanCard = ({
         <div
           className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 ${
             featured
-              ? "bg-blue-50"
+              ? "bg-[var(--color-accent-50)]"
               : isFreePlan
                 ? "bg-gray-100"
                 : "bg-[var(--color-accent-50)]"
@@ -519,7 +519,7 @@ function BillingTab({ userData, checkProfileCompletion }) {
             <div className="flex items-center gap-3">
               <div
                 className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                  isPaidActive ? "bg-green-100" : "bg-blue-50"
+                  isPaidActive ? "bg-green-100" : "bg-[var(--color-accent-50)]"
                 }`}
               >
                 {isPaidActive ? (
@@ -761,7 +761,7 @@ function BillingTab({ userData, checkProfileCompletion }) {
 
       {/* ── Profile completion nudge ── */}
       {isAuthenticated && !checkProfileCompletion(userData?.role) && (
-        <div className="flex items-center gap-3 p-4 bg-blue-50 border border-[var(--color-accent-200)] rounded-xl">
+        <div className="flex items-center gap-3 p-4 bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] rounded-xl">
           <span className="text-[var(--color-accent-500)] flex-shrink-0">
             <Icons.Warning />
           </span>

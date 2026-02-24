@@ -185,14 +185,14 @@ const AdminDashboard = () => {
       <div
         className={`w-10 h-10 rounded-full flex items-center justify-center ${
           activity.type === "user"
-            ? "bg-blue-100 text-blue-600"
+            ? "bg-[var(--color-accent-100)] text-[var(--color-accent-600)]"
             : activity.type === "listing"
-            ? "bg-green-100 text-green-600"
-            : activity.type === "lead"
-            ? "bg-purple-100 text-purple-600"
-            : activity.type === "review"
-            ? "bg-yellow-100 text-yellow-600"
-            : "bg-indigo-100 text-indigo-600"
+              ? "bg-green-100 text-green-600"
+              : activity.type === "lead"
+                ? "bg-purple-100 text-purple-600"
+                : activity.type === "review"
+                  ? "bg-yellow-100 text-yellow-600"
+                  : "bg-indigo-100 text-indigo-600"
         }`}
       >
         {activity.type === "user" && (
@@ -333,7 +333,7 @@ const AdminDashboard = () => {
           title="Total Users"
           value={stats.totalUsers}
           href="/admin/users"
-          color="bg-blue-50 text-blue-600"
+          color="bg-[var(--color-accent-50)] text-[var(--color-accent-600)]"
           icon={
             <svg
               className="w-6 h-6"
@@ -486,12 +486,12 @@ const AdminDashboard = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Link
               href="/admin/users?action=create"
-              className="p-4 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 group"
+              className="p-4 border border-gray-200 rounded-xl hover:border-[var(--color-accent-500)] hover:bg-[var(--color-accent-50)] transition-all duration-200 group"
             >
               <div className="flex items-center space-x-3">
-                <div className="p-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
+                <div className="p-2 bg-[var(--color-accent-100)] rounded-lg group-hover:bg-[var(--color-accent-200)] transition-colors">
                   <svg
-                    className="w-5 h-5 text-blue-600"
+                    className="w-5 h-5 text-[var(--color-accent-600)]"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

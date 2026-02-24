@@ -52,7 +52,7 @@ export default function FavoritesPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full" />
+        <div className="animate-spin w-8 h-8 border-2 border-[var(--color-accent-500)] border-t-transparent rounded-full" />
       </div>
     );
   }
@@ -102,7 +102,9 @@ export default function FavoritesPage() {
                 key={i}
                 onClick={() => fetchFavorites(i + 1)}
                 className={`px-3 py-1 text-sm rounded ${
-                  page === i + 1 ? "bg-blue-600 text-white" : "bg-white border"
+                  page === i + 1
+                    ? "bg-[var(--color-accent-600)] text-white"
+                    : "bg-white border"
                 }`}
               >
                 {i + 1}

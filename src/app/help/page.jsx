@@ -232,7 +232,7 @@ const HelpSupportPage = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section with Search */}
-      <section className="bg-gradient-to-br from-blue-50 to-white pt-16 pb-20">
+      <section className="bg-gradient-to-br from-[var(--color-accent-50)] to-white pt-16 pb-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           {/* Breadcrumb */}
           <div className="flex items-center justify-center gap-2 text-sm text-gray-500 mb-4">
@@ -300,7 +300,7 @@ const HelpSupportPage = () => {
           <div className="grid md:grid-cols-3 gap-6">
             {/* Live Chat Card */}
             <div className="bg-white p-6 rounded-xs border border-gray-200 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-blue-100 rounded-xs flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-[var(--color-accent-100)] rounded-xs flex items-center justify-center mb-4">
                 <svg
                   className="w-6 h-6 text-[var(--color-accent-600)]"
                   fill="none"
@@ -338,7 +338,7 @@ const HelpSupportPage = () => {
 
             {/* Email Support Card */}
             <div className="bg-white p-6 rounded-xs border border-gray-200 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-blue-100 rounded-xs flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-[var(--color-accent-100)] rounded-xs flex items-center justify-center mb-4">
                 <svg
                   className="w-6 h-6 text-[var(--color-accent-600)]"
                   fill="none"
@@ -375,7 +375,7 @@ const HelpSupportPage = () => {
 
             {/* Ticket System Card */}
             <div className="bg-white p-6 rounded-xs border border-gray-200 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-blue-100 rounded-xs flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-[var(--color-accent-100)] rounded-xs flex items-center justify-center mb-4">
                 <svg
                   className="w-6 h-6 text-[var(--color-accent-600)]"
                   fill="none"
@@ -432,7 +432,7 @@ const HelpSupportPage = () => {
                         w-full flex items-center gap-3 px-3 py-2.5 text-sm rounded-xs transition-colors
                         ${
                           activeCategory === category.id
-                            ? "bg-blue-50 text-[var(--color-accent-600)] font-medium"
+                            ? "bg-[var(--color-accent-50)] text-[var(--color-accent-600)] font-medium"
                             : "text-gray-600 hover:bg-gray-50"
                         }
                       `}
@@ -778,7 +778,7 @@ const HelpSupportPage = () => {
                   {filteredFaqs.map((faq) => (
                     <div
                       key={faq.id}
-                      className="bg-white border border-gray-200 rounded-xs overflow-hidden hover:border-blue-200 transition-colors"
+                      className="bg-white border border-gray-200 rounded-xs overflow-hidden hover:border-[var(--color-accent-200)] transition-colors"
                     >
                       <button
                         onClick={() =>
@@ -823,9 +823,9 @@ const HelpSupportPage = () => {
               </div>
 
               {/* Still Need Help */}
-              <div className="mt-8 p-6 bg-blue-50 rounded-xs">
+              <div className="mt-8 p-6 bg-[var(--color-accent-50)] rounded-xs">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-[var(--color-accent-100)] rounded-full flex items-center justify-center">
                     <svg
                       className="w-6 h-6 text-[var(--color-accent-600)]"
                       fill="none"
@@ -962,7 +962,7 @@ const HelpSupportPage = () => {
                 </div>
               </div>
               <div className="text-right">
-                <div className="inline-block bg-blue-50 p-4 rounded-xs">
+                <div className="inline-block bg-[var(--color-accent-50)] p-4 rounded-xs">
                   <p className="text-sm text-gray-600 mb-2">
                     Community members
                   </p>

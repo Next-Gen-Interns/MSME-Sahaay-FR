@@ -41,7 +41,7 @@ export default function CategoryPage() {
     const fetchCategoryData = async () => {
       setLoading(true);
 
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       const categoryData = CATEGORIES_DATA[id]; // <-- FIX: use `id` not params.id
 
@@ -59,8 +59,8 @@ export default function CategoryPage() {
   }, [id]);
 
   // ---------------- FILTER LISTINGS ----------------
-  const filteredListings = listings.filter(item =>
-    item.title.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredListings = listings.filter((item) =>
+    item.title.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   // ---------------- UI LOADER ----------------
@@ -79,7 +79,7 @@ export default function CategoryPage() {
         <p className="text-lg font-semibold">Category Not Found ❌</p>
         <button
           onClick={() => router.push("/categories")}
-          className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg"
+          className="mt-4 bg-[var(--color-accent-600)] text-white px-4 py-2 rounded-lg"
         >
           Go Back
         </button>

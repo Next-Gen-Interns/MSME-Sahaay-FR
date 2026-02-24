@@ -207,9 +207,18 @@ function HeroSection() {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [slideDirection, setSlideDirection] = useState("right");
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const autoPlayRef = useRef(null);
   const panelRef = useRef(null);
   const heroRef = useRef(null);
+
+  // Detect mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const heroSlides = [
     {
@@ -219,6 +228,7 @@ function HeroSection() {
       description:
         "Discover verified suppliers and connect with qualified buyers.",
       backgroundImage: "/imm8.png",
+      mobileBackgroundImage: "/banner10.jpg",
       fullTitle: "Connect Local Businesses & Grow Together",
       fullDescription:
         "MSME Sahaay connects you with verified businesses across India.",
@@ -237,6 +247,7 @@ function HeroSection() {
       subtitle: "Build Your Network",
       description: "Access verified manufacturers and wholesalers.",
       backgroundImage: "/imm9.png",
+      mobileBackgroundImage: "/banner11.jpg",
       fullTitle: "Find Quality Suppliers & Build Your Network",
       fullDescription: "Our supplier database ensures quality and reliability.",
       keyPoints: [
@@ -254,6 +265,7 @@ function HeroSection() {
       subtitle: "Reach Customers",
       description: "Showcase products to active buyers.",
       backgroundImage: "/imm10.png",
+      mobileBackgroundImage: "/banner12.jpg",
       fullTitle: "Expand Your Market & Reach New Customers",
       fullDescription: "Grow your market reach with advanced tools.",
       keyPoints: [
@@ -333,6 +345,10 @@ function HeroSection() {
     },
   };
 
+  const currentImage = isMobile
+    ? heroSlides[currentSlide].mobileBackgroundImage
+    : heroSlides[currentSlide].backgroundImage;
+
   return (
     <section className="relative w-full bg-white overflow-x-hidden py-3 md:py-6 px-2 sm:px-4">
       <div className="max-w-8xl mx-auto">
@@ -344,7 +360,10 @@ function HeroSection() {
         >
           <AnimatePresence mode="wait">
             <motion.div
-              key={heroSlides[currentSlide].id}
+              key={
+                heroSlides[currentSlide].id +
+                (isMobile ? "-mobile" : "-desktop")
+              }
               initial={{
                 opacity: 0,
                 x: slideDirection === "right" ? 100 : -100,
@@ -355,11 +374,11 @@ function HeroSection() {
               className="absolute inset-0"
             >
               <Image
-                src={heroSlides[currentSlide].backgroundImage}
+                src={currentImage}
                 alt=""
                 fill
                 priority
-                className="object-cover"
+                className="object-cover object-center"
               />
               <div className="absolute inset-0 bg-black/30" />
             </motion.div>

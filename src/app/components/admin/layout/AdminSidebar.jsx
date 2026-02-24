@@ -175,7 +175,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
         {/* Logo section */}
         <div className="flex-shrink-0 flex items-center justify-between px-6 py-4 border-b border-gray-200">
           <Link href="/admin" className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-r from-[var(--color-accent-500)] to-purple-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">A</span>
             </div>
             <span className="text-xl font-bold text-gray-800">AdminPanel</span>
@@ -215,7 +215,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
                   flex items-center space-x-3 px-3 py-3 rounded-xl transition-all duration-200
                   ${
                     isActive
-                      ? "bg-gradient-to-r from-blue-50 to-purple-50 text-blue-600 border border-blue-100 shadow-sm"
+                      ? "bg-gradient-to-r from-[var(--color-accent-50)] to-purple-50 text-[var(--color-accent-600)] border border-[var(--color-accent-100)] shadow-sm"
                       : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 border border-transparent"
                   }
                   mb-1 last:mb-0
@@ -232,7 +232,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
                   flex-shrink-0 p-2 rounded-lg transition-colors duration-200
                   ${
                     isActive
-                      ? "bg-blue-500 text-white shadow-sm"
+                      ? "bg-[var(--color-accent-500)] text-white shadow-sm"
                       : "bg-gray-100 text-gray-600 group-hover:bg-gray-200"
                   }
                 `}
@@ -242,7 +242,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
                 <span className="font-medium flex-1">{item.name}</span>
 
                 {isActive && (
-                  <div className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <div className="flex-shrink-0 w-2 h-2 bg-[var(--color-accent-500)] rounded-full"></div>
                 )}
               </Link>
             );
@@ -252,7 +252,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
         {/* User section */}
         <div className="flex-shrink-0 p-4 border-t border-gray-200 mt-auto">
           <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+            <div className="w-10 h-10 bg-gradient-to-r from-[var(--color-accent-500)] to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-white font-medium text-sm">AD</span>
             </div>
             <div className="flex-1 min-w-0">

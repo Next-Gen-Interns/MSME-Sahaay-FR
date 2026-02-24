@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import { Search, LocationOn, Factory, RocketLaunch } from '@mui/icons-material';
+import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { Search, LocationOn, Factory, RocketLaunch } from "@mui/icons-material";
 
 // Import your local images
-import img1 from '../../../../public/101.jpeg';
-import img2 from '../../../../public/102.jpeg';
-import img3 from '../../../../public/103.jpeg';
+import img1 from "../../../../public/101.jpeg";
+import img2 from "../../../../public/102.jpeg";
+import img3 from "../../../../public/103.jpeg";
 
 function HeroSection({
   userLocation = "",
@@ -21,7 +21,7 @@ function HeroSection({
         },
         (error) => {
           console.error("Geolocation error:", error);
-        }
+        },
       );
     }
   },
@@ -29,7 +29,8 @@ function HeroSection({
   searchSuggestions = [],
   showSuggestions = false,
   onHideSuggestions = () => {},
-  onSuggestionSelect = (suggestion) => console.log("Suggestion selected:", suggestion),
+  onSuggestionSelect = (suggestion) =>
+    console.log("Suggestion selected:", suggestion),
   isScrolled = false,
 }) {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -45,7 +46,8 @@ function HeroSection({
       id: 1,
       title: "Connect Local Businesses",
       subtitle: "Grow Together",
-      description: "Discover verified suppliers, connect with qualified buyers, and grow your business through India's premier MSME networking platform.",
+      description:
+        "Discover verified suppliers, connect with qualified buyers, and grow your business through India's premier MSME networking platform.",
       backgroundImage: img1,
       ctaText: "Start Exploring",
       secondaryCta: "Watch Demo",
@@ -56,7 +58,8 @@ function HeroSection({
       id: 2,
       title: "Find Quality Suppliers",
       subtitle: "Build Your Network",
-      description: "Access 5,000+ verified manufacturers, wholesalers, and service providers across India. Quality assured, delivery guaranteed.",
+      description:
+        "Access 5,000+ verified manufacturers, wholesalers, and service providers across India. Quality assured, delivery guaranteed.",
       backgroundImage: img2,
       ctaText: "Find Suppliers",
       secondaryCta: "Learn More",
@@ -67,7 +70,8 @@ function HeroSection({
       id: 3,
       title: "Expand Your Market",
       subtitle: "Reach New Customers",
-      description: "Showcase your products to 15,000+ active business buyers. Increase your sales and grow your customer base exponentially.",
+      description:
+        "Showcase your products to 15,000+ active business buyers. Increase your sales and grow your customer base exponentially.",
       backgroundImage: img3,
       ctaText: "List Your Business",
       secondaryCta: "See Pricing",
@@ -102,7 +106,7 @@ function HeroSection({
     if (isAutoPlaying && heroSlides.length > 1) {
       slideIntervalRef.current = setInterval(() => {
         setCurrentSlide((prev) =>
-          prev === heroSlides.length - 1 ? 0 : prev + 1
+          prev === heroSlides.length - 1 ? 0 : prev + 1,
         );
       }, 5000);
     }
@@ -132,7 +136,10 @@ function HeroSection({
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
+      if (
+        searchInputRef.current &&
+        !searchInputRef.current.contains(event.target)
+      ) {
         onHideSuggestions();
       }
     };
@@ -144,7 +151,7 @@ function HeroSection({
 
   return (
     <section
-      className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-teal-800 to-emerald-900"
+      className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-[var(--color-accent-900)] via-teal-800 to-emerald-900"
       onMouseEnter={() => setIsAutoPlaying(false)}
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
@@ -168,9 +175,9 @@ function HeroSection({
               className="object-cover"
               sizes="100vw"
               style={{
-                objectFit: 'cover',
-                objectPosition: 'center',
-                imageRendering: 'auto',
+                objectFit: "cover",
+                objectPosition: "center",
+                imageRendering: "auto",
               }}
             />
           </div>
@@ -229,8 +236,8 @@ function HeroSection({
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <button 
-                onClick={() => router.push("/listings")} 
+              <button
+                onClick={() => router.push("/listings")}
                 className="group bg-white text-[var(--color-accent-800)] px-8 py-4 rounded-xl font-semibold text-lg transition-all transform hover:scale-105 shadow-2xl hover:text-[var(--color-accent-500)] flex items-center justify-center"
               >
                 <span>{currentSlideData.ctaText}</span>
@@ -259,7 +266,7 @@ function HeroSection({
                   <h3 className="text-2xl font-sans font-semibold text-white mb-2">
                     Find Business Partners
                   </h3>
-                  <p className="text-blue-100">
+                  <p className="text-[var(--color-accent-100)]">
                     Search across 5,000+ verified listings
                   </p>
                 </div>
@@ -321,10 +328,10 @@ function HeroSection({
                             <span
                               className={`text-lg ${
                                 suggestion.type === "category"
-                                  ? "text-blue-500"
+                                  ? "text-[var(--color-accent-500)]"
                                   : suggestion.type === "seller"
-                                  ? "text-green-500"
-                                  : "text-teal-500"
+                                    ? "text-green-500"
+                                    : "text-teal-500"
                               }`}
                             >
                               {suggestion.type === "category" ? (
