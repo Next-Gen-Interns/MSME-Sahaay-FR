@@ -1,60 +1,38 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import ProductCard from "@/app/components/Products/ProductCard";
+import FiltersSidebar from "./FiltersSidebar";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
-  const query = searchParams.get("q");
+  const router = useRouter();
+
+  const query = searchParams.get("q") || "";
+  const page = Number(searchParams.get("page") || 1);
 
   const [results, setResults] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [favourites, setFavourites] = useState([]);
 
-  const fetchFavouriteIds = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/favourites/my`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      const data = await res.json();
-      console.log("FAV RESPONSE:", data); // 👈 IMPORTANT
-
-      if (res.ok && Array.isArray(data)) {
-        const ids = data.map((f) => f.listing_id);
-        setFavourites(ids);
-      }
-    } catch (error) {
-      console.error("Failed to load favourites", error);
-    }
-  };
-
   useEffect(() => {
     if (!query) return;
-
-    fetchFavouriteIds();
 
     const fetchResults = async () => {
       try {
         setLoading(true);
 
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/search?q=${query}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/search?${searchParams.toString()}`,
         );
 
         const data = await res.json();
 
         if (data.success) {
           setResults(data.results);
+          setTotalPages(data.totalPages || 1);
         } else {
           setResults([]);
         }
@@ -67,7 +45,13 @@ export default function SearchPage() {
     };
 
     fetchResults();
-  }, [query]);
+  }, [searchParams, query]);
+
+  const changePage = (newPage) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", newPage);
+    router.push(`/search?${params.toString()}`);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -76,28 +60,109 @@ export default function SearchPage() {
           Search Results for: <span className="text-indigo-600">{query}</span>
         </h1>
 
-        {loading && (
-          <div className="text-center py-10 text-gray-500">Searching...</div>
-        )}
-
-        {!loading && results.length === 0 && (
-          <div className="text-center py-10 text-gray-500">
-            No services found.
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Sidebar */}
+          <div className="lg:col-span-1">
+            <FiltersSidebar />
           </div>
-        )}
 
-        {!loading && results.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {results.map((listing) => (
-              <ProductCard
-                key={listing.listing_id}
-                listing={listing}
-                favourites={favourites}
-                setFavourites={setFavourites}
-              />
-            ))}
+          {/* Results */}
+          <div className="lg:col-span-3">
+            {loading && (
+              <div className="text-center py-10 text-gray-500">
+                Searching...
+              </div>
+            )}
+
+            {!loading && results.length === 0 && (
+  <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
+    <div className="text-4xl mb-3">🔍</div>
+
+    <h2 className="text-lg font-semibold mb-2">
+      No services found
+    </h2>
+
+    {(searchParams.get("city") ||
+      searchParams.get("state") ||
+      searchParams.get("country")) && (
+      <p className="text-gray-600 mb-4">
+        No services found in{" "}
+        <span className="font-medium text-indigo-600">
+          {[
+            searchParams.get("city"),
+            searchParams.get("state"),
+            searchParams.get("country"),
+          ]
+            .filter(Boolean)
+            .join(", ")}
+        </span>
+        .
+      </p>
+    )}
+
+    <p className="text-sm text-gray-500 mb-6">
+      Try removing location filters or expanding your search.
+    </p>
+
+    {(searchParams.get("city") ||
+      searchParams.get("state") ||
+      searchParams.get("country")) && (
+      <button
+        onClick={() => {
+          const params = new URLSearchParams(
+            searchParams.toString()
+          );
+
+          params.delete("city");
+          params.delete("state");
+          params.delete("country");
+          params.set("page", "1");
+
+          router.push(`/search?${params.toString()}`);
+        }}
+        className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition"
+      >
+        Remove Location Filters
+      </button>
+    )}
+  </div>
+)}
+
+            {!loading && results.length > 0 && (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {results.map((listing) => (
+                    <ProductCard
+                      key={listing.listing_id}
+                      listing={listing}
+                      favourites={favourites}
+                      setFavourites={setFavourites}
+                    />
+                  ))}
+                </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center gap-2 mt-8">
+                    {Array.from({ length: totalPages }).map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => changePage(i + 1)}
+                        className={`px-4 py-2 text-sm rounded border ${
+                          page === i + 1
+                            ? "bg-indigo-600 text-white"
+                            : "bg-white"
+                        }`}
+                      >
+                        {i + 1}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

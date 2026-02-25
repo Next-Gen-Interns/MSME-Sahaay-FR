@@ -56,6 +56,8 @@ import Image from "next/image";
 export default function Navbar() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const dispatch = useDispatch();
   const { userData, loading } = useSelector((state) => state.profile);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -160,6 +162,33 @@ export default function Navbar() {
       window.removeEventListener("auth-change", handleAuthChange);
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/search?q=${searchQuery}&limit=5&suggestion=true`,
+        );
+
+        const data = await res.json();
+
+        if (data.success) {
+          setSuggestions(data.results);
+          setShowSuggestions(true);
+        }
+      } catch (err) {
+        console.error("Suggestion error:", err);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -270,10 +299,46 @@ export default function Navbar() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyDown={handleSearch}
+                  onFocus={() => searchQuery && setShowSuggestions(true)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      router.push(`/search?q=${searchQuery}`);
+                      setShowSuggestions(false);
+                    }
+                  }}
                   placeholder="Search products, sellers, or categories..."
                   className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xs focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-500)] focus:border-transparent"
                 />
+
+                {showSuggestions && suggestions.length > 0 && (
+                  <div className="absolute top-full left-0 w-full bg-white border border-gray-200 shadow-lg z-50 max-h-80 overflow-y-auto">
+                    {suggestions.map((item) => (
+                      <div
+                        key={item.listing_id}
+                        onClick={() => {
+                          router.push(`/listings/${item.listing_id}`);
+                          setShowSuggestions(false);
+                        }}
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      >
+                        <div className="text-sm font-medium">{item.title}</div>
+                        <div className="text-xs text-gray-500">
+                          {item.service_countries?.[0]} • ₹{item.max_price}
+                        </div>
+                      </div>
+                    ))}
+
+                    <div
+                      onClick={() => {
+                        router.push(`/search?q=${searchQuery}`);
+                        setShowSuggestions(false);
+                      }}
+                      className="px-4 py-2 text-indigo-600 text-sm font-medium hover:bg-gray-100 cursor-pointer border-t"
+                    >
+                      View all results
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 

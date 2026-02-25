@@ -1185,12 +1185,44 @@ function ListingsGrid({
   const animationRef = useRef(null);
   const isPaused = useRef(false);
   const [favourites, setFavourites] = useState([]);
+  const [favourites, setFavourites] = useState([]);
 
   const sortedListings = [...listings]
     .sort((a, b) => (b.view || b.views || 0) - (a.view || a.views || 0))
     .slice(0, 6);
   const infiniteListings = [...sortedListings, ...sortedListings];
 
+  /* ===============================
+     AUTO INFINITE SCROLL
+  =============================== */
+  useEffect(() => {
+    const fetchFavourites = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/favourites/my`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        const data = await res.json();
+
+        if (res.ok) {
+          const favIds = data.map((fav) => Number(fav.listing_id));
+          setFavourites(favIds);
+        }
+      } catch (error) {
+        console.error("Error fetching favourites:", error);
+      }
+    };
+
+    fetchFavourites();
+  }, []);
   /* ===============================
      AUTO INFINITE SCROLL
   =============================== */
