@@ -183,7 +183,7 @@ const CreateSubscriptionForm = ({
         onClick={handleClose}
       />
 
-      <div className="relative bg-white/95 backdrop-blur-md rounded-2xl p-6 max-w-2xl w-full border border-white/20 shadow-2xl transform transition-all duration-300 scale-100 max-h-[90vh] overflow-y-auto">
+      <div className="relative bg-white/95 backdrop-blur-md rounded-2xl p-6 max-w-2xl w-full border border-white/20 shadow-2xl transition-all duration-300 scale-100 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl font-bold bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 bg-clip-text text-transparent">
             Create Subscription Plan
@@ -428,7 +428,7 @@ const CreateSubscriptionForm = ({
             <button
               type="submit"
               disabled={submitting}
-              className="px-6 py-2.5 bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 text-white font-medium rounded-xl hover:from-[var(--color-accent-700)] hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105 disabled:hover:scale-100 shadow-lg"
+              className="px-6 py-2.5 bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 text-white font-medium rounded-xl hover:from-[var(--color-accent-700)] hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105 disabled:hover:scale-100 shadow-lg"
             >
               {submitting ? "Creating..." : "Create Plan"}
             </button>
@@ -532,7 +532,7 @@ const EditSubscriptionForm = ({
         onClick={onClose}
       />
 
-      <div className="relative bg-white/95 backdrop-blur-md rounded-2xl p-6 max-w-2xl w-full border border-white/20 shadow-2xl transform transition-all duration-300 scale-100 max-h-[90vh] overflow-y-auto">
+      <div className="relative bg-white/95 backdrop-blur-md rounded-2xl p-6 max-w-2xl w-full border border-white/20 shadow-2xl  transition-all duration-300 scale-100 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl font-bold bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 bg-clip-text text-transparent">
             Edit Subscription Plan
@@ -761,7 +761,7 @@ const EditSubscriptionForm = ({
             <button
               type="submit"
               disabled={submitting}
-              className="px-6 py-2.5 bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 text-white font-medium rounded-xl hover:from-[var(--color-accent-700)] hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105 disabled:hover:scale-100 shadow-lg"
+              className="px-6 py-2.5 bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 text-white font-medium rounded-xl hover:from-[var(--color-accent-700)] hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105 disabled:hover:scale-100 shadow-lg"
             >
               {submitting ? "Updating..." : "Update Plan"}
             </button>
@@ -925,7 +925,7 @@ const SubscriptionManagement = () => {
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="mt-4 sm:mt-0 inline-flex items-center px-6 py-3 bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 text-white font-medium rounded-xl hover:from-[var(--color-accent-700)] hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
+          className="mt-4 sm:mt-0 inline-flex items-center px-6 py-3 bg-gradient-to-r from-[var(--color-accent-600)] to-purple-600 text-white font-medium rounded-xl hover:from-[var(--color-accent-700)] hover:to-purple-700 transition-all duration-200  hover:scale-105 shadow-lg"
         >
           <svg
             className="w-5 h-5 mr-2"

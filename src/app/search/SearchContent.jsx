@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import ProductCard from "@/app/components/Products/ProductCard";
 
-export default function SearchPage() {
+export default function SearchContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q");
 
@@ -27,7 +27,6 @@ export default function SearchPage() {
       );
 
       const data = await res.json();
-      console.log("FAV RESPONSE:", data); // 👈 IMPORTANT
 
       if (res.ok && Array.isArray(data)) {
         const ids = data.map((f) => f.listing_id);

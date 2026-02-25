@@ -568,7 +568,7 @@ function StatsSection({ stats }) {
           <div className="w-1 h-7 rounded-full bg-[var(--color-accent-700)]" />
           <div>
             <h2 className="text-xl font-bold text-gray-900 leading-tight">
-              India's Fastest Growing MSME Platform
+              India&apos;s Fastest Growing MSME Platform
             </h2>
             <p className="text-xs text-gray-500 mt-0.5">
               Trusted by businesses across the country
