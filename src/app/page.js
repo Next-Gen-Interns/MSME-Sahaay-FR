@@ -1185,7 +1185,6 @@ function ListingsGrid({
   const animationRef = useRef(null);
   const isPaused = useRef(false);
   const [favourites, setFavourites] = useState([]);
-  const [favourites, setFavourites] = useState([]);
 
   const sortedListings = [...listings]
     .sort((a, b) => (b.view || b.views || 0) - (a.view || a.views || 0))
