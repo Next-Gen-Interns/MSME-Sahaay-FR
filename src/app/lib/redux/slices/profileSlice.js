@@ -11,7 +11,7 @@ export const fetchUserProfile = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
     }
-  }
+  },
 );
 
 const initialState = {
@@ -48,7 +48,14 @@ const profileSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
-        state.userData = action.payload;
+        const payload = action.payload;
+
+        state.userData = {
+          ...payload,
+          activeProfile:
+            payload.activeProfile || payload.active_profile || payload.role, // fallback safety
+        };
+
         state.loading = false;
       })
       .addCase(fetchUserProfile.rejected, (state) => {

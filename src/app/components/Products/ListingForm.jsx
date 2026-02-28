@@ -374,6 +374,7 @@ const ListingForm = ({ listing = null, onSuccess, onCancel }) => {
       onSuccess?.(listingId);
     } catch (error) {
       const errorMessage =
+        error.response?.data?.error ||
         error.response?.data?.message ||
         error.message ||
         "Failed to save listing";

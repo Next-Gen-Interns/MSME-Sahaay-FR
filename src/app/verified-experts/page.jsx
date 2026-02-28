@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useProfileCheck } from "../hooks/useProfileCheck";
 
 const categories = [
   "All",
@@ -96,12 +97,29 @@ export default function VerifiedExpertsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [userRole, setUserRole] = useState(null);
+  // const [userRole, setUserRole] = useState(null);
   const [expertStatus, setExpertStatus] = useState(null);
 
+  const { userData } = useProfileCheck();
+
+  const activeProfile = userData?.activeProfile || userData?.active_profile;
+
+  const isSellerMode = activeProfile === "seller";
+
   useEffect(() => {
-    fetchExperts();
-  }, [selectedCategory]);
+  setExperts([]);
+  fetchExperts();
+}, [selectedCategory, activeProfile]);
+
+useEffect(() => {
+  setLoading(true);
+}, [activeProfile]);
+
+useEffect(() => {
+  if (!isSellerMode) {
+    setExpertStatus(null);
+  }
+}, [isSellerMode]);
 
   const fetchExperts = async () => {
     try {
@@ -123,14 +141,11 @@ export default function VerifiedExpertsPage() {
   };
   const fetchExpertStatus = async (token) => {
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/experts/me`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/experts/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
 
       const data = await res.json();
       setExpertStatus(data);
@@ -139,18 +154,26 @@ export default function VerifiedExpertsPage() {
     }
   };
 
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+
+  //   if (!token) return;
+
+  //   const payload = JSON.parse(atob(token.split(".")[1]));
+  //   setUserRole(payload.role);
+
+  //   if (payload.role === "seller") {
+  //     fetchExpertStatus(token);
+  //   }
+  // }, []);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    if (!token) return;
+    if (!token || !isSellerMode) return;
 
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    setUserRole(payload.role);
-
-    if (payload.role === "seller") {
-      fetchExpertStatus(token);
-    }
-  }, []);
+    fetchExpertStatus(token);
+  }, [isSellerMode]);
 
   const filtered = experts.filter((e) => {
     const matchSearch =
@@ -226,9 +249,9 @@ export default function VerifiedExpertsPage() {
             Are you an MSME Expert?
           </h2>
 
-          {userRole !== "seller" ? (
+          {!isSellerMode ? (
             <p className="text-sm">
-              Only registered sellers can apply as experts.
+              Switch to Seller mode to apply as an expert.
             </p>
           ) : expertStatus?.applied ? (
             expertStatus.is_verified ? (
@@ -265,6 +288,9 @@ export default function VerifiedExpertsPage() {
 /* ===================== MODAL ===================== */
 
 function ApplyExpertModal({ onClose }) {
+  const { userData } = useProfileCheck();
+
+  const activeProfile = userData?.activeProfile || userData?.active_profile;
   const [formData, setFormData] = useState({
     category: "",
     experience_years: "",
@@ -289,6 +315,12 @@ function ApplyExpertModal({ onClose }) {
     setError(null);
     setMessage(null);
 
+    // 🔒 MODE SAFETY CHECK
+    if (activeProfile !== "seller") {
+      setError("Switch to seller mode to apply.");
+      return;
+    }
+
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
@@ -310,12 +342,10 @@ function ApplyExpertModal({ onClose }) {
             category: formData.category,
             experience_years: parseInt(formData.experience_years),
             consultation_fee: parseFloat(formData.consultation_fee),
-            expertise: formData.expertise
-              .split(",")
-              .map((e) => e.trim()),
+            expertise: formData.expertise.split(",").map((e) => e.trim()),
             bio: formData.bio,
           }),
-        }
+        },
       );
 
       const data = await res.json();
@@ -333,7 +363,6 @@ function ApplyExpertModal({ onClose }) {
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
       <div className="bg-white w-full max-w-xl rounded-lg shadow-xl relative">
-
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b">
           <h2 className="text-lg font-semibold">Apply as MSME Expert</h2>
@@ -347,7 +376,6 @@ function ApplyExpertModal({ onClose }) {
 
         {/* Scrollable Body */}
         <div className="max-h-[75vh] overflow-y-auto px-6 py-5">
-
           {error && (
             <div className="mb-3 text-xs text-red-600 bg-red-50 p-2 rounded">
               {error}
@@ -361,7 +389,6 @@ function ApplyExpertModal({ onClose }) {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
-
             {/* Category */}
             <div>
               <label className="text-xs font-medium text-gray-700">

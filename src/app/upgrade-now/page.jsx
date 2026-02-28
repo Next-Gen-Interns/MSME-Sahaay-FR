@@ -245,14 +245,17 @@ const SubscriptionPlans = () => {
     typeof window !== "undefined" && !!localStorage.getItem("token");
   const { userData, checkProfileCompletion } = useProfileCheck();
 
+const activeProfile =
+  userData?.activeProfile || userData?.active_profile;
+
   useEffect(() => {
     fetchData();
   }, [isAuthenticated]);
 
   useEffect(() => {
-    if (userData?.role) {
-      setActiveTab(userData.role);
-    }
+    if (activeProfile) {
+  setActiveTab(activeProfile);
+}
   }, [userData]);
 
   const fetchData = async () => {
@@ -310,8 +313,7 @@ const SubscriptionPlans = () => {
       return;
     }
 
-    const userRole = userData?.role;
-    if (!checkProfileCompletion(userRole)) {
+    if (!checkProfileCompletion(activeProfile)) {
       return;
     }
 
@@ -420,8 +422,9 @@ const SubscriptionPlans = () => {
     }
 
     return plans.filter(
-      (plan) => plan.plan_type === userData.role || plan.plan_type === "both",
-    );
+  (plan) =>
+    plan.plan_type === activeProfile || plan.plan_type === "both",
+);
   };
 
   const filteredPlans = getFilteredPlans();
@@ -437,13 +440,13 @@ const SubscriptionPlans = () => {
       return baseTabs;
     }
 
-    if (userData?.role) {
+    if (activeProfile) {
       return [
         { id: "all", name: "All Plans", icon: <Icons.Analytics /> },
         {
-          id: userData.role,
-          name: userData.role === "buyer" ? "For Buyers" : "For Sellers",
-          icon: userData.role === "buyer" ? <Icons.Search /> : <Icons.Store />,
+          id: activeProfile,
+          name: activeProfile === "buyer" ? "For Buyers" : "For Sellers",
+          icon: activeProfile === "buyer" ? <Icons.Search /> : <Icons.Store />,
         },
       ];
     }
@@ -627,7 +630,7 @@ const SubscriptionPlans = () => {
           <p className="text-xl text-[var(--color-accent-900)] max-w-2xl mx-auto leading-relaxed">
             {isAuthenticated && userData
               ? `Scale your ${
-                  userData.role === "buyer" ? "procurement" : "business"
+                  activeProfile === "buyer" ? "procurement" : "business"
                 } with the right plan`
               : "Start free, upgrade as you grow. No hidden fees."}
           </p>
@@ -728,7 +731,7 @@ const SubscriptionPlans = () => {
               </div>
               <span className="text-[var(--color-accent-900)] font-medium">
                 Hello {userData.fullname || userData.username}!{" "}
-                {userData.role === "buyer"
+                {activeProfile === "buyer"
                   ? "Find the perfect suppliers with our buyer plans"
                   : "Grow your business with our seller plans"}
               </span>
@@ -750,9 +753,9 @@ const SubscriptionPlans = () => {
                   isAuthenticated={isAuthenticated}
                   canSubscribe={
                     isAuthenticated &&
-                    (plan.plan_type === userData?.role ||
+                    (plan.plan_type === activeProfile ||
                       plan.plan_type === "both") &&
-                    checkProfileCompletion(userData?.role) &&
+                    checkProfileCompletion(activeProfile) &&
                     plan.price > 0 // Don't allow subscribing to free plan
                   }
                   featured={index === 1 && filteredPlans.length >= 3}
@@ -775,7 +778,7 @@ const SubscriptionPlans = () => {
                 </h3>
                 <p className="text-gray-600">
                   {isAuthenticated && userData
-                    ? `No ${userData.role} plans are currently available.`
+                    ? `No ${activeProfile} plans are currently available.`
                     : "No subscription plans are currently available."}
                 </p>
               </div>
@@ -816,7 +819,7 @@ const SubscriptionPlans = () => {
         )}
 
         {/* Profile Completion Warning */}
-        {isAuthenticated && !checkProfileCompletion(userData?.role) && (
+        {isAuthenticated && !checkProfileCompletion(activeProfile) && (
           <div className="max-w-2xl mx-auto mt-8">
             <div className="bg-gradient-to-r from-blue-50 to-[var(--color-accent-50)] border border-[var(--color-accent-400)] rounded-2xl p-6">
               <div className="flex items-center space-x-4">

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   Star,
   MapPin,
@@ -65,6 +65,7 @@ export default function ListingDetailsPage() {
   });
 
   const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const router = useRouter();
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -138,7 +139,17 @@ export default function ListingDetailsPage() {
       });
     } catch (error) {
       console.error("Error sending inquiry:", error);
-      toast.error("Failed to send inquiry");
+
+      const backendMessage =
+        error?.response?.data?.error || "Failed to send inquiry";
+
+      toast.error(backendMessage);
+
+      if (backendMessage.includes("profile not found")) {
+        setTimeout(() => {
+          router.push("/settings");
+        }, 1000);
+      }
     } finally {
       setFormLoading(false);
     }

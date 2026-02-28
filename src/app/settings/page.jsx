@@ -352,15 +352,20 @@ function BillingTab({ userData, checkProfileCompletion }) {
   const [canceling, setCanceling] = useState(false);
   const [planTab, setPlanTab] = useState("all");
 
+  const activeProfile =
+  userData?.activeProfile || userData?.active_profile;
+
   const isAuthenticated =
     typeof window !== "undefined" && !!localStorage.getItem("token");
 
   useEffect(() => {
-    fetchBillingData();
-  }, []);
+  if (!activeProfile) return;
+
+  fetchBillingData();
+}, [activeProfile]);
 
   useEffect(() => {
-    if (userData?.role) setPlanTab(userData.role);
+    if (activeProfile) setPlanTab(userData.role);
   }, [userData]);
 
   const fetchBillingData = async () => {
@@ -392,7 +397,7 @@ function BillingTab({ userData, checkProfileCompletion }) {
       toast.error("Please login to subscribe");
       return;
     }
-    if (!checkProfileCompletion(userData?.role)) return;
+    if (!checkProfileCompletion(activeProfile)) return;
 
     const selectedPlan = plans.find((p) => p.plan_id === planId);
     if (selectedPlan?.price === 0) return;
@@ -476,7 +481,7 @@ function BillingTab({ userData, checkProfileCompletion }) {
 
   const filteredPlans = getFilteredPlans();
 
-  const availableTabs = userData?.role
+  const availableTabs = activeProfile
     ? [
         { id: "all", label: "All Plans" },
         {
@@ -695,9 +700,9 @@ function BillingTab({ userData, checkProfileCompletion }) {
           Available Plans
         </p>
         <p className="text-sm text-gray-600">
-          {userData?.role === "buyer"
+          {activeProfile === "buyer"
             ? "Scale your procurement with the right plan"
-            : userData?.role === "seller"
+            : activeProfile === "seller"
               ? "Grow your business with the right plan"
               : "Start free, upgrade as you grow."}
         </p>
@@ -732,9 +737,9 @@ function BillingTab({ userData, checkProfileCompletion }) {
               userSubscription?.subscription?.plan_id === plan.plan_id;
             const canSubscribe =
               isAuthenticated &&
-              (plan.plan_type === userData?.role ||
+              (plan.plan_type === activeProfile ||
                 plan.plan_type === "both") &&
-              checkProfileCompletion(userData?.role) &&
+              checkProfileCompletion(activeProfile) &&
               plan.price > 0;
 
             return (
@@ -760,7 +765,7 @@ function BillingTab({ userData, checkProfileCompletion }) {
       )}
 
       {/* ── Profile completion nudge ── */}
-      {isAuthenticated && !checkProfileCompletion(userData?.role) && (
+      {isAuthenticated && !checkProfileCompletion(activeProfile) && (
         <div className="flex items-center gap-3 p-4 bg-blue-50 border border-[var(--color-accent-200)] rounded-xl">
           <span className="text-[var(--color-accent-500)] flex-shrink-0">
             <Icons.Warning />
@@ -794,6 +799,7 @@ export default function SettingsPage() {
     roleData,
     loading: profileLoading,
   } = useSelector((s) => s.profile);
+  const activeProfile = userData?.activeProfile || userData?.active_profile;
   const { checkProfileCompletion } = useProfileCheck();
 
   const [activeTab, setActiveTab] = useState("profile");
@@ -822,9 +828,15 @@ export default function SettingsPage() {
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    if (!userData) loadProfileData();
-  }, []);
+  loadProfileData();
+}, []);
 
+  useEffect(() => {
+  if (!activeProfile) return;
+
+  // Reload role-specific profile when profile switches
+  loadProfileData();
+}, [activeProfile]);
   const loadProfileData = async () => {
     try {
       dispatch(setLoading(true));
@@ -833,7 +845,7 @@ export default function SettingsPage() {
       dispatch(setUserData(userProfile));
       setRoleProfileExists(Boolean(userProfile.role_profile_exists));
 
-      if (userProfile.role === "buyer") {
+      if (userProfile.activeProfile === "buyer") {
         try {
           const r = await getBuyerProfile();
           dispatch(setRoleData(r.data));
@@ -844,7 +856,7 @@ export default function SettingsPage() {
             setRoleProfileExists(false);
           }
         }
-      } else if (userProfile.role === "seller") {
+      } else if (userProfile.activeProfile === "seller") {
         try {
           const r = await getSellerProfile();
           dispatch(setRoleData(r.data));
@@ -896,7 +908,7 @@ export default function SettingsPage() {
   const handleRoleInfoSave = async (roleFormData) => {
     try {
       setSaving(true);
-      const role = userData?.role;
+      const role = activeProfile;
       if (!role) return { success: false, error: "User role is not defined." };
       let response;
       if (role === "buyer") {
@@ -1084,7 +1096,7 @@ export default function SettingsPage() {
                       {
                         id: "role",
                         label:
-                          userData?.role === "seller"
+                          activeProfile === "seller"
                             ? "Business Info (Seller)"
                             : "Business Info (Buyer)",
                       },
@@ -1121,7 +1133,7 @@ export default function SettingsPage() {
                           />
                         )}
                         {profileSubTab === "role" &&
-                          userData?.role === "buyer" && (
+                          activeProfile === "buyer" && (
                             <BuyerProfile
                               buyerData={roleData}
                               onSave={handleRoleInfoSave}
@@ -1130,7 +1142,7 @@ export default function SettingsPage() {
                             />
                           )}
                         {profileSubTab === "role" &&
-                          userData?.role === "seller" && (
+                          activeProfile === "seller" && (
                             <SellerProfile
                               sellerData={roleData}
                               onSave={handleRoleInfoSave}

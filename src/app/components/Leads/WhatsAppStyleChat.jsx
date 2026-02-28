@@ -8,6 +8,8 @@ import {
   markMessageAsRead,
   getSocket,
 } from "../../api/leadAPI";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 import { getUserListings } from "@/app/api/productsAPI";
 
@@ -111,6 +113,30 @@ const WhatsAppStyleChat = ({ onClose, initialLead = null }) => {
   const user = getUserData();
   const currentUserId = user?.user_id;
 
+  const router = useRouter();
+  const { userData } = useSelector((state) => state.profile);
+
+  const activeProfile = userData?.activeProfile || userData?.active_profile;
+
+  useEffect(() => {
+    if (!activeProfile) return;
+
+    if (activeProfile !== "seller") {
+      // Cleanup socket immediately
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
+
+      // Clear state
+      setLeads([]);
+      setSelectedLead(null);
+      setConversations([]);
+
+      // Redirect
+      router.replace("/my-leads");
+    }
+  }, [activeProfile]);
   // Check if mobile on mount and resize
   useEffect(() => {
     const checkMobile = () => {
@@ -164,10 +190,10 @@ const WhatsAppStyleChat = ({ onClose, initialLead = null }) => {
     all: baseFilteredLeads.length,
     new: baseFilteredLeads.filter((lead) => lead.status === "new").length,
     in_progress: baseFilteredLeads.filter((lead) =>
-      IN_PROGRESS_STATUSES.includes(lead.status)
+      IN_PROGRESS_STATUSES.includes(lead.status),
     ).length,
     archived: baseFilteredLeads.filter((lead) =>
-      ARCHIVED_STATUSES.includes(lead.status)
+      ARCHIVED_STATUSES.includes(lead.status),
     ).length,
   };
 
@@ -181,7 +207,7 @@ const WhatsAppStyleChat = ({ onClose, initialLead = null }) => {
       "Selected product ID:",
       selectedProduct,
       "Type:",
-      typeof selectedProduct
+      typeof selectedProduct,
     );
     console.log("Base filtered leads (by product):", baseFilteredLeads.length);
 
@@ -192,11 +218,11 @@ const WhatsAppStyleChat = ({ onClose, initialLead = null }) => {
           return filtered.filter((lead) => lead.status === "new");
         case "in_progress":
           return filtered.filter((lead) =>
-            IN_PROGRESS_STATUSES.includes(lead.status)
+            IN_PROGRESS_STATUSES.includes(lead.status),
           );
         case "archived":
           return filtered.filter((lead) =>
-            ARCHIVED_STATUSES.includes(lead.status)
+            ARCHIVED_STATUSES.includes(lead.status),
           );
         case "all":
         default:
@@ -257,81 +283,63 @@ const WhatsAppStyleChat = ({ onClose, initialLead = null }) => {
   }, [selectedLead]);
 
   // Load conversations - OPTIMIZED for your API structure
- const fetchConversations = useCallback(async (leadId) => {
-  if (!leadId) return;
+  const fetchConversations = useCallback(async (leadId) => {
+    if (!leadId) return;
 
-  try {
-    setIsLoadingConversations(true);
-    const response = await getLeadConversations(leadId, 1, 200);
+    try {
+      setIsLoadingConversations(true);
+      const response = await getLeadConversations(leadId, 1, 200);
 
-    let conversationsData = [];
-    let conversationId = null;
+      let conversationsData = [];
+      let conversationId = null;
 
-    // Handle multiple possible response structures
-    if (response.data?.success && response.data.data?.messages) {
-      conversationsData = response.data.data.messages;
+      // Handle multiple possible response structures
+      if (response.data?.success && response.data.data?.messages) {
+        conversationsData = response.data.data.messages;
 
-      // get latest message's conversation_id
-      conversationId = conversationsData.at(-1)?.conversation_id;
-      console.log("Latest Conversation ID:", conversationId);
-
-    } else if (response.data?.success && Array.isArray(response.data.data)) {
-      conversationsData = response.data.data;
-      conversationId = conversationsData.at(-1)?.conversation_id;
-
-    } else if (response.conversations) {
-      conversationsData = response.conversations;
-      conversationId = conversationsData.at(-1)?.conversation_id;
-
-    } else if (response.data?.conversations) {
-      conversationsData = response.data.conversations;
-      conversationId = conversationsData.at(-1)?.conversation_id;
-
-    } else if (Array.isArray(response.data)) {
-      conversationsData = response.data;
-      conversationId = conversationsData.at(-1)?.conversation_id;
-
-    } else if (Array.isArray(response)) {
-      conversationsData = response;
-      conversationId = conversationsData.at(-1)?.conversation_id;
-    }
-
-    setConversations(conversationsData);
-
-    // 🔥 Only call if we have a valid conversationId (meaning there are messages)
-    if (conversationId) {
-      try {
-        await markMessageAsRead(leadId, conversationId);
-        setUnreadCounts((prev) => ({
-          ...prev,
-          [leadId]: 0,
-        }));
-      } catch (readErr) {
-        console.warn("Could not mark messages as read:", readErr);
+        // get latest message's conversation_id
+        conversationId = conversationsData.at(-1)?.conversation_id;
+        console.log("Latest Conversation ID:", conversationId);
+      } else if (response.data?.success && Array.isArray(response.data.data)) {
+        conversationsData = response.data.data;
+        conversationId = conversationsData.at(-1)?.conversation_id;
+      } else if (response.conversations) {
+        conversationsData = response.conversations;
+        conversationId = conversationsData.at(-1)?.conversation_id;
+      } else if (response.data?.conversations) {
+        conversationsData = response.data.conversations;
+        conversationId = conversationsData.at(-1)?.conversation_id;
+      } else if (Array.isArray(response.data)) {
+        conversationsData = response.data;
+        conversationId = conversationsData.at(-1)?.conversation_id;
+      } else if (Array.isArray(response)) {
+        conversationsData = response;
+        conversationId = conversationsData.at(-1)?.conversation_id;
       }
-    } else {
-      console.log("No messages yet — read API not called.");
+
+      setConversations(conversationsData);
+
+      // 🔥 Only call if we have a valid conversationId (meaning there are messages)
+      if (conversationId) {
+        try {
+          await markMessageAsRead(leadId, conversationId);
+          setUnreadCounts((prev) => ({
+            ...prev,
+            [leadId]: 0,
+          }));
+        } catch (readErr) {
+          console.warn("Could not mark messages as read:", readErr);
+        }
+      } else {
+        console.log("No messages yet — read API not called.");
+      }
+    } catch (err) {
+      console.error("Error fetching conversations:", err);
+      setConversations([]);
+    } finally {
+      setIsLoadingConversations(false);
     }
-
-  } catch (err) {
-    console.error("Error fetching conversations:", err);
-    setConversations([]);
-  } finally {
-    setIsLoadingConversations(false);
-  }
-}, []);
-
-
-
-
-
-
-
-
-
-
-
-
+  }, []);
 
   // Initialize socket connection
   const initializeSocket = useCallback(async () => {
@@ -371,7 +379,7 @@ const WhatsAppStyleChat = ({ onClose, initialLead = null }) => {
               participant_id: actualParticipantId,
             };
             const exists = prev.some((existingMsg) =>
-              isDuplicateMessage(existingMsg, fixedMessage)
+              isDuplicateMessage(existingMsg, fixedMessage),
             );
             if (exists) return prev;
             return [...prev, fixedMessage];
@@ -386,8 +394,8 @@ const WhatsAppStyleChat = ({ onClose, initialLead = null }) => {
             prev.map((msg) =>
               msg.conversation_id === data.conversation_id
                 ? { ...msg, is_read: true, read_at: data.read_at }
-                : msg
-            )
+                : msg,
+            ),
           );
         }
       };
@@ -469,8 +477,8 @@ const WhatsAppStyleChat = ({ onClose, initialLead = null }) => {
 
         setConversations((prev) =>
           prev.map((msg) =>
-            msg.conversation_id === tempMessageId ? serverMessage : msg
-          )
+            msg.conversation_id === tempMessageId ? serverMessage : msg,
+          ),
         );
 
         setTimeout(() => {
@@ -483,7 +491,7 @@ const WhatsAppStyleChat = ({ onClose, initialLead = null }) => {
       console.error("Error sending message:", error);
       pendingMessageIdsRef.current.delete(tempMessageId);
       setConversations((prev) =>
-        prev.filter((msg) => msg.conversation_id !== tempMessageId)
+        prev.filter((msg) => msg.conversation_id !== tempMessageId),
       );
       throw error;
     }
@@ -497,8 +505,8 @@ const WhatsAppStyleChat = ({ onClose, initialLead = null }) => {
 
       setLeads((prevLeads) =>
         prevLeads.map((lead) =>
-          lead.lead_id === leadId ? { ...lead, status: newStatus } : lead
-        )
+          lead.lead_id === leadId ? { ...lead, status: newStatus } : lead,
+        ),
       );
 
       if (selectedLead?.lead_id === leadId) {
@@ -598,7 +606,13 @@ const WhatsAppStyleChat = ({ onClose, initialLead = null }) => {
     currentView,
   ]);
 
+  if (activeProfile && activeProfile !== "seller") {
+  return null;
+}
+
   return (
+
+    
     <div className="h-screen bg-gray-100 p-0 m-0 overflow-hidden">
       {/* Main Rounded Container */}
       <div className="h-full bg-white rounded-none shadow-lg overflow-hidden">
