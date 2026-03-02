@@ -42,24 +42,24 @@ const AboutPage = () => {
   // Team/leadership section
   const leadership = [
     {
-      name: "Rajesh Mehta",
-      role: "Founder & CEO",
-      expertise: "20+ years in MSME ecosystem",
+      name: "Jasarajsinh Vaghela",
+      role: "Director",
+      expertise: "MSME consulting and policy advisory expert",
     },
     {
-      name: "Priya Sharma",
-      role: "Head of Partnerships",
-      expertise: "Ex-Industry body leader",
+      name: "Ajay Parmar",
+      role: "Co-Founder",
+      expertise: "Business consulting and industry advisory specialist",
     },
     {
-      name: "Anil Gupta",
-      role: "Technology Director",
-      expertise: "SaaS platform expert",
+      name: "Bhavin Bhabhor",
+      role: "Chief Executive Officer (CEO)",
+      expertise: "Digital consulting solutions and SaaS strategy expert",
     },
     {
-      name: "Sunita Rao",
-      role: "Community Manager",
-      expertise: "MSME networking specialist",
+      name: "Vatsal Solanki",
+      role: "Technical Lead",
+      expertise: "Technology consulting and platform implementation expert",
     },
   ];
 
