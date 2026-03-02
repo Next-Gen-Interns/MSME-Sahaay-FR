@@ -32,6 +32,9 @@ const ProfilePage = () => {
   const dispatch = useDispatch();
   const { userData, roleData, loading } = useSelector((state) => state.profile);
 
+const activeProfile =
+  userData?.activeProfile || userData?.active_profile;
+
   const [activeTab, setActiveTab] = useState("basic");
   const [saving, setSaving] = useState(false);
   const [roleProfileExists, setRoleProfileExists] = useState(false);
@@ -58,7 +61,7 @@ const ProfilePage = () => {
       setRoleProfileExists(Boolean(userProfile.role_profile_exists));
 
       // Load role-specific data
-      if (userProfile.role === "buyer") {
+      if (userProfile.activeProfile === "buyer") {
         try {
           const buyerResponse = await getBuyerProfile();
           dispatch(setRoleData(buyerResponse.data));
@@ -71,7 +74,7 @@ const ProfilePage = () => {
             console.error("Error loading buyer profile:", error);
           }
         }
-      } else if (userProfile.role === "seller") {
+      } else if (userProfile.activeProfile === "seller") {
         try {
           const sellerResponse = await getSellerProfile();
           dispatch(setRoleData(sellerResponse.data));
@@ -134,7 +137,7 @@ const ProfilePage = () => {
       let response;
 
       // Ensure current userData exists and has role
-      const role = userData?.role;
+      const role = activeProfile;
       if (!role) {
         return { success: false, error: "User role is not defined." };
       }
@@ -240,7 +243,7 @@ const ProfilePage = () => {
           <TabButton
             active={activeTab === "role"}
             label={
-              userData?.role === "buyer"
+              activeProfile === "buyer"
                 ? "Business Information"
                 : "Business Information"
             }
@@ -259,7 +262,7 @@ const ProfilePage = () => {
           />
         )}
 
-        {activeTab === "role" && userData?.role === "buyer" && (
+        {activeTab === "role" && activeProfile === "buyer" && (
           <BuyerProfile
             buyerData={roleData}
             onSave={handleRoleInfoSave}
@@ -268,7 +271,7 @@ const ProfilePage = () => {
           />
         )}
 
-        {activeTab === "role" && userData?.role === "seller" && (
+        {activeTab === "role" && activeProfile === "seller" && (
           <SellerProfile
             sellerData={roleData}
             onSave={handleRoleInfoSave}

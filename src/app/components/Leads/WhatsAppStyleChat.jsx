@@ -8,6 +8,8 @@ import {
   markMessageAsRead,
   getSocket,
 } from "../../api/leadAPI";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 import { getUserListings } from "@/app/api/productsAPI";
 
@@ -114,6 +116,30 @@ const WhatsAppStyleChat = ({ onClose, initialLead = null }) => {
   const user = getUserData();
   const currentUserId = user?.user_id;
 
+  const router = useRouter();
+  const { userData } = useSelector((state) => state.profile);
+
+  const activeProfile = userData?.activeProfile || userData?.active_profile;
+
+  useEffect(() => {
+    if (!activeProfile) return;
+
+    if (activeProfile !== "seller") {
+      // Cleanup socket immediately
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
+
+      // Clear state
+      setLeads([]);
+      setSelectedLead(null);
+      setConversations([]);
+
+      // Redirect
+      router.replace("/my-leads");
+    }
+  }, [activeProfile]);
   // Check if mobile on mount and resize
   useEffect(() => {
     const checkMobile = () => {
@@ -583,7 +609,13 @@ const WhatsAppStyleChat = ({ onClose, initialLead = null }) => {
     currentView,
   ]);
 
+  if (activeProfile && activeProfile !== "seller") {
+  return null;
+}
+
   return (
+
+    
     <div className="h-screen bg-gray-100 p-0 m-0 overflow-hidden">
       {/* Main Rounded Container */}
       <div className="h-full bg-white rounded-none shadow-lg overflow-hidden">

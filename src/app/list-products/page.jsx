@@ -9,6 +9,7 @@ import {
 import ListingForm from "../components/Products/ListingForm";
 import toast from "react-hot-toast";
 import { useProfileCheck } from "../hooks/useProfileCheck";
+import { useSelector } from "react-redux";
 
 const SellerDashboard = () => {
   const [listings, setListings] = useState([]);
@@ -17,22 +18,31 @@ const SellerDashboard = () => {
   const [editingListing, setEditingListing] = useState(null);
 
   const {
-    userData,
-    loading: profileLoading,
-    checkProfileCompletion,
-  } = useProfileCheck();
+  userData,
+  loading: profileLoading,
+  checkProfileCompletion,
+  activeProfile,
+} = useProfileCheck();
 
   useEffect(() => {
-    if (profileLoading) return;
-    if (!userData) return;
-    if (userData.role === "seller") {
-      const isAllowed = checkProfileCompletion("seller");
-      if (isAllowed) loadListings();
-      else setLoading(false);
-    } else {
-      setLoading(false);
-    }
-  }, [userData, profileLoading]);
+  if (profileLoading) return;
+  if (!userData) return;
+
+  if (activeProfile === "seller") {
+    const isAllowed = checkProfileCompletion("seller");
+    if (isAllowed) loadListings();
+    else setLoading(false);
+  } else {
+    setLoading(false);
+  }
+}, [userData, profileLoading, activeProfile]);
+
+
+const reduxActiveProfile = useSelector(
+  (state) => state.profile.userData?.activeProfile
+);
+
+
 
   const loadListings = async () => {
     try {
@@ -45,6 +55,12 @@ const SellerDashboard = () => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+  if (!reduxActiveProfile) return;
+
+  setListings([]);
+  loadListings();
+}, [reduxActiveProfile]);
 
   const handleStatusUpdate = async (listingId, newStatus) => {
     if (!checkProfileCompletion("seller")) return;
@@ -143,10 +159,10 @@ const SellerDashboard = () => {
 
   /* ── Incomplete profile ── */
   if (
-    userData?.role === "seller" &&
-    !userData.has_complete_profile &&
-    userData.profile_completion?.total < 92
-  ) {
+  activeProfile === "seller" &&
+  !userData.has_complete_profile &&
+  userData.profile_completion?.total < 92
+){
     return (
       <div className="min-h-screen bg-[#f5f5f5] flex items-center justify-center px-4">
         <div className="bg-white border border-gray-200 rounded-xs p-8 max-w-sm w-full text-center">

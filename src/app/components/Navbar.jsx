@@ -70,13 +70,14 @@ export default function Navbar() {
   const megaMenuRef = useRef(null);
   const megaMenuButtonRef = useRef(null);
   const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const activeProfile = userData?.activeProfile || userData?.active_profile;
 
   // Common menu items for all users
   const commonMenuItems = [
     { name: "Home", icon: Grid, route: "/" },
     { name: "Ship with MSME Sahaay", icon: Truck, route: "/listings" },
     { name: "View All Categories", icon: Package, route: "/categories" },
-    { name: "Become a Seller for Free", icon: Users, route: "/auth/signup" },
+    // { name: "Become a Seller for Free", icon: Users, route: "/auth/signup" },
   ];
 
   // Menu items for logged-in users only
@@ -105,9 +106,31 @@ export default function Navbar() {
     { name: "Settings", icon: Settings, route: "/settings" },
   ];
 
+  const sellerCTA = (() => {
+    if (!isLoggedIn) {
+      return {
+        name: "Become a Seller for Free",
+        icon: Users,
+        route: "/auth/signup?role=seller",
+        type: "link",
+      };
+    }
+
+    if (activeProfile === "buyer") {
+      return {
+        name: "Switch to Seller Mode",
+        icon: Briefcase,
+        type: "switch",
+      };
+    }
+
+    return null; // Already seller → hide
+  })();
+
   // Generate mega menu items based on login status
   const megaMenuItems = [
     ...commonMenuItems,
+    ...(sellerCTA ? [sellerCTA] : []),
     ...(isLoggedIn ? loggedInMenuItems : []),
     ...businessMenuItems,
     ...additionalMenuItems,
@@ -116,7 +139,7 @@ export default function Navbar() {
   // Navigation tabs - conditionally shown based on user role
   const navTabs = [
     // Role-specific tabs
-    ...(isLoggedIn && userData?.role === "seller"
+    ...(isLoggedIn && activeProfile === "seller"
       ? [{ name: "Lead Hub", route: "/seller/leads" }]
       : []),
   ];
@@ -225,6 +248,67 @@ export default function Navbar() {
     setIsMobileMenuOpen(false);
     setIsMegaMenuOpen(false);
     window.location.href = "/";
+  };
+
+  // const handleSwitchProfile = async (profile) => {
+  //   try {
+  //     const token = localStorage.getItem("token");
+
+  //     const res = await fetch(
+  //       `${process.env.NEXT_PUBLIC_API_URL}/auth/switch-profile`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         body: JSON.stringify({ profile }),
+  //       },
+  //     );
+
+  //     const data = await res.json();
+
+  //     if (res.ok) {
+  //       localStorage.setItem("token", data.token);
+  //       window.dispatchEvent(new Event("auth-change"));
+  //       setIsDropdownOpen(false);
+  //       router.refresh();
+  //     }
+  //   } catch (error) {
+  //     console.error("Switch profile error:", error);
+  //   }
+  // };
+
+  const handleSwitchProfile = async (profile) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/switch-profile`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ profile }),
+        },
+      );
+
+      const data = await res.json();
+      //console.log("SWITCH RESPONSE:", data);
+
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+
+        // 🔥 IMPORTANT: Refetch profile
+        await dispatch(fetchUserProfile()).unwrap();
+        setIsDropdownOpen(false);
+        // 🔥 Force full refresh
+      }
+    } catch (error) {
+      console.error("Switch profile error:", error);
+    }
   };
 
   // Function to handle menu item click - closes mega menu
@@ -409,6 +493,63 @@ export default function Navbar() {
                             (loggedInItem) => loggedInItem.name === item.name,
                           );
 
+                          // return (
+                          //   <Link
+                          //     key={index}
+                          //     href={
+                          //       isLoggedInOnly && !isLoggedIn
+                          //         ? "/auth/login"
+                          //         : item.route
+                          //     }
+                          //     onClick={handleMenuItemClick}
+                          //     className={`flex items-center p-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs transition-all duration-200 group w-full ${
+                          //       isLoggedInOnly && !isLoggedIn
+                          //         ? "opacity-60"
+                          //         : ""
+                          //     }`}
+                          //   >
+                          //     <div className="flex-shrink-0 mr-3">
+                          //       <Icon
+                          //         size={18}
+                          //         className={`${
+                          //           isLoggedInOnly && !isLoggedIn
+                          //             ? "text-gray-400"
+                          //             : "text-gray-500 group-hover:text-[var(--color-accent-700)]"
+                          //         }`}
+                          //       />
+                          //     </div>
+                          //     <span className="text-sm font-medium flex-1">
+                          //       {item.name}
+                          //       {isLoggedInOnly && !isLoggedIn && (
+                          //         <span className="ml-2 text-xs bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded">
+                          //           Login Required
+                          //         </span>
+                          //       )}
+                          //     </span>
+                          //   </Link>
+                          // );
+
+                          if (item.type === "switch") {
+                            return (
+                              <button
+                                key={index}
+                                onClick={() => {
+                                  handleSwitchProfile("seller");
+                                  handleMenuItemClick();
+                                }}
+                                className="flex items-center p-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs transition-all duration-200 group w-full"
+                              >
+                                <Icon
+                                  size={18}
+                                  className="mr-3 text-gray-500 group-hover:text-[var(--color-accent-700)]"
+                                />
+                                <span className="text-sm font-medium">
+                                  {item.name}
+                                </span>
+                              </button>
+                            );
+                          }
+
                           return (
                             <Link
                               key={index}
@@ -418,29 +559,14 @@ export default function Navbar() {
                                   : item.route
                               }
                               onClick={handleMenuItemClick}
-                              className={`flex items-center p-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs transition-all duration-200 group w-full ${
-                                isLoggedInOnly && !isLoggedIn
-                                  ? "opacity-60"
-                                  : ""
-                              }`}
+                              className="flex items-center p-3 text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs transition-all duration-200 group w-full"
                             >
-                              <div className="flex-shrink-0 mr-3">
-                                <Icon
-                                  size={18}
-                                  className={`${
-                                    isLoggedInOnly && !isLoggedIn
-                                      ? "text-gray-400"
-                                      : "text-gray-500 group-hover:text-[var(--color-accent-700)]"
-                                  }`}
-                                />
-                              </div>
+                              <Icon
+                                size={18}
+                                className="mr-3 text-gray-500 group-hover:text-[var(--color-accent-700)]"
+                              />
                               <span className="text-sm font-medium flex-1">
                                 {item.name}
-                                {isLoggedInOnly && !isLoggedIn && (
-                                  <span className="ml-2 text-xs bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded">
-                                    Login Required
-                                  </span>
-                                )}
                               </span>
                             </Link>
                           );
@@ -476,7 +602,7 @@ export default function Navbar() {
                         {userData?.fullname || userData?.username || "User"}
                       </span>
                       <span className="text-xs text-gray-500 capitalize">
-                        {userData?.role || "user"}
+                        {activeProfile || "user"}
                       </span>
                     </div>
                     <ChevronDown
@@ -534,7 +660,7 @@ export default function Navbar() {
                           <span>My Favourites</span>
                         </Link>
 
-                        {userData?.role === "buyer" && (
+                        {activeProfile === "buyer" && (
                           <Link
                             href="/my-leads"
                             className="flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-700 hover:text-[var(--color-accent-700)] hover:bg-[var(--color-accent-50)] rounded-xs transition-all duration-150"
@@ -545,7 +671,7 @@ export default function Navbar() {
                           </Link>
                         )}
 
-                        {userData?.role === "seller" && (
+                        {activeProfile === "seller" && (
                           <>
                             <Link
                               href="/list-products"
@@ -574,6 +700,35 @@ export default function Navbar() {
                           <Settings2 size={18} />
                           <span>Settings</span>
                         </Link>
+
+                        <div className="px-3 py-2 border-b border-gray-200">
+                          <p className="text-xs text-gray-500 mb-2">
+                            Switch Mode
+                          </p>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => handleSwitchProfile("buyer")}
+                              className={`flex-1 py-1 text-xs rounded ${
+                                activeProfile === "buyer"
+                                  ? "bg-indigo-600 text-white"
+                                  : "bg-gray-100 text-gray-700"
+                              }`}
+                            >
+                              Buyer
+                            </button>
+                            <button
+                              onClick={() => handleSwitchProfile("seller")}
+                              className={`flex-1 py-1 text-xs rounded ${
+                                activeProfile === "seller"
+                                  ? "bg-indigo-600 text-white"
+                                  : "bg-gray-100 text-gray-700"
+                              }`}
+                            >
+                              Seller
+                            </button>
+                          </div>
+                        </div>
+
                         <div className="border-t border-gray-200 my-2"></div>
 
                         <button
